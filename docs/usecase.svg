@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="445px" preserveAspectRatio="none" style="width:337px;height:445px;" version="1.1" viewBox="0 0 337 445" width="337px" zoomAndPan="magnify"><defs><filter height="300%" id="fgwgcgbar7o3p" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[b1f55f59876d7d9f30f7559a33b2cc74]
+cluster Prahachallenge--><polygon fill="#FFFFFF" filter="url(#fgwgcgbar7o3p)" points="100,6,227,6,234,28.2969,320,28.2969,320,428,100,428,100,6" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="100" x2="234" y1="28.2969" y2="28.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="121" x="104" y="20.9951">Prahachallenge</text><ellipse cx="209.7923" cy="55.7585" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="101.7923" ry="22.7585" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="168" x="125.7923" y="58.6051">進捗ステータスを変更する</text><ellipse cx="209.8543" cy="129.2084" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="51.8543" ry="14.7084" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="178.8543" y="132.956">退会する</text><ellipse cx="209.8543" cy="193.2084" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="51.8543" ry="14.7084" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="178.8543" y="196.956">入会する</text><ellipse cx="209.8543" cy="257.2084" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="51.8543" ry="14.7084" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="178.8543" y="260.956">休会する</text><ellipse cx="210.1379" cy="326.0276" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="83.1379" ry="19.0276" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="126" x="146.5914" y="329.0594">他のペアに移動する</text><ellipse cx="210.2318" cy="400.2464" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="89.2318" ry="20.2464" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="140" x="140.2318" y="403.093">他のチームに移動する</text><!--MD5=[3b1e1f29d6c8100eb600051b01ff3836]
+entity participant--><ellipse cx="27" cy="162" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M27,170 L27,197 M14,178 L40,178 M27,197 L14,212 M27,197 L40,212 " fill="none" filter="url(#fgwgcgbar7o3p)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="42" x="6" y="230.4951">参加者</text><!--MD5=[9e36a914cbb0a1b014b5837550d7db4e]
+entity pair--><ellipse cx="27" cy="369" fill="#FEFECE" filter="url(#fgwgcgbar7o3p)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M27,377 L27,404 M14,385 L40,385 M27,404 L14,419 M27,404 L40,419 " fill="none" filter="url(#fgwgcgbar7o3p)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="28" x="13" y="437.4951">ペア</text><!--MD5=[dd66fdb008da1b8a00436af0f6adf5e0]
+link participant to change_task_status--><path d="M48.276,155.5702 C61.0901,135.8571 78.9872,112.6032 100,97 C111.7608,88.267 125.5886,81.2059 139.3957,75.5662 " fill="none" id="participant-to-change_task_status" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="144.0742,73.7077,134.2333,73.3128,139.4274,75.5535,137.1866,80.7477,144.0742,73.7077" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[8ee19b22e55b3c298fef8bd6af540e07]
+link participant to leave--><path d="M48.1047,182.8769 C62.5257,176.1768 82.1793,167.467 100,161 C121.722,153.1173 146.3847,145.7984 166.8445,140.1552 " fill="none" id="participant-to-leave" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="171.6805,138.8308,161.9436,137.3501,166.8581,140.1515,164.0567,145.066,171.6805,138.8308" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[750a2b0d4d7ecba2691b7e05a87be785]
+link participant to enter--><path d="M48.3506,193 C73.7822,193 117.2827,193 152.7554,193 " fill="none" id="participant-to-enter" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="157.9277,193,148.9277,189,152.9277,193,148.9277,197,157.9277,193" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[ad529f8b609fd04fa4290982cf2ae944]
+link participant to recess--><path d="M48.1047,203.1231 C62.5257,209.8232 82.1793,218.533 100,225 C121.722,232.8827 146.3847,240.2016 166.8445,245.8448 " fill="none" id="participant-to-recess" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="171.6805,247.1692,164.0567,240.934,166.8581,245.8485,161.9436,248.6499,171.6805,247.1692" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[0476dc84bf08f1d4d50232b81e5395fa]
+link participant to move_pair--><path d="M48.0802,230.698 C60.8351,250.4923 78.7379,273.7382 100,289 C113.3505,298.5829 129.3598,305.8153 144.9786,311.2222 " fill="none" id="participant-to-move_pair" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="149.8099,312.8422,142.5485,306.1885,145.0693,311.2526,140.0052,313.7734,149.8099,312.8422" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[2765b20e6a5d9ec703b3ce1465fe5eac]
+link pair to move_team--><path d="M41.6663,400 C58.2629,400 86.7614,400 115.6402,400 " fill="none" id="pair-to-move_team" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="120.6538,400,111.6538,396,115.6538,400,111.6538,404,120.6538,400" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[cafd352352c2d1c895f4faf3ecf04148]
+@startuml
+left to right direction
+
+actor 参加者 as participant
+
+actor ペア as pair
+
+' actor チーム as team
+
+package Prahachallenge {
+  usecase "進捗ステータスを変更する" as change_task_status
+  usecase "退会する" as leave
+  usecase "入会する" as enter
+  usecase "休会する" as recess
+  usecase "他のペアに移動する" as move_pair
+
+  usecase "他のチームに移動する" as move_team
+}
+
+participant - -> change_task_status
+participant - -> leave
+participant - -> enter
+participant - -> recess
+participant - -> move_pair
+
+pair - -> move_team
+@enduml
+
+@startuml
+left to right direction
+
+actor 参加者 as participant
+
+actor ペア as pair
+
+
+package Prahachallenge {
+  usecase "進捗ステータスを変更する" as change_task_status
+  usecase "退会する" as leave
+  usecase "入会する" as enter
+  usecase "休会する" as recess
+  usecase "他のペアに移動する" as move_pair
+
+  usecase "他のチームに移動する" as move_team
+}
+
+participant - -> change_task_status
+participant - -> leave
+participant - -> enter
+participant - -> recess
+participant - -> move_pair
+
+pair - -> move_team
+@enduml
+
+PlantUML version 1.2021.5(Sun Apr 25 11:20:28 UTC 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
