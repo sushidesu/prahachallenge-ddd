@@ -1,0 +1,17 @@
+{
+  "name": "prahachallenge-ddd",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:sushidesu/prahachallenge-ddd",
+  "author": "sushidesu <hugemerge@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "2.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.3",
+    "prisma": "^2.27.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
