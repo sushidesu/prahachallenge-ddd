@@ -12,6 +12,8 @@
     "build:bundle": "esbuild src/main.ts --bundle --platform=node --minify --outdir=dist --format=cjs",
     "lint": "eslint \"src/**\"",
     "lint:fix": "yarn lint --fix",
+    "format": "prettier src",
+    "format:fix": "prettier --write src",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -25,7 +27,9 @@
     "@typescript-eslint/parser": "^4.28.5",
     "esbuild": "^0.12.17",
     "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.2",
     "prisma": "^2.27.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.1.0",
