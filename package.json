@@ -14,7 +14,8 @@
     "lint:fix": "yarn lint --fix",
     "format": "prettier src",
     "format:fix": "prettier --write src",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@prisma/client": "2.27.0",
@@ -28,6 +29,8 @@
     "esbuild": "^0.12.17",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "prisma": "^2.27.0",
@@ -35,5 +38,11 @@
     "ts-node": "^10.1.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.3.5"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --max-warnings=0 --cache --fix",
+      "prettier --write"
+    ]
   }
 }
