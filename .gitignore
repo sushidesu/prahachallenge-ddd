@@ -1,1 +1,17 @@
-node_modules
+/node_modules
+/dist
+.eslintcache
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
