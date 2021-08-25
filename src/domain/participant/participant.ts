@@ -21,4 +21,18 @@ export class Participant extends Entity<
   static reconstruct(id: ParticipantId, props: ParticipantProps): Participant {
     return new Participant(id, props)
   }
+
+  changeName(name: string): void {
+    if (name === "") {
+      throw Error("name cannot be empty")
+    }
+    this.props.name = name
+  }
+  changeEmail(email: string): void {
+    if (email === "") {
+      throw Error("email cannot be empty")
+    }
+    // TODO: emailの重複チェック
+    this.props.email = email
+  }
 }
