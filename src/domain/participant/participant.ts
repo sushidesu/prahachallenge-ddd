@@ -1,9 +1,10 @@
 import { Entity } from "../shared/entity"
 import { ParticipantId } from "./participant-id"
+import { Email } from "./email"
 
 export interface ParticipantProps {
   name: string
-  email: string
+  email: Email
 }
 
 export class Participant extends Entity<
@@ -30,11 +31,9 @@ export class Participant extends Entity<
     }
     this.props.name = name
   }
+
   changeEmail(email: string): void {
-    if (email === "") {
-      throw Error("email cannot be empty")
-    }
-    // TODO: emailの重複チェック
-    this.props.email = email
+    const newEmail = Email.create(email)
+    this.props.email = newEmail
   }
 }
