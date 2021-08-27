@@ -1,9 +1,10 @@
 import { Entity } from "../shared/entity"
 import { ParticipantId } from "./participant-id"
+import { Name } from "./name"
 import { Email } from "./email"
 
 export interface ParticipantProps {
-  name: string
+  name: Name
   email: Email
 }
 
@@ -26,10 +27,8 @@ export class Participant extends Entity<
   }
 
   changeName(name: string): void {
-    if (name === "") {
-      throw Error("name cannot be empty")
-    }
-    this.props.name = name
+    const newName = Name.create(name)
+    this.props.name = newName
   }
 
   changeEmail(email: string): void {
