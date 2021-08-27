@@ -14,8 +14,10 @@ export class Participant extends Entity<
   private constructor(id: ParticipantId, props: ParticipantProps) {
     super(id, props)
   }
-  static create(props: ParticipantProps): Participant {
-    const id = ParticipantId.create()
+  static createFromFactory(
+    id: ParticipantId,
+    props: ParticipantProps
+  ): Participant {
     return new Participant(id, props)
   }
   static reconstruct(id: ParticipantId, props: ParticipantProps): Participant {
