@@ -5,7 +5,7 @@ export abstract class Entity<
   T,
   Brand extends string,
   Id extends UniqueEntityId<string>
-> extends Nominal<Brand> {
+> extends Nominal<`entity-${Brand}`> {
   constructor(public readonly id: Id, protected readonly props: T) {
     super()
   }

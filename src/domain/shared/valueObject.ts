@@ -7,7 +7,7 @@ export interface ValueObjectProps {
 export abstract class ValueObject<
   T extends ValueObjectProps,
   Brand extends string
-> extends Nominal<Brand> {
+> extends Nominal<`value-object-${Brand}`> {
   constructor(public readonly props: T) {
     super()
   }
