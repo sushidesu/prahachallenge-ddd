@@ -10,14 +10,14 @@ export class Email extends ValueObject<EmailProps, "email"> {
     super(props)
   }
 
-  public static create(
+  public static async create(
     email: string,
     checkEmailAlreadyExists: CheckEmailAlreadyExists
-  ): Email {
+  ): Promise<Email> {
     if (email === "") throw new Error("email cannot be empty")
 
     const maybeEmail = new Email({ value: email })
-    if (checkEmailAlreadyExists.do(maybeEmail)) {
+    if (await checkEmailAlreadyExists.do(maybeEmail)) {
       throw Error("email has already exists")
     }
 

@@ -1,14 +1,15 @@
-import { mocked } from "ts-jest/utils"
 import { Participant } from "../participant"
 import { ParticipantId } from "../participant-id"
 import { Name } from "../name"
 import { Email } from "../email"
 import { CheckEmailAlreadyExists } from "../check-email-already-exists"
 
-const CheckEmailAlreadyExistsMock = mocked(
-  CheckEmailAlreadyExists,
-  true
-) as unknown as jest.Mocked<CheckEmailAlreadyExists>
+const CheckEmailMockAlwaysTrue = {
+  do: jest.fn().mockResolvedValue(true),
+} as unknown as jest.Mocked<CheckEmailAlreadyExists>
+const CheckEmailMockAlwaysFalse = {
+  do: jest.fn().mockResolvedValue(false),
+} as unknown as jest.Mocked<CheckEmailAlreadyExists>
 
 describe("Participant", () => {
   let participant: Participant
@@ -20,10 +21,6 @@ describe("Participant", () => {
     })
   })
 
-  beforeEach(() => {
-    CheckEmailAlreadyExistsMock.do.mockClear()
-  })
-
   describe("changeName()", () => {
     it("名前を空文字にするとエラーになる", () => {
       expect(() => participant.changeName("")).toThrowError()
@@ -31,17 +28,25 @@ describe("Participant", () => {
   })
 
   describe("changeEmail()", () => {
-    it("メールアドレスを空文字にするとエラーになる", () => {
-      CheckEmailAlreadyExistsMock.do.mockResolvedValue(true)
-      expect(() =>
-        participant.changeEmail("", CheckEmailAlreadyExistsMock)
-      ).toThrowError()
+    it("メールアドレスを変更できる", async () => {
+      await participant.changeEmail(
+        "hoge@example.com",
+        CheckEmailMockAlwaysFalse
+      )
+      expect(participant.email.props.value).toBe("hoge@example.com")
     })
-    it("すでに存在するメールアドレスには変更できない", () => {
-      CheckEmailAlreadyExistsMock.do.mockResolvedValue(false)
-      expect(() =>
-        participant.changeEmail("hoge@example.com", CheckEmailAlreadyExistsMock)
-      ).toThrowError()
+    it("メールアドレスを空文字にするとエラーになる", async () => {
+      await expect(
+        participant.changeEmail("", CheckEmailMockAlwaysFalse)
+      ).rejects.toThrowError()
+    })
+    it("すでに存在するメールアドレスには変更できない", async () => {
+      await expect(
+        participant.changeEmail(
+          "duplicated@example.com",
+          CheckEmailMockAlwaysTrue
+        )
+      ).rejects.toThrowError()
     })
   })
 })

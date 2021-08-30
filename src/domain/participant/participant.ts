@@ -27,16 +27,22 @@ export class Participant extends Entity<
     return new Participant(id, props)
   }
 
+  public get name(): Name {
+    return this.props.name
+  }
   changeName(name: string): void {
     const newName = Name.create(name)
     this.props.name = newName
   }
 
-  changeEmail(
+  public get email(): Email {
+    return this.props.email
+  }
+  async changeEmail(
     email: string,
     checkEmailAlreadyExists: CheckEmailAlreadyExists
-  ): void {
-    const newEmail = Email.create(email, checkEmailAlreadyExists)
+  ): Promise<void> {
+    const newEmail = await Email.create(email, checkEmailAlreadyExists)
     this.props.email = newEmail
   }
 }

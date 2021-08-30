@@ -18,7 +18,10 @@ export class ParticipantFactory extends DomainService<"participant-factory"> {
   async create({ name, email }: ParticipantFactoryProps): Promise<Participant> {
     const id = ParticipantId.create()
     const nameValueObject = Name.create(name)
-    const emailValueObject = Email.create(email, this.checkEmailAlreadyExists)
+    const emailValueObject = await Email.create(
+      email,
+      this.checkEmailAlreadyExists
+    )
 
     return Participant.createFromFactory(id, {
       name: nameValueObject,
