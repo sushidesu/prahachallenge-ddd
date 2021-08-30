@@ -3,12 +3,12 @@ import { Participant } from "../participant"
 import { ParticipantId } from "../participant-id"
 import { Name } from "../name"
 import { Email } from "../email"
-import { CheckEmailAlreadyExsists } from "../check-email-already-exsits"
+import { CheckEmailAlreadyExists } from "../check-email-already-exists"
 
-const CheckEmailMock = mocked(
-  CheckEmailAlreadyExsists,
+const CheckEmailAlreadyExistsMock = mocked(
+  CheckEmailAlreadyExists,
   true
-) as unknown as jest.Mocked<CheckEmailAlreadyExsists>
+) as unknown as jest.Mocked<CheckEmailAlreadyExists>
 
 describe("Participant", () => {
   let participant: Participant
@@ -21,7 +21,7 @@ describe("Participant", () => {
   })
 
   beforeEach(() => {
-    CheckEmailMock.exsits.mockClear()
+    CheckEmailAlreadyExistsMock.do.mockClear()
   })
 
   describe("changeName()", () => {
@@ -32,13 +32,15 @@ describe("Participant", () => {
 
   describe("changeEmail()", () => {
     it("メールアドレスを空文字にするとエラーになる", () => {
-      CheckEmailMock.exsits.mockResolvedValue(true)
-      expect(() => participant.changeEmail("", CheckEmailMock)).toThrowError()
+      CheckEmailAlreadyExistsMock.do.mockResolvedValue(true)
+      expect(() =>
+        participant.changeEmail("", CheckEmailAlreadyExistsMock)
+      ).toThrowError()
     })
     it("すでに存在するメールアドレスには変更できない", () => {
-      CheckEmailMock.exsits.mockResolvedValue(false)
+      CheckEmailAlreadyExistsMock.do.mockResolvedValue(false)
       expect(() =>
-        participant.changeEmail("hoge@example.com", CheckEmailMock)
+        participant.changeEmail("hoge@example.com", CheckEmailAlreadyExistsMock)
       ).toThrowError()
     })
   })

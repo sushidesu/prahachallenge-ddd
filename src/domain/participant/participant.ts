@@ -2,7 +2,7 @@ import { Entity } from "../shared/entity"
 import { ParticipantId } from "./participant-id"
 import { Name } from "./name"
 import { Email } from "./email"
-import { CheckEmailAlreadyExsists } from "./check-email-already-exsits"
+import { CheckEmailAlreadyExists } from "./check-email-already-exists"
 
 export interface ParticipantProps {
   name: Name
@@ -34,9 +34,9 @@ export class Participant extends Entity<
 
   changeEmail(
     email: string,
-    checkEmailAlready: CheckEmailAlreadyExsists
+    checkEmailAlreadyExists: CheckEmailAlreadyExists
   ): void {
-    const newEmail = Email.create(email, checkEmailAlready)
+    const newEmail = Email.create(email, checkEmailAlreadyExists)
     this.props.email = newEmail
   }
 }

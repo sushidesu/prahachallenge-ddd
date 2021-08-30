@@ -1,8 +1,8 @@
 import { DomainService } from "../shared/domainService"
 import { Email } from "./email"
 
-export class CheckEmailAlreadyExsists extends DomainService<"check-email-already-exsists"> {
-  async exsits(email: Email): Promise<boolean> {
+export class CheckEmailAlreadyExists extends DomainService<"check-email-already-exists"> {
+  async do(email: Email): Promise<boolean> {
     if (email) {
       // TODO
       return true
