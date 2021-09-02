@@ -21,7 +21,9 @@ export class UpdateProfileUsecase {
       participant.changeName(name)
     }
     if (email) {
-      const checkEmailAlreadyExists = new CheckEmailAlreadyExists()
+      const checkEmailAlreadyExists = new CheckEmailAlreadyExists(
+        this.participantRepository
+      )
       await participant.changeEmail(email, checkEmailAlreadyExists)
     }
     // - 参加者 entity を保存
