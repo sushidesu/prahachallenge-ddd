@@ -22,6 +22,10 @@ describe("Participant", () => {
   })
 
   describe("changeName()", () => {
+    it("名前を変更できる", () => {
+      participant.changeName("アルスアルマル")
+      expect(participant.name.props.value).toBe("アルスアルマル")
+    })
     it("名前を空文字にするとエラーになる", () => {
       expect(() => participant.changeName("")).toThrowError()
     })
