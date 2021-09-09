@@ -1,6 +1,6 @@
 import { Participant } from "../participant"
 import { ParticipantId } from "../participant-id"
-import { Name } from "../name"
+import { ParticipantName } from "../participant-name"
 import { Email } from "../email"
 import { CheckEmailAlreadyExists } from "../check-email-already-exists"
 
@@ -16,7 +16,7 @@ describe("Participant", () => {
   beforeEach(() => {
     const id = ParticipantId.reconstruct("test-id")
     participant = Participant.reconstruct(id, {
-      name: Name.reconstruct("ほげ太郎"),
+      name: ParticipantName.reconstruct("ほげ太郎"),
       email: Email.reconstruct("test@example.com"),
     })
   })
