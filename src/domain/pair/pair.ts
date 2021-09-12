@@ -1,16 +1,18 @@
 import { Entity } from "../shared/entity"
 import { PairId } from "./pair-id"
 import { ParticipantId } from "../participant/participant-id"
+import { PairName } from "./pair-name"
 
 export interface PairProps {
   participantIdList: ParticipantId[]
+  name: PairName
 }
 
 export class Pair extends Entity<PairProps, "pair", PairId> {
   private constructor(id: PairId, props: PairProps) {
     super(id, props)
   }
-  static create(props: PairProps): Pair {
+  static createFromFactory(props: PairProps): Pair {
     const id = PairId.create()
     const { participantIdList } = props
     if (participantIdList.length < 2 || 3 < participantIdList.length) {
