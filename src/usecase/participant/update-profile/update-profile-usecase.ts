@@ -4,7 +4,10 @@ import { UpdateProfileInputData } from "./update-profile-input-data"
 import { CheckEmailAlreadyExists } from "../../../domain/participant/check-email-already-exists"
 
 export class UpdateProfileUsecase {
-  constructor(private participantRepository: IParticipantRepository) {}
+  constructor(
+    private participantRepository: IParticipantRepository,
+    private checkEmailAlreadyExists: CheckEmailAlreadyExists
+  ) {}
   /**
    * 参加者の更新 (名前・メールアドレスの更新)
    */
@@ -21,10 +24,7 @@ export class UpdateProfileUsecase {
       participant.changeName(name)
     }
     if (email) {
-      const checkEmailAlreadyExists = new CheckEmailAlreadyExists(
-        this.participantRepository
-      )
-      await participant.changeEmail(email, checkEmailAlreadyExists)
+      await participant.changeEmail(email, this.checkEmailAlreadyExists)
     }
     // - 参加者 entity を保存
     await this.participantRepository.saveParticipant(participant)
