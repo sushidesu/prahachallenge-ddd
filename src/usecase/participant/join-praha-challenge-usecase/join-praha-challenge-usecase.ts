@@ -30,6 +30,6 @@ export class JoinPrahaChallengeUsecase {
       changedPairList.map((pair) => this.pairRepository.save(pair))
     )
     // 参加者を新規追加
-    await this.participantRepository.saveParticipant(participant)
+    await this.participantRepository.save(participant)
   }
 }
