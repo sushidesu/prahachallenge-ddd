@@ -2,9 +2,14 @@ import { JoinPrahaChallengeInputData } from "./join-praha-challenge-input-data"
 import { ParticipantFactory } from "../../../domain/participant/participant-factory"
 import { CheckEmailAlreadyExists } from "../../../domain/participant/check-email-already-exists"
 import { IParticipantRepository } from "../../../domain/participant/interface/participant-repository"
+import { IPairRepository } from "../../../domain/pair/interface/pair-repository"
+import { JoinPair } from "../../../domain/pair/join-pair"
 
 export class JoinPrahaChallengeUsecase {
-  constructor(private participantRepository: IParticipantRepository) {}
+  constructor(
+    private participantRepository: IParticipantRepository,
+    private pairRepository: IPairRepository
+  ) {}
   /**
    * 参加者の新規追加
    */
@@ -19,12 +24,16 @@ export class JoinPrahaChallengeUsecase {
       name,
       email,
     })
-    // TODO: 空きのあるペアに加入する (ドメインサービス?)
-    //   - 空きのあるペアを探す
-    //   - 空きがある場合、そのペアに加入する
-    //   - ない場合
-    //     - 3人のペアを分解し、新規参加者を含む2-2のペアを作成
-    // 参加者・ペア・チーム entity を保存
+
+    // 空きのあるペアに加入する
+    const joinPair = new JoinPair()
+    const { changedPairList } = await joinPair.do(participant)
+
+    // 変更のあったペアを保存
+    await Promise.all(
+      changedPairList.map((pair) => this.pairRepository.save(pair))
+    )
+    // 参加者を新規追加
     await this.participantRepository.saveParticipant(participant)
   }
 }
