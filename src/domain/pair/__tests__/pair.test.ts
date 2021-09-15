@@ -1,6 +1,7 @@
 import { Pair } from "../pair"
-import { ParticipantId } from "../../participant/participant-id"
+import { PairId } from "../pair-id"
 import { PairName } from "../pair-name"
+import { ParticipantId } from "../../participant/participant-id"
 
 describe("Pair", () => {
   describe("create()", () => {
@@ -48,6 +49,25 @@ describe("Pair", () => {
           })
         ).toThrowError()
       })
+    })
+  })
+
+  const participant = ParticipantId.reconstruct("participant")
+  const participant_a = ParticipantId.reconstruct("participant-a")
+  const participant_b = ParticipantId.reconstruct("participant-b")
+  describe("acceptParticipant()", () => {
+    it("所属している参加者が2名のとき、新たな参加者が加入できる", () => {
+      const pair = Pair.reconstruct(PairId.reconstruct("a"), {
+        name: PairName.reconstruct("a"),
+        participantIdList: [participant_a, participant_b],
+      })
+
+      pair.acceptParticipant(participant)
+      expect(pair.participantIdList).toEqual([
+        participant_a,
+        participant_b,
+        participant,
+      ])
     })
   })
 })

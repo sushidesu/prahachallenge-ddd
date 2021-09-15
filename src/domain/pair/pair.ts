@@ -24,6 +24,10 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     return new Pair(id, props)
   }
 
+  public get participantIdList(): ParticipantId[] {
+    // HELP: 名前が微妙かも
+    return this.props.participantIdList
+  }
   public acceptParticipant(participantId: ParticipantId): void {
     this.props.participantIdList.push(participantId)
   }
