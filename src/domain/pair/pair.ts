@@ -23,4 +23,8 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
   static reconstruct(id: PairId, props: PairProps): Pair {
     return new Pair(id, props)
   }
+
+  public acceptParticipant(participantId: ParticipantId): void {
+    this.props.participantIdList.push(participantId)
+  }
 }
