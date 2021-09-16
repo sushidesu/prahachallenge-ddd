@@ -1,19 +1,19 @@
 import { DomainService } from "../shared/domainService"
-import { Participant } from "../participant/participant"
 import { Pair } from "./pair"
 import { PairName } from "./pair-name"
+import { ParticipantId } from "../participant/participant-id"
 
 export interface PairFactoryProps {
   name: string
-  participantList: Participant[]
+  participantIdList: ParticipantId[]
 }
 
 export class PairFactory extends DomainService<"pair-factory"> {
-  public create({ name, participantList }: PairFactoryProps): Pair {
+  public create({ name, participantIdList }: PairFactoryProps): Pair {
     const pairName = PairName.create(name)
     return Pair.createFromFactory({
       name: pairName,
-      participantIdList: participantList.map((participant) => participant.id),
+      participantIdList,
     })
   }
 }

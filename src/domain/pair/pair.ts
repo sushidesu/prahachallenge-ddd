@@ -31,4 +31,28 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
   public acceptParticipant(participantId: ParticipantId): void {
     this.props.participantIdList.push(participantId)
   }
+  public removeParticipant(participantId?: ParticipantId): {
+    removedParticipantId: ParticipantId
+  } {
+    // TODO: 参加者を2名未満にはできない
+    if (this.props.participantIdList.length <= 2) {
+      throw new Error()
+    }
+    // 対象を指定しない場合は最後の参加者を削除する
+    if (participantId === undefined) {
+      const removedParticipantId = this.props.participantIdList.pop()
+      if (removedParticipantId === undefined) throw new Error("想定外のエラー")
+      return {
+        removedParticipantId,
+      }
+    }
+
+    // TODO: 存在しない参加者は削除できない
+    this.props.participantIdList = this.props.participantIdList.filter(
+      (id) => !id.equals(participantId)
+    )
+    return {
+      removedParticipantId: participantId,
+    }
+  }
 }

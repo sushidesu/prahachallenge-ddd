@@ -7,16 +7,25 @@ import { PairName } from "../pair-name"
 import { Participant } from "../../participant/participant"
 import { ParticipantName } from "../../participant/participant-name"
 import { Email } from "../../participant/email"
+import { PairFactory } from "../pair-factory"
 
 describe("JoinPair", () => {
   const pairRepositoryMock: jest.Mocked<IPairRepository> = {
     save: jest.fn(),
     getVacantPairList: jest.fn(),
+    getAllPairList: jest.fn(),
   }
   beforeEach(() => {
     pairRepositoryMock.save.mockClear()
     pairRepositoryMock.getVacantPairList.mockClear()
+    pairRepositoryMock.getAllPairList.mockClear()
   })
+
+  const pairFactoryMock: jest.Mocked<PairFactory> = {
+    // @ts-expect-error _brand
+    _brand: undefined,
+    create: jest.fn(),
+  }
 
   const participant = Participant.reconstruct(
     ParticipantId.reconstruct("ex_albio"),
@@ -32,7 +41,7 @@ describe("JoinPair", () => {
 
   let joinPair: JoinPair
   beforeEach(() => {
-    joinPair = new JoinPair(pairRepositoryMock)
+    joinPair = new JoinPair(pairRepositoryMock, pairFactoryMock)
   })
 
   describe("空きのあるペアが存在する場合、そのペアに加入する", () => {
@@ -59,14 +68,42 @@ describe("JoinPair", () => {
     })
   })
   describe("全てのペアに空きがない場合、ペアを分割する", () => {
-    it("3名のペアが1つ存在するとき、ペアを2つに分割し、加入する", () => {
-      // TODO:
-    })
-    it("3名のペアが2つ存在するとき、どちらかのペアを2つに分割し、加入する", () => {
-      // TODO:
+    it("3名のペアが1つ存在するとき、ペアを2つに分割し、加入する", async () => {
+      pairRepositoryMock.getVacantPairList.mockResolvedValue([])
+      pairRepositoryMock.getAllPairList.mockResolvedValue([
+        Pair.reconstruct(PairId.reconstruct("a"), {
+          name: PairName.reconstruct("a"),
+          participantIdList: [participant_a, participant_b, participant_c],
+        }),
+      ])
+      pairFactoryMock.create.mockImplementation(
+        (props: { name: string; participantIdList: ParticipantId[] }) =>
+          Pair.reconstruct(PairId.reconstruct("b"), {
+            name: PairName.reconstruct(props.name),
+            participantIdList: props.participantIdList,
+          })
+      )
+      const expected = {
+        changedPairList: [
+          Pair.reconstruct(PairId.reconstruct("a"), {
+            name: PairName.reconstruct("a"),
+            participantIdList: [participant_a, participant_b],
+          }),
+          Pair.reconstruct(PairId.reconstruct("b"), {
+            name: PairName.reconstruct("b"),
+            participantIdList: [participant_c, participant.id],
+          }),
+        ],
+      }
+      const actual = await joinPair.do(participant)
+      expect(actual).toStrictEqual(expected)
     })
   })
-  it("ペアが1つも存在しない場合、エラーになる", () => {
-    // TODO:
+  it("ペアが1つも存在しない場合、エラーになる", async () => {
+    pairRepositoryMock.getVacantPairList.mockResolvedValue([])
+    pairRepositoryMock.getAllPairList.mockResolvedValue([])
+    await expect(joinPair.do(participant)).rejects.toThrowError(
+      "no pair exists"
+    )
   })
 })
