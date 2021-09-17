@@ -32,14 +32,14 @@ describe("Pair", () => {
           name: pairName,
           participantIdList: [a, b],
         })
-        expect(pair).toEqual(expect.any(Pair))
+        expect(pair).toBeInstanceOf(Pair)
       })
       it("参加者が3人の場合 正しくペアを作成できる", () => {
         const pair = Pair.createFromFactory({
           name: pairName,
           participantIdList: [a, b, c],
         })
-        expect(pair).toEqual(expect.any(Pair))
+        expect(pair).toBeInstanceOf(Pair)
       })
       it("参加者が4人の場合 エラーになる", () => {
         expect(() =>
@@ -52,7 +52,6 @@ describe("Pair", () => {
     })
   })
 
-  const participant = ParticipantId.reconstruct("participant")
   const participant_a = ParticipantId.reconstruct("participant-a")
   const participant_b = ParticipantId.reconstruct("participant-b")
   const participant_c = ParticipantId.reconstruct("participant-c")
@@ -63,11 +62,11 @@ describe("Pair", () => {
         participantIdList: [participant_a, participant_b],
       })
 
-      pair.acceptParticipant(participant)
+      pair.acceptParticipant(ParticipantId.reconstruct("participant-c"))
       expect(pair.participantIdList).toEqual([
-        participant_a,
-        participant_b,
-        participant,
+        ParticipantId.reconstruct("participant-a"),
+        ParticipantId.reconstruct("participant-b"),
+        ParticipantId.reconstruct("participant-c"),
       ])
     })
     it("参加者が3名いるペアには加入できない", () => {
@@ -75,9 +74,9 @@ describe("Pair", () => {
         name: PairName.reconstruct("a"),
         participantIdList: [participant_a, participant_b, participant_c],
       })
-      expect(() => pair.acceptParticipant(participant)).toThrowError(
-        "参加者が3名いるペアには加入できません"
-      )
+      expect(() =>
+        pair.acceptParticipant(ParticipantId.reconstruct("participant"))
+      ).toThrowError("参加者が3名いるペアには加入できません")
     })
   })
 
@@ -85,12 +84,12 @@ describe("Pair", () => {
     it("指定した参加者を削除する", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
         name: PairName.reconstruct("a"),
-        participantIdList: [participant, participant_a, participant_b],
+        participantIdList: [participant_a, participant_b, participant_c],
       })
-      pair.removeParticipant(ParticipantId.reconstruct("participant"))
+      pair.removeParticipant(ParticipantId.reconstruct("participant-b"))
       expect(pair.participantIdList).toStrictEqual([
         ParticipantId.reconstruct("participant-a"),
-        ParticipantId.reconstruct("participant-b"),
+        ParticipantId.reconstruct("participant-c"),
       ])
     })
     it("ペアに存在しない参加者は削除できない", () => {
@@ -99,7 +98,7 @@ describe("Pair", () => {
         participantIdList: [participant_a, participant_b, participant_c],
       })
       expect(() =>
-        pair.removeParticipant(ParticipantId.reconstruct("participant"))
+        pair.removeParticipant(ParticipantId.reconstruct("unknown-participant"))
       ).toThrowError("ペアに存在しない参加者は削除できません")
     })
     it("対象を指定しない場合は最後の参加者を削除する", () => {
