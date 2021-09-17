@@ -1,4 +1,5 @@
 import { Nominal } from "../../shared/nominal"
+import deepEqual from "fast-deep-equal"
 
 export interface ValueObjectProps {
   [key: string]: string | number
@@ -19,6 +20,6 @@ export abstract class ValueObject<
     if (vo.props === undefined) {
       return false
     }
-    return JSON.stringify(vo) === JSON.stringify(this.props)
+    return deepEqual(vo.props, this.props)
   }
 }
