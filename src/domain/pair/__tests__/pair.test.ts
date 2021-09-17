@@ -55,6 +55,7 @@ describe("Pair", () => {
   const participant = ParticipantId.reconstruct("participant")
   const participant_a = ParticipantId.reconstruct("participant-a")
   const participant_b = ParticipantId.reconstruct("participant-b")
+  const participant_c = ParticipantId.reconstruct("participant-c")
   describe("acceptParticipant()", () => {
     it("所属している参加者が2名のとき、新たな参加者が加入できる", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
@@ -68,6 +69,58 @@ describe("Pair", () => {
         participant_b,
         participant,
       ])
+    })
+    it("参加者が3名いるペアには加入できない", () => {
+      const pair = Pair.reconstruct(PairId.reconstruct("a"), {
+        name: PairName.reconstruct("a"),
+        participantIdList: [participant_a, participant_b, participant_c],
+      })
+      expect(() => pair.acceptParticipant(participant)).toThrowError(
+        "参加者が3名いるペアには加入できません"
+      )
+    })
+  })
+
+  describe("removeParticipant()", () => {
+    it("指定した参加者を削除する", () => {
+      const pair = Pair.reconstruct(PairId.reconstruct("a"), {
+        name: PairName.reconstruct("a"),
+        participantIdList: [participant, participant_a, participant_b],
+      })
+      pair.removeParticipant(ParticipantId.reconstruct("participant"))
+      expect(pair.participantIdList).toStrictEqual([
+        ParticipantId.reconstruct("participant-a"),
+        ParticipantId.reconstruct("participant-b"),
+      ])
+    })
+    it("ペアに存在しない参加者は削除できない", () => {
+      const pair = Pair.reconstruct(PairId.reconstruct("a"), {
+        name: PairName.reconstruct("a"),
+        participantIdList: [participant_a, participant_b, participant_c],
+      })
+      expect(() =>
+        pair.removeParticipant(ParticipantId.reconstruct("participant"))
+      ).toThrowError("ペアに存在しない参加者は削除できません")
+    })
+    it("対象を指定しない場合は最後の参加者を削除する", () => {
+      const pair = Pair.reconstruct(PairId.reconstruct("a"), {
+        name: PairName.reconstruct("a"),
+        participantIdList: [participant_a, participant_b, participant_c],
+      })
+      pair.removeParticipant()
+      expect(pair.participantIdList).toStrictEqual([
+        ParticipantId.reconstruct("participant-a"),
+        ParticipantId.reconstruct("participant-b"),
+      ])
+    })
+    it("参加者を2名未満にできない", () => {
+      const pair = Pair.reconstruct(PairId.reconstruct("a"), {
+        name: PairName.reconstruct("a"),
+        participantIdList: [participant_a, participant_b],
+      })
+      expect(() => pair.removeParticipant()).toThrowError(
+        "参加者を2名未満にはできません"
+      )
     })
   })
 })

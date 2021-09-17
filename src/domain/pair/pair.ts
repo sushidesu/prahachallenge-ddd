@@ -29,14 +29,17 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     return this.props.participantIdList
   }
   public acceptParticipant(participantId: ParticipantId): void {
+    if (!this.canAcceptParticipant()) {
+      throw new Error("参加者が3名いるペアには加入できません")
+    }
     this.props.participantIdList.push(participantId)
   }
   public removeParticipant(participantId?: ParticipantId): {
     removedParticipantId: ParticipantId
   } {
-    // TODO: 参加者を2名未満にはできない
-    if (this.props.participantIdList.length <= 2) {
-      throw new Error()
+    // 参加者を2名未満にはできない
+    if (!this.canRemoveParticipant()) {
+      throw new Error("参加者を2名未満にはできません")
     }
     // 対象を指定しない場合は最後の参加者を削除する
     if (participantId === undefined) {
@@ -47,12 +50,29 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
       }
     }
 
-    // TODO: 存在しない参加者は削除できない
+    // ペアに存在しない参加者は削除できない
+    if (!this.participantExists(participantId)) {
+      throw new Error("ペアに存在しない参加者は削除できません")
+    }
     this.props.participantIdList = this.props.participantIdList.filter(
       (id) => !id.equals(participantId)
     )
     return {
       removedParticipantId: participantId,
     }
+  }
+
+  private participantExists(participantId: ParticipantId): boolean {
+    return (
+      this.props.participantIdList.findIndex((id) =>
+        id.equals(participantId)
+      ) !== -1
+    )
+  }
+  private canRemoveParticipant(): boolean {
+    return this.props.participantIdList.length > 2
+  }
+  private canAcceptParticipant(): boolean {
+    return this.props.participantIdList.length <= 2
   }
 }
