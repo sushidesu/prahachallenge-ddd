@@ -25,11 +25,11 @@ export class JoinPrahaChallengeUsecase {
     // 空きのあるペアに加入する
     const { changedPairList } = await this.joinPair.do(participant)
 
+    // 参加者を新規追加
+    await this.participantRepository.save(participant)
     // 変更のあったペアを保存
     await Promise.all(
       changedPairList.map((pair) => this.pairRepository.save(pair))
     )
-    // 参加者を新規追加
-    await this.participantRepository.save(participant)
   }
 }
