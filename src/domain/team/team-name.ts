@@ -8,7 +8,7 @@ export class TeamName extends ValueObject<TeamNameProps, "team-name"> {
   private constructor(props: TeamNameProps) {
     super(props)
   }
-  static create(name: string): TeamName {
+  static createFromFactory(name: string): TeamName {
     const parsed = parseFloat(name)
     if (!Number.isInteger(parsed)) {
       throw new Error("チーム名は整数である必要があります")
