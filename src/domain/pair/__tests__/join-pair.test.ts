@@ -15,17 +15,14 @@ describe("JoinPair", () => {
     getVacantPairList: jest.fn(),
     getAllPairList: jest.fn(),
   }
-  beforeEach(() => {
-    pairRepositoryMock.save.mockClear()
-    pairRepositoryMock.getVacantPairList.mockClear()
-    pairRepositoryMock.getAllPairList.mockClear()
-  })
-
   const pairFactoryMock: jest.Mocked<PairFactory> = {
     // @ts-expect-error _brand
     _brand: undefined,
     create: jest.fn(),
   }
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
 
   const participant = Participant.reconstruct(
     ParticipantId.reconstruct("ex_albio"),
