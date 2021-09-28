@@ -8,6 +8,7 @@ import { Participant } from "../../participant/participant"
 import { ParticipantName } from "../../participant/participant-name"
 import { Email } from "../../participant/email"
 import { PairFactory } from "../pair-factory"
+import { TeamId } from "../../team/team-id"
 
 describe("JoinPair", () => {
   const pairRepositoryMock: jest.Mocked<IPairRepository> = {
@@ -46,10 +47,12 @@ describe("JoinPair", () => {
       const pairA = Pair.reconstruct(PairId.reconstruct("a"), {
         name: PairName.reconstruct("a"),
         participantIdList: [participant_a, participant_b],
+        teamId: TeamId.reconstruct("1"),
       })
       const pairB = Pair.reconstruct(PairId.reconstruct("b"), {
         name: PairName.reconstruct("b"),
         participantIdList: [participant_c, participant_d],
+        teamId: TeamId.reconstruct("1"),
       })
       pairRepositoryMock.getVacantPairList.mockResolvedValue([pairA, pairB])
 
@@ -58,6 +61,7 @@ describe("JoinPair", () => {
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b, participant.id],
+            teamId: TeamId.reconstruct("1"),
           }),
         ],
       }
@@ -71,6 +75,7 @@ describe("JoinPair", () => {
         Pair.reconstruct(PairId.reconstruct("a"), {
           name: PairName.reconstruct("a"),
           participantIdList: [participant_a, participant_b, participant_c],
+          teamId: TeamId.reconstruct("1"),
         }),
       ])
       pairFactoryMock.create.mockImplementation(
@@ -78,6 +83,7 @@ describe("JoinPair", () => {
           Pair.reconstruct(PairId.reconstruct("b"), {
             name: PairName.reconstruct(props.name),
             participantIdList: props.participantIdList,
+            teamId: TeamId.reconstruct("1"),
           })
       )
       const expected = {
@@ -85,10 +91,12 @@ describe("JoinPair", () => {
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b],
+            teamId: TeamId.reconstruct("1"),
           }),
           Pair.reconstruct(PairId.reconstruct("b"), {
             name: PairName.reconstruct("b"),
             participantIdList: [participant_c, participant.id],
+            teamId: TeamId.reconstruct("1"),
           }),
         ],
       }

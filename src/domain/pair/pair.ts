@@ -2,10 +2,12 @@ import { Entity } from "../shared/entity"
 import { PairId } from "./pair-id"
 import { ParticipantId } from "../participant/participant-id"
 import { PairName } from "./pair-name"
+import { TeamId } from "../team/team-id"
 
 export interface PairProps {
   participantIdList: ParticipantId[]
   name: PairName
+  teamId: TeamId
 }
 
 export class Pair extends Entity<PairProps, "pair", PairId> {
@@ -24,6 +26,9 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     return new Pair(id, props)
   }
 
+  public get teamId(): TeamId {
+    return this.props.teamId
+  }
   public get participantIdList(): ParticipantId[] {
     // HELP: 名前が微妙かも
     return this.props.participantIdList
