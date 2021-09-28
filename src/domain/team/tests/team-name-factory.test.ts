@@ -27,9 +27,11 @@ describe(`TeamNameFactory`, () => {
       teamRepositoryMock.getAllTeamList.mockResolvedValue([
         Team.reconstruct(TeamId.reconstruct("1"), {
           name: TeamName.reconstruct("1"),
+          participantIdList: [],
         }),
         Team.reconstruct(TeamId.reconstruct("2"), {
           name: TeamName.reconstruct("2"),
+          participantIdList: [],
         }),
       ])
       const actual = await teamNameFactory.create()
@@ -43,6 +45,7 @@ describe(`TeamNameFactory`, () => {
           const index = (i + 1).toString()
           return Team.reconstruct(TeamId.reconstruct(index), {
             name: TeamName.reconstruct(index),
+            participantIdList: [],
           })
         })
       )
