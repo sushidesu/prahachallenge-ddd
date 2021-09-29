@@ -52,4 +52,30 @@ describe(`Team`, () => {
       })
     })
   })
+  describe(`acceptParticipant()`, () => {
+    it(`参加者を追加できる`, () => {
+      const team = Team.reconstruct(TeamId.reconstruct("1"), {
+        name: TeamName.reconstruct("1"),
+        participantIdList: [
+          ParticipantId.reconstruct("participant-a"),
+          ParticipantId.reconstruct("participant-b"),
+          ParticipantId.reconstruct("participant-c"),
+        ],
+      })
+      const newParticipantId = ParticipantId.reconstruct("participant-new")
+      team.acceptParticipant(newParticipantId)
+
+      expect(team).toStrictEqual(
+        Team.reconstruct(TeamId.reconstruct("1"), {
+          name: TeamName.reconstruct("1"),
+          participantIdList: [
+            ParticipantId.reconstruct("participant-a"),
+            ParticipantId.reconstruct("participant-b"),
+            ParticipantId.reconstruct("participant-c"),
+            ParticipantId.reconstruct("participant-new"),
+          ],
+        })
+      )
+    })
+  })
 })
