@@ -9,12 +9,20 @@ import { ParticipantName } from "../../participant/participant-name"
 import { Email } from "../../participant/email"
 import { PairFactory } from "../pair-factory"
 import { TeamId } from "../../team/team-id"
+import { ITeamRepository } from "../../team/interface/team-repository"
+import { Team } from "../../team/team"
+import { TeamName } from "../../team/team-name"
 
 describe("JoinPair", () => {
   const pairRepositoryMock: jest.Mocked<IPairRepository> = {
     save: jest.fn(),
     getVacantPairList: jest.fn(),
     getAllPairList: jest.fn(),
+  }
+  const teamRepositoryMock: jest.Mocked<ITeamRepository> = {
+    save: jest.fn(),
+    getTeamById: jest.fn(),
+    getAllTeamList: jest.fn(),
   }
   const pairFactoryMock: jest.Mocked<PairFactory> = {
     // @ts-expect-error _brand
@@ -39,7 +47,11 @@ describe("JoinPair", () => {
 
   let joinPair: JoinPair
   beforeEach(() => {
-    joinPair = new JoinPair(pairRepositoryMock, pairFactoryMock)
+    joinPair = new JoinPair(
+      pairRepositoryMock,
+      teamRepositoryMock,
+      pairFactoryMock
+    )
   })
 
   describe("空きのあるペアが存在する場合、そのペアに加入する", () => {
@@ -54,7 +66,20 @@ describe("JoinPair", () => {
         participantIdList: [participant_c, participant_d],
         teamId: TeamId.reconstruct("1"),
       })
+      // pair-repositoryは2名のペア * 2 を返す
       pairRepositoryMock.getVacantPairList.mockResolvedValue([pairA, pairB])
+      // team-repositoryは2名のペア*2が所属しているチームを返す
+      teamRepositoryMock.getTeamById.mockResolvedValue(
+        Team.reconstruct(TeamId.reconstruct("1"), {
+          name: TeamName.reconstruct("1"),
+          participantIdList: [
+            participant_a,
+            participant_b,
+            participant_c,
+            participant_d,
+          ],
+        })
+      )
 
       const expected = {
         changedPairList: [
@@ -64,14 +89,27 @@ describe("JoinPair", () => {
             teamId: TeamId.reconstruct("1"),
           }),
         ],
-        changedTeamList: [],
+        changedTeamList: [
+          Team.reconstruct(TeamId.reconstruct("1"), {
+            name: TeamName.reconstruct("1"),
+            participantIdList: [
+              participant_a,
+              participant_b,
+              participant_c,
+              participant_d,
+              participant.id,
+            ],
+          }),
+        ],
       }
       expect(await joinPair.do(participant)).toStrictEqual(expected)
     })
   })
   describe("全てのペアに空きがない場合、ペアを分割する", () => {
     it("3名のペアが1つ存在するとき、ペアを2つに分割し、加入する", async () => {
+      // 空きのあるペアなし
       pairRepositoryMock.getVacantPairList.mockResolvedValue([])
+      // pair-repositoryは3名のペアを1つ返す
       pairRepositoryMock.getAllPairList.mockResolvedValue([
         Pair.reconstruct(PairId.reconstruct("a"), {
           name: PairName.reconstruct("a"),
@@ -87,6 +125,13 @@ describe("JoinPair", () => {
             teamId: TeamId.reconstruct("1"),
           })
       )
+      // team-repositoryは3名のペアが所属しているチームを返す
+      teamRepositoryMock.getTeamById.mockResolvedValue(
+        Team.reconstruct(TeamId.reconstruct("1"), {
+          name: TeamName.reconstruct("1"),
+          participantIdList: [participant_a, participant_b, participant_c],
+        })
+      )
       const expected = {
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
@@ -100,7 +145,17 @@ describe("JoinPair", () => {
             teamId: TeamId.reconstruct("1"),
           }),
         ],
-        changedTeamList: [],
+        changedTeamList: [
+          Team.reconstruct(TeamId.reconstruct("1"), {
+            name: TeamName.reconstruct("1"),
+            participantIdList: [
+              participant_a,
+              participant_b,
+              participant_c,
+              participant.id,
+            ],
+          }),
+        ],
       }
       const actual = await joinPair.do(participant)
       expect(actual).toStrictEqual(expected)

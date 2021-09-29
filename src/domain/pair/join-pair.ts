@@ -4,10 +4,12 @@ import { Pair } from "./pair"
 import { PairFactory } from "./pair-factory"
 import { IPairRepository } from "./interface/pair-repository"
 import { Team } from "../team/team"
+import { ITeamRepository } from "../team/interface/team-repository"
 
 export class JoinPair extends DomainService<"join-pair"> {
   constructor(
     private pairRepository: IPairRepository,
+    private teamRepository: ITeamRepository,
     private pairFactory: PairFactory
   ) {
     super()
@@ -21,17 +23,24 @@ export class JoinPair extends DomainService<"join-pair"> {
     const vacantPairs = await this.pairRepository.getVacantPairList()
 
     // 空きがある場合、そのペアに加入する
-    // TODO: 加入するペアと同じチームにも加入する
+    // そのペアが所属しているチームにも加入する
     if (vacantPairs.length) {
       const targetPair = vacantPairs[0]
+      const targetTeam = await this.teamRepository.getTeamById(
+        targetPair.teamId
+      )
+      if (!targetTeam) {
+        throw new Error()
+      }
       targetPair.acceptParticipant(participant.id)
+      targetTeam.acceptParticipant(participant.id)
       return {
         changedPairList: [targetPair],
-        changedTeamList: [],
+        changedTeamList: [targetTeam],
       }
     }
     // ない場合、3人のペアを分解し、新規参加者を含む2-2のペアを作成
-    // TODO: 加入するペアと同じチームにも加入する
+    // 加入するペアと同じチームにも加入する
     else {
       // ターゲットとなるペアを取得
       const pairs = await this.pairRepository.getAllPairList()
@@ -44,10 +53,18 @@ export class JoinPair extends DomainService<"join-pair"> {
       const newPair = this.pairFactory.create({
         name: "b",
         participantIdList: [removedParticipantId, participant.id],
-      }) // HELP: ID直接渡すでいいか？
+      })
+      // チームに加入する
+      const targetTeam = await this.teamRepository.getTeamById(
+        targetPair.teamId
+      )
+      if (!targetTeam) {
+        throw new Error()
+      }
+      targetTeam.acceptParticipant(participant.id)
       return {
         changedPairList: [targetPair, newPair],
-        changedTeamList: [],
+        changedTeamList: [targetTeam],
       }
     }
   }

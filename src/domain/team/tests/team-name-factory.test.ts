@@ -6,6 +6,7 @@ import { TeamId } from "../team-id"
 
 describe(`TeamNameFactory`, () => {
   const teamRepositoryMock: jest.Mocked<ITeamRepository> = {
+    save: jest.fn(),
     getTeamById: jest.fn(),
     getAllTeamList: jest.fn(),
   }
