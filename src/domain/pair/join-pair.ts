@@ -3,6 +3,7 @@ import { Participant } from "../participant/participant"
 import { Pair } from "./pair"
 import { PairFactory } from "./pair-factory"
 import { IPairRepository } from "./interface/pair-repository"
+import { Team } from "../team/team"
 
 export class JoinPair extends DomainService<"join-pair"> {
   constructor(
@@ -14,6 +15,7 @@ export class JoinPair extends DomainService<"join-pair"> {
 
   async do(participant: Participant): Promise<{
     changedPairList: Pair[]
+    changedTeamList: Team[]
   }> {
     // 空きのあるペアを探す
     const vacantPairs = await this.pairRepository.getVacantPairList()
@@ -25,6 +27,7 @@ export class JoinPair extends DomainService<"join-pair"> {
       targetPair.acceptParticipant(participant.id)
       return {
         changedPairList: [targetPair],
+        changedTeamList: [],
       }
     }
     // ない場合、3人のペアを分解し、新規参加者を含む2-2のペアを作成
@@ -44,6 +47,7 @@ export class JoinPair extends DomainService<"join-pair"> {
       }) // HELP: ID直接渡すでいいか？
       return {
         changedPairList: [targetPair, newPair],
+        changedTeamList: [],
       }
     }
   }

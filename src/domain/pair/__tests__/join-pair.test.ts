@@ -64,6 +64,7 @@ describe("JoinPair", () => {
             teamId: TeamId.reconstruct("1"),
           }),
         ],
+        changedTeamList: [],
       }
       expect(await joinPair.do(participant)).toStrictEqual(expected)
     })
@@ -99,6 +100,7 @@ describe("JoinPair", () => {
             teamId: TeamId.reconstruct("1"),
           }),
         ],
+        changedTeamList: [],
       }
       const actual = await joinPair.do(participant)
       expect(actual).toStrictEqual(expected)
