@@ -1,7 +1,7 @@
-import { Participant } from "../participant/participant"
-import { DomainService } from "../shared/domainService"
-import { Team } from "../team/team"
-import { Pair } from "./pair"
+import { Participant } from "../../participant/participant"
+import { DomainService } from "../../shared/domainService"
+import { Team } from "../../team/team"
+import { Pair } from "../pair"
 
 export class LeavePair extends DomainService<"leave-pair"> {
   constructor() {

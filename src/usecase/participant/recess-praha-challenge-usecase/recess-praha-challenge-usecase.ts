@@ -1,7 +1,7 @@
 import { RecessPrahaChallengeInputData } from "./recess-praha-challenge-input-data"
 import { IParticipantRepository } from "../../../domain/participant/interface/participant-repository"
 import { ParticipantId } from "../../../domain/participant/participant-id"
-import { LeavePair } from "../../../domain/pair/leave-pair"
+import { LeavePair } from "../../../domain/pair/service/leave-pair"
 
 export class RecessPrahaChallengeUsecase {
   constructor(

@@ -1,10 +1,10 @@
-import { DomainService } from "../shared/domainService"
-import { Participant } from "../participant/participant"
-import { Pair } from "./pair"
-import { PairFactory } from "./pair-factory"
-import { IPairRepository } from "./interface/pair-repository"
-import { Team } from "../team/team"
-import { ITeamRepository } from "../team/interface/team-repository"
+import { DomainService } from "../../shared/domainService"
+import { Participant } from "../../participant/participant"
+import { Pair } from "../pair"
+import { PairFactory } from "../pair-factory"
+import { IPairRepository } from "../interface/pair-repository"
+import { Team } from "../../team/team"
+import { ITeamRepository } from "../../team/interface/team-repository"
 
 export class JoinPair extends DomainService<"join-pair"> {
   constructor(
