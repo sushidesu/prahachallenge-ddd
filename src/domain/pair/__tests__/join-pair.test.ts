@@ -18,6 +18,7 @@ describe("JoinPair", () => {
     save: jest.fn(),
     getVacantPairList: jest.fn(),
     getAllPairList: jest.fn(),
+    getPairListInTeam: jest.fn(),
   }
   const teamRepositoryMock: jest.Mocked<ITeamRepository> = {
     save: jest.fn(),
