@@ -1,9 +1,13 @@
 import { RecessPrahaChallengeInputData } from "./recess-praha-challenge-input-data"
 import { IParticipantRepository } from "../../../domain/participant/interface/participant-repository"
 import { ParticipantId } from "../../../domain/participant/participant-id"
+import { LeavePair } from "../../../domain/pair/leave-pair"
 
 export class RecessPrahaChallengeUsecase {
-  constructor(private participantRepository: IParticipantRepository) {}
+  constructor(
+    private participantRepository: IParticipantRepository,
+    private leavePair: LeavePair
+  ) {}
   /**
    * 参加者の更新 (在籍ステータスの変更)
    *
@@ -15,9 +19,9 @@ export class RecessPrahaChallengeUsecase {
     const participant = await this.participantRepository.getParticipantById(id)
 
     // ペアから抜ける
-    //   - 残りのペアが存続可能なら、そのまま
-    //   - 存続不可能な場合、残りのペアのメンバーを、空きのあるペアに加入
-    const { changedTeamList, changedPairList } = leavePair.do(participant)
+    const { changedPairList, changedTeamList } = await this.leavePair.do(
+      participant
+    )
 
     // 参加者 entity の在籍ステータスを変更
     participant.recess()
