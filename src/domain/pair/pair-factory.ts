@@ -18,7 +18,7 @@ export class PairFactory extends DomainService<"pair-factory"> {
     teamId,
     participantIdList,
   }: PairFactoryProps): Promise<Pair> {
-    const pairName = await this.pairNameFactory.create()
+    const pairName = await this.pairNameFactory.create(teamId)
     return Pair.createFromFactory({
       name: pairName,
       teamId,
