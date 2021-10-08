@@ -78,4 +78,37 @@ describe(`Team`, () => {
       )
     })
   })
+  describe(`removeParticipant()`, () => {
+    describe(`参加者は3名以上`, () => {
+      it(`参加者が4名以上の場合、参加者を削除できる`, () => {
+        const team = Team.reconstruct(TeamId.reconstruct("1"), {
+          name: TeamName.reconstruct("1"),
+          participantIdList: [
+            ParticipantId.reconstruct("participant-a"),
+            ParticipantId.reconstruct("participant-b"),
+            ParticipantId.reconstruct("participant-c"),
+            ParticipantId.reconstruct("participant-d"),
+          ],
+        })
+        team.removeParticipant(ParticipantId.reconstruct("participant-a"))
+
+        expect(team).toStrictEqual(
+          Team.reconstruct(TeamId.reconstruct("1"), {
+            name: TeamName.reconstruct("1"),
+            participantIdList: [
+              ParticipantId.reconstruct("participant-b"),
+              ParticipantId.reconstruct("participant-c"),
+              ParticipantId.reconstruct("participant-d"),
+            ],
+          })
+        )
+      })
+      it(`参加者が3名の場合、エラーになる`, () => {
+        // TODO:
+      })
+    })
+  })
+  it(`存在しない参加者を指定すると、エラーになる`, () => {
+    // TODO:
+  })
 })
