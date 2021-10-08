@@ -35,6 +35,9 @@ export class Team extends Entity<TeamProps, "team", TeamId> {
     this.props.participantIdList.push(participantId)
   }
   public removeParticipant(participantId: ParticipantId): void {
+    if (!this.participantExists(participantId)) {
+      throw new Error("チームに存在しない参加者は削除できません")
+    }
     if (!this.canRemoveParticipant()) {
       throw new Error("参加者を3名未満にはできません")
     }
@@ -42,7 +45,14 @@ export class Team extends Entity<TeamProps, "team", TeamId> {
       (id) => !id.equals(participantId)
     )
   }
-  public canRemoveParticipant(): boolean {
+
+  private participantExists(participantId: ParticipantId): boolean {
+    const index = this.props.participantIdList.findIndex((id) =>
+      id.equals(participantId)
+    )
+    return index !== -1
+  }
+  private canRemoveParticipant(): boolean {
     return this.props.participantIdList.length > 3
   }
 }

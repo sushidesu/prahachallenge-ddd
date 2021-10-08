@@ -119,6 +119,17 @@ describe(`Team`, () => {
     })
   })
   it(`存在しない参加者を指定すると、エラーになる`, () => {
-    // TODO:
+    const team = Team.reconstruct(TeamId.reconstruct("1"), {
+      name: TeamName.reconstruct("1"),
+      participantIdList: [
+        ParticipantId.reconstruct("participant-a"),
+        ParticipantId.reconstruct("participant-b"),
+        ParticipantId.reconstruct("participant-c"),
+        ParticipantId.reconstruct("participant-d"),
+      ],
+    })
+    expect(() =>
+      team.removeParticipant(ParticipantId.reconstruct("phantom"))
+    ).toThrowError("チームに存在しない参加者は削除できません")
   })
 })
