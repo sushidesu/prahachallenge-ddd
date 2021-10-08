@@ -34,4 +34,15 @@ export class Team extends Entity<TeamProps, "team", TeamId> {
   public acceptParticipant(participantId: ParticipantId): void {
     this.props.participantIdList.push(participantId)
   }
+  public removeParticipant(participantId: ParticipantId): void {
+    if (!this.canRemoveParticipant()) {
+      throw new Error("参加者を3名未満にはできません")
+    }
+    this.props.participantIdList = this.props.participantIdList.filter(
+      (id) => !id.equals(participantId)
+    )
+  }
+  public canRemoveParticipant(): boolean {
+    return this.props.participantIdList.length > 3
+  }
 }

@@ -104,7 +104,17 @@ describe(`Team`, () => {
         )
       })
       it(`参加者が3名の場合、エラーになる`, () => {
-        // TODO:
+        const team = Team.reconstruct(TeamId.reconstruct("1"), {
+          name: TeamName.reconstruct("1"),
+          participantIdList: [
+            ParticipantId.reconstruct("participant-a"),
+            ParticipantId.reconstruct("participant-b"),
+            ParticipantId.reconstruct("participant-c"),
+          ],
+        })
+        expect(() =>
+          team.removeParticipant(ParticipantId.reconstruct("participant-a"))
+        ).toThrowError("参加者を3名未満にはできません")
       })
     })
   })
