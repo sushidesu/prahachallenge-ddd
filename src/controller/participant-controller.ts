@@ -6,9 +6,10 @@ export class ParticipantController {
   constructor(private joinPrahaChallengeUsecase: JoinPrahaChallengeUsecase) {}
   public create: RequestHandler = async (req, res, next) => {
     try {
+      const { name, email } = req.body
       const inputData = new JoinPrahaChallengeInputData({
-        name: "",
-        email: "",
+        name,
+        email,
       })
       await this.joinPrahaChallengeUsecase.exec(inputData)
       res.json({ message: "success!" })
