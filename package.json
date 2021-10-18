@@ -17,7 +17,9 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docker:up": "cd .docker && docker-compose up -d",
+    "docker:down": "cd .docker && docker-compose down"
   },
   "dependencies": {
     "@prisma/client": "2.27.0",
