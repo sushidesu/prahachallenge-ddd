@@ -13,7 +13,22 @@ services:
       POSTGRES_DB: prisma
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
       TZ: "Asia/Tokyo"
+  prisma-test-db:
+    container_name: prisma-test-db
+    image: postgres:13
+    ports:
+      - "5433:5432"
+    volumes:
+      - prisma-test-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: prisma2020
+      POSTGRES_DB: prisma
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: "Asia/Tokyo"
 
 volumes:
   prisma-store:
+    driver: local
+  prisma-test-store:
     driver: local
