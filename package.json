@@ -17,6 +17,7 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:integration": "jest -i --testPathPattern=integration",
     "prepare": "husky install",
     "docker:up": "cd .docker && docker-compose up -d",
     "docker:down": "cd .docker && docker-compose down"
