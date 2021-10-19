@@ -8,7 +8,7 @@ export class ParticipantRepository implements IParticipantRepository {
   async save(): Promise<void> {
     // TODO:
   }
-  async getParticipantById(): Promise<Participant> {
+  async getParticipantById(): Promise<Participant | undefined> {
     // TODO:
     return Participant.reconstruct(ParticipantId.reconstruct("a"), {
       name: ParticipantName.reconstruct("test-member"),
