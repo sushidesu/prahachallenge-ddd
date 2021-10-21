@@ -6,10 +6,9 @@ import { ParticipantName } from "../../../domain/participant/participant-name"
 import { ParticipantRepository } from "../participant-repository"
 
 describe(`ParticipantRepository`, () => {
-  let prisma: PrismaClient
+  const prisma = new PrismaClient()
 
   beforeAll(async () => {
-    prisma = new PrismaClient()
     await prisma.user.createMany({
       data: [
         {
@@ -28,17 +27,18 @@ describe(`ParticipantRepository`, () => {
 
   afterAll(async () => {
     await prisma.user.deleteMany()
+    await prisma.$disconnect()
   })
 
   let participantRepository: ParticipantRepository
   beforeEach(() => {
-    const prisma = new PrismaClient()
     participantRepository = new ParticipantRepository({ prisma })
   })
 
   describe(`getParticipantById()`, () => {
     it(`idが一致する参加者を取得する`, async () => {
-      const actual = await participantRepository.getParticipantById("id-tanaka")
+      const id = ParticipantId.reconstruct("id-tanaka")
+      const actual = await participantRepository.getParticipantById(id)
 
       const expected = Participant.reconstruct(
         ParticipantId.reconstruct("id-tanaka"),
