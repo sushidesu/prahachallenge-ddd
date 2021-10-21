@@ -32,7 +32,8 @@ describe(`ParticipantRepository`, () => {
 
   let participantRepository: ParticipantRepository
   beforeEach(() => {
-    participantRepository = new ParticipantRepository()
+    const prisma = new PrismaClient()
+    participantRepository = new ParticipantRepository({ prisma })
   })
 
   describe(`getParticipantById()`, () => {
