@@ -3,16 +3,29 @@ import { IParticipantRepository } from "../../domain/participant/interface/parti
 import { Participant } from "../../domain/participant/participant"
 import { ParticipantId } from "../../domain/participant/participant-id"
 import { ParticipantName } from "../../domain/participant/participant-name"
+import { Context } from "../shared/context"
 
 export class ParticipantRepository implements IParticipantRepository {
+  constructor(private readonly context: Context) {}
   async save(): Promise<void> {
     // TODO:
   }
-  async getParticipantById(): Promise<Participant | undefined> {
-    // TODO:
-    return Participant.reconstruct(ParticipantId.reconstruct("a"), {
-      name: ParticipantName.reconstruct("test-member"),
-      email: Email.reconstruct("test@example.com"),
+  async getParticipantById(
+    id: ParticipantId
+  ): Promise<Participant | undefined> {
+    const result = await this.context.prisma.user.findUnique({
+      where: {
+        id: id.props.value,
+      },
+    })
+
+    if (result === null) {
+      return undefined
+    }
+
+    return Participant.reconstruct(ParticipantId.reconstruct(result.id), {
+      name: ParticipantName.reconstruct(result.name),
+      email: Email.reconstruct(result.email),
     })
   }
   async getParticipantsByEmail(): Promise<Participant[]> {
