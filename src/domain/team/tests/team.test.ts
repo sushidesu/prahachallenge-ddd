@@ -1,3 +1,4 @@
+import { mock } from "jest-mock-extended"
 import { Team } from "../team"
 import { TeamId } from "../team-id"
 import { TeamName } from "../team-name"
@@ -12,17 +13,12 @@ describe(`Team`, () => {
       // HELP: このように重複するテストも書くべきか？
     })
     describe(`参加者は3名以上`, () => {
-      // HELP: モックのやり方これでいいのか？
-      const teamNameFactoryMock: jest.Mocked<TeamNameFactory> = {
-        create: jest.fn(),
-        // @ts-expect-error _brand
-        _brand: undefined,
-        // @ts-expect-error private property
-        teamRepository: undefined,
-      }
+      // NOTE: クラスのモックは jest-mock-extendedがよさそう!
+      const teamNameFactoryMock = mock<TeamNameFactory>()
       afterEach(() => {
         jest.resetAllMocks()
       })
+
       it(`参加者が3名の場合、正しくチームを作成できる`, async () => {
         teamNameFactoryMock.create.mockResolvedValue(TeamName.reconstruct("1"))
         const actual = await Team.create(teamNameFactoryMock, [

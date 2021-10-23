@@ -1,3 +1,4 @@
+import { mock } from "jest-mock-extended"
 import { ParticipantId } from "../../participant/participant-id"
 import { TeamId } from "../../team/team-id"
 import { Pair } from "../pair"
@@ -7,13 +8,10 @@ import { PairName } from "../pair-name"
 import { PairNameFactory } from "../pair-name-factory"
 
 describe(`PairFactory`, () => {
-  const pairNameFactoryMock: jest.Mocked<PairNameFactory> = {
-    // @ts-expect-error _brand
-    _brand: undefined,
-    // @ts-expect-error private value
-    pairRepository: undefined,
-    create: jest.fn(),
-  }
+  const pairNameFactoryMock = mock<PairNameFactory>()
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
 
   let pairFactory: PairFactory
   beforeEach(() => {
