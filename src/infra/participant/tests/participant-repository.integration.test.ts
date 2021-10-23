@@ -101,4 +101,27 @@ describe(`ParticipantRepository`, () => {
       expect(actual).toBe(undefined)
     })
   })
+
+  describe(`getParticipantsByEmail()`, () => {
+    it(`emailが一致する参加者のリストを取得する`, async () => {
+      const email = Email.reconstruct("tanaka@example.com")
+      const actual = await participantRepository.getParticipantsByEmail(email)
+
+      const expected = [
+        Participant.reconstruct(ParticipantId.reconstruct("id-tanaka"), {
+          name: ParticipantName.reconstruct("tanaka"),
+          email: Email.reconstruct("tanaka@example.com"),
+        }),
+      ]
+
+      expect(actual).toStrictEqual(expected)
+    })
+    it(`一致する参加者が存在しない場合、空のリストを返す`, async () => {
+      const emailUnknown = Email.reconstruct("unknown@example.com")
+      const actual = await participantRepository.getParticipantsByEmail(
+        emailUnknown
+      )
+      expect(actual).toStrictEqual([])
+    })
+  })
 })
