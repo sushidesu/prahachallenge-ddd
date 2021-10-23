@@ -18,6 +18,9 @@ export class UpdateProfileUsecase {
     const participant = await this.participantRepository.getParticipantById(
       participantId
     )
+    if (!participant) {
+      throw new Error(`id: ${id} の参加者は存在しません`)
+    }
     // - 参加者 entity の 名前・メールアドレスを更新
     const { name, email } = inputData.props
     if (name) {
