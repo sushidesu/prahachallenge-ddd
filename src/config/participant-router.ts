@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { ParticipantController } from "../controller/participant-controller"
 import { JoinPrahaChallengeUsecase } from "../usecase/participant/join-praha-challenge-usecase/join-praha-challenge-usecase"
+import { createContext } from "../infra/shared/context"
 import { ParticipantRepository } from "../infra/participant/participant-repository"
 import { PairRepository } from "../infra/pair/pair-repository"
 import { TeamRepository } from "../infra/team/team-repository"
@@ -13,7 +14,8 @@ import { JoinPair } from "../domain/pair/join-pair"
 const participantRouter = Router()
 
 // repository
-const participantRepository = new ParticipantRepository()
+const context = createContext()
+const participantRepository = new ParticipantRepository(context)
 const pairRepository = new PairRepository()
 const teamRepository = new TeamRepository()
 

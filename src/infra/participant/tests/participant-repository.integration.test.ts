@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { createContext } from "../../shared/context"
 import { Email } from "../../../domain/participant/email"
 import { Participant } from "../../../domain/participant/participant"
 import { ParticipantId } from "../../../domain/participant/participant-id"
@@ -6,10 +6,10 @@ import { ParticipantName } from "../../../domain/participant/participant-name"
 import { ParticipantRepository } from "../participant-repository"
 
 describe(`ParticipantRepository`, () => {
-  const prisma = new PrismaClient()
+  const context = createContext()
 
   beforeAll(async () => {
-    await prisma.user.createMany({
+    await context.prisma.user.createMany({
       data: [
         {
           id: "id-tanaka",
@@ -26,13 +26,13 @@ describe(`ParticipantRepository`, () => {
   })
 
   afterAll(async () => {
-    await prisma.user.deleteMany()
-    await prisma.$disconnect()
+    await context.prisma.user.deleteMany()
+    await context.prisma.$disconnect()
   })
 
   let participantRepository: ParticipantRepository
   beforeEach(() => {
-    participantRepository = new ParticipantRepository({ prisma })
+    participantRepository = new ParticipantRepository(context)
   })
 
   describe(`getParticipantById()`, () => {
