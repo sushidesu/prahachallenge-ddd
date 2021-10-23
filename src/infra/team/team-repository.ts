@@ -2,7 +2,10 @@ import { ITeamRepository } from "../../domain/team/interface/team-repository"
 import { Team } from "../../domain/team/team"
 
 export class TeamRepository implements ITeamRepository {
-  async save(): Promise<void> {
+  async insert(): Promise<void> {
+    // TODO:
+  }
+  async update(): Promise<void> {
     // TODO:
   }
   async getTeamById(): Promise<Team | undefined> {

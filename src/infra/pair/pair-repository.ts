@@ -2,7 +2,10 @@ import { IPairRepository } from "../../domain/pair/interface/pair-repository"
 import { Pair } from "../../domain/pair/pair"
 
 export class PairRepository implements IPairRepository {
-  async save(): Promise<void> {
+  async insert(): Promise<void> {
+    // TODO:
+  }
+  async update(): Promise<void> {
     // TODO:
   }
   async getAllPairList(): Promise<Pair[]> {

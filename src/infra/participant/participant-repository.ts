@@ -7,7 +7,10 @@ import { Context } from "../shared/context"
 
 export class ParticipantRepository implements IParticipantRepository {
   constructor(private readonly context: Context) {}
-  async save(): Promise<void> {
+  async insert(): Promise<void> {
+    // TODO:
+  }
+  async update(): Promise<void> {
     // TODO:
   }
   async getParticipantById(
