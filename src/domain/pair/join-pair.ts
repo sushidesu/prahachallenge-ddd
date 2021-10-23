@@ -16,6 +16,7 @@ export class JoinPair extends DomainService<"join-pair"> {
   }
 
   async do(participant: Participant): Promise<{
+    createdPairList: Pair[]
     changedPairList: Pair[]
     changedTeamList: Team[]
   }> {
@@ -35,6 +36,7 @@ export class JoinPair extends DomainService<"join-pair"> {
       targetPair.acceptParticipant(participant.id)
       targetTeam.acceptParticipant(participant.id)
       return {
+        createdPairList: [],
         changedPairList: [targetPair],
         changedTeamList: [targetTeam],
       }
@@ -62,7 +64,8 @@ export class JoinPair extends DomainService<"join-pair"> {
       }
       targetTeam.acceptParticipant(participant.id)
       return {
-        changedPairList: [targetPair, newPair],
+        createdPairList: [newPair],
+        changedPairList: [targetPair],
         changedTeamList: [targetTeam],
       }
     }
