@@ -16,6 +16,11 @@ describe(`ParticipantRepository`, () => {
           name: "tanaka",
           email: "tanaka@example.com",
         },
+        {
+          id: "id-update-target",
+          name: "please-update",
+          email: "please-update@example.com",
+        },
       ],
     })
   })
@@ -49,6 +54,28 @@ describe(`ParticipantRepository`, () => {
         id: "id-new-participant",
         name: "new-participant",
         email: "new-participant@example.com",
+      })
+    })
+  })
+
+  describe(`update()`, () => {
+    it(`参加者の情報を変更できる`, async () => {
+      const id = ParticipantId.reconstruct("id-update-target")
+      const participant = Participant.reconstruct(id, {
+        name: ParticipantName.reconstruct("updated"),
+        email: Email.reconstruct("updated@example.com"),
+      })
+      await participantRepository.update(participant)
+
+      const result = await context.prisma.user.findUnique({
+        where: {
+          id: "id-update-target",
+        },
+      })
+      expect(result).toStrictEqual({
+        id: "id-update-target",
+        name: "updated",
+        email: "updated@example.com",
       })
     })
   })
