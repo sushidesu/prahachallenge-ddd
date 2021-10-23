@@ -7,8 +7,14 @@ import { Context } from "../shared/context"
 
 export class ParticipantRepository implements IParticipantRepository {
   constructor(private readonly context: Context) {}
-  async insert(): Promise<void> {
-    // TODO:
+  async insert(participant: Participant): Promise<void> {
+    await this.context.prisma.user.create({
+      data: {
+        id: participant.id.props.value,
+        name: participant.name.props.value,
+        email: participant.email.props.value,
+      },
+    })
   }
   async update(): Promise<void> {
     // TODO:

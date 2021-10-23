@@ -30,6 +30,29 @@ describe(`ParticipantRepository`, () => {
     participantRepository = new ParticipantRepository(context)
   })
 
+  // HELP: ほぼprismaのメソッドを呼んでいるだけなので、テストの必要はない？
+  describe(`insert()`, () => {
+    it(`参加者を追加できる`, async () => {
+      const id = ParticipantId.reconstruct("id-new-participant")
+      const participant = Participant.reconstruct(id, {
+        name: ParticipantName.reconstruct("new-participant"),
+        email: Email.reconstruct("new-participant@example.com"),
+      })
+      await participantRepository.insert(participant)
+
+      const result = await context.prisma.user.findUnique({
+        where: {
+          id: "id-new-participant",
+        },
+      })
+      expect(result).toStrictEqual({
+        id: "id-new-participant",
+        name: "new-participant",
+        email: "new-participant@example.com",
+      })
+    })
+  })
+
   describe(`getParticipantById()`, () => {
     it(`idが一致する参加者を取得する`, async () => {
       const id = ParticipantId.reconstruct("id-tanaka")
