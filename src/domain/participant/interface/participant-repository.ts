@@ -4,6 +4,7 @@ import { Email } from "../email"
 
 export interface IParticipantRepository {
   getParticipantById(id: ParticipantId): Promise<Participant | undefined>
-  save(participant: Participant): Promise<void>
+  insert(participant: Participant): Promise<void>
+  update(particiapnt: Participant): Promise<void>
   getParticipantsByEmail(email: Email): Promise<Participant[]>
 }

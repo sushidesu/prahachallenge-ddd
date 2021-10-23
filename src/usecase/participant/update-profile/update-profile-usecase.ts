@@ -30,6 +30,6 @@ export class UpdateProfileUsecase {
       await participant.changeEmail(email, this.checkEmailAlreadyExists)
     }
     // 参加者 entity を保存
-    await this.participantRepository.save(participant)
+    await this.participantRepository.update(participant)
   }
 }
