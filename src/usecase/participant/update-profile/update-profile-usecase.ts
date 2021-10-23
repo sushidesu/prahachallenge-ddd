@@ -14,14 +14,14 @@ export class UpdateProfileUsecase {
   async exec(inputData: UpdateProfileInputData): Promise<void> {
     const { id } = inputData.props
     const participantId = ParticipantId.reconstruct(id)
-    // - 参加者 entity の取得
+    // 参加者 entity の取得
     const participant = await this.participantRepository.getParticipantById(
       participantId
     )
     if (!participant) {
       throw new Error(`id: ${id} の参加者は存在しません`)
     }
-    // - 参加者 entity の 名前・メールアドレスを更新
+    // 参加者 entity の 名前・メールアドレスを更新
     const { name, email } = inputData.props
     if (name) {
       participant.changeName(name)
@@ -29,7 +29,7 @@ export class UpdateProfileUsecase {
     if (email) {
       await participant.changeEmail(email, this.checkEmailAlreadyExists)
     }
-    // - 参加者 entity を保存
+    // 参加者 entity を保存
     await this.participantRepository.save(participant)
   }
 }
