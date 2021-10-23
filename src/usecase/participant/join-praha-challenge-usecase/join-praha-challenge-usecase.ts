@@ -37,8 +37,9 @@ export class JoinPrahaChallengeUsecase {
       changedPairList.map((pair) => this.pairRepository.update(pair))
     )
     // 変更のあったチームを保存
+    // FIXME: changedPairListとcreatedPairListに分ける
     await Promise.all(
-      changedTeamList.map((team) => this.teamRepository.save(team))
+      changedTeamList.map((team) => this.teamRepository.update(team))
     )
   }
 }
