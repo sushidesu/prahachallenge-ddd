@@ -16,11 +16,6 @@ describe(`ParticipantRepository`, () => {
           name: "tanaka",
           email: "tanaka@example.com",
         },
-        {
-          id: "id-hoge",
-          name: "hoge",
-          email: "hoge@example.com",
-        },
       ],
     })
   })
@@ -49,6 +44,11 @@ describe(`ParticipantRepository`, () => {
       )
 
       expect(actual).toStrictEqual(expected)
+    })
+    it(`idが一致する参加者が存在しない場合、undefinedを返す`, async () => {
+      const id = ParticipantId.reconstruct("id-unknown")
+      const actual = await participantRepository.getParticipantById(id)
+      expect(actual).toBe(undefined)
     })
   })
 })
