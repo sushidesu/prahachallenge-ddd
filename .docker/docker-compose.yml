@@ -4,7 +4,7 @@ services:
     container_name: prisma-db
     image: postgres:13
     ports:
-      - "5432:5432"
+      - "5400:5432"
     volumes:
       - prisma-store:/var/lib/postgresql/data
     environment:
@@ -17,7 +17,7 @@ services:
     container_name: prisma-test-db
     image: postgres:13
     ports:
-      - "5433:5432"
+      - "5401:5432"
     volumes:
       - prisma-test-store:/var/lib/postgresql/data
     environment:
