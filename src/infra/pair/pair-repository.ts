@@ -1,3 +1,4 @@
+import { Pair as PrismaPair } from "@prisma/client"
 import { Context } from "../shared/context"
 import { IPairRepository } from "../../domain/pair/interface/pair-repository"
 import { Pair } from "../../domain/pair/pair"
@@ -5,6 +6,15 @@ import { PairId } from "../../domain/pair/pair-id"
 import { PairName } from "../../domain/pair/pair-name"
 import { TeamId } from "../../domain/team/team-id"
 import { ParticipantId } from "../../domain/participant/participant-id"
+
+type PrismaPairWithRelations = PrismaPair & {
+  teams: {
+    id: string
+  }[],
+  users: {
+    id: string
+  }[]
+}
 
 export class PairRepository implements IPairRepository {
   constructor(private readonly context: Context) {}
@@ -31,15 +41,7 @@ export class PairRepository implements IPairRepository {
         },
       },
     })
-    return result.map((resource) =>
-      Pair.reconstruct(PairId.reconstruct(resource.id), {
-        name: PairName.reconstruct(resource.name),
-        teamId: TeamId.reconstruct(resource.teams[0].id),
-        participantIdList: resource.users.map(({ id }) =>
-          ParticipantId.reconstruct(id)
-        ),
-      })
-    )
+    return result.map((resource) => this.build(resource))
   }
 
   /**
@@ -67,15 +69,19 @@ export class PairRepository implements IPairRepository {
         }
       }
     })
-
-    return result.map(resouce => Pair.reconstruct(PairId.reconstruct(resouce.id), {
-      name: PairName.reconstruct(resouce.name),
-      teamId: TeamId.reconstruct(resouce.teams[0].id),
-      participantIdList: resouce.users.map(({ id }) => ParticipantId.reconstruct(id))
-    }))
+    return result.map(resource => this.build(resource))
   }
+
   async getVacantPairList(): Promise<Pair[]> {
     // TODO:
     return []
+  }
+
+  private build(resource: PrismaPairWithRelations): Pair {
+    return Pair.reconstruct(PairId.reconstruct(resource.id), {
+      name: PairName.reconstruct(resource.name),
+      teamId: TeamId.reconstruct(resource.teams[0].id),
+      participantIdList: resource.users.map(({ id}) => ParticipantId.reconstruct(id))
+    })
   }
 }
