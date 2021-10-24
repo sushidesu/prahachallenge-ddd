@@ -5,6 +5,11 @@ import { PairId } from "../../../domain/pair/pair-id"
 import { PairName } from "../../../domain/pair/pair-name"
 import { TeamId } from "../../../domain/team/team-id"
 import { ParticipantId } from "../../../domain/participant/participant-id"
+import {
+  generatePair,
+  generateTeam,
+  generateUser,
+} from "../../util/db-value-generator"
 
 describe(`PairRepository`, () => {
   const context = createContext()
@@ -17,58 +22,23 @@ describe(`PairRepository`, () => {
   beforeAll(async () => {
     await context.prisma.pair.create({
       data: {
-        id: "id-pair-a",
-        name: "a",
+        ...generatePair("a"),
         teams: {
-          create: {
-            id: "id-team-1",
-            name: "1",
-          },
+          create: generateTeam("1"),
         },
         users: {
-          create: [
-            {
-              id: "01",
-              name: "01",
-              email: "01@example.com",
-            },
-            {
-              id: "02",
-              name: "02",
-              email: "02@example.com",
-            },
-            {
-              id: "03",
-              name: "03",
-              email: "03@example.com",
-            },
-          ],
+          create: [generateUser("01"), generateUser("02"), generateUser("03")],
         },
       },
     })
     await context.prisma.pair.create({
       data: {
-        id: "id-pair-b",
-        name: "b",
+        ...generatePair("b"),
         teams: {
-          create: {
-            id: "id-team-2",
-            name: "2",
-          },
+          create: generateTeam("2"),
         },
         users: {
-          create: [
-            {
-              id: "04",
-              name: "04",
-              email: "04@example.com",
-            },
-            {
-              id: "05",
-              name: "05",
-              email: "05@example.com",
-            },
-          ],
+          create: [generateUser("04"), generateUser("05")],
         },
       },
     })
@@ -87,17 +57,17 @@ describe(`PairRepository`, () => {
           name: PairName.reconstruct("a"),
           teamId: TeamId.reconstruct("id-team-1"),
           participantIdList: [
-            ParticipantId.reconstruct("01"),
-            ParticipantId.reconstruct("02"),
-            ParticipantId.reconstruct("03"),
+            ParticipantId.reconstruct("id-user-01"),
+            ParticipantId.reconstruct("id-user-02"),
+            ParticipantId.reconstruct("id-user-03"),
           ],
         }),
         Pair.reconstruct(PairId.reconstruct("id-pair-b"), {
           name: PairName.reconstruct("b"),
           teamId: TeamId.reconstruct("id-team-2"),
           participantIdList: [
-            ParticipantId.reconstruct("04"),
-            ParticipantId.reconstruct("05"),
+            ParticipantId.reconstruct("id-user-04"),
+            ParticipantId.reconstruct("id-user-05"),
           ],
         }),
       ]
@@ -114,9 +84,9 @@ describe(`PairRepository`, () => {
           name: PairName.reconstruct("a"),
           teamId: TeamId.reconstruct("id-team-1"),
           participantIdList: [
-            ParticipantId.reconstruct("01"),
-            ParticipantId.reconstruct("02"),
-            ParticipantId.reconstruct("03"),
+            ParticipantId.reconstruct("id-user-01"),
+            ParticipantId.reconstruct("id-user-02"),
+            ParticipantId.reconstruct("id-user-03"),
           ],
         }),
       ]
@@ -132,8 +102,8 @@ describe(`PairRepository`, () => {
           name: PairName.reconstruct("b"),
           teamId: TeamId.reconstruct("id-team-2"),
           participantIdList: [
-            ParticipantId.reconstruct("04"),
-            ParticipantId.reconstruct("05"),
+            ParticipantId.reconstruct("id-user-04"),
+            ParticipantId.reconstruct("id-user-05"),
           ],
         }),
       ]
