@@ -41,9 +41,38 @@ export class PairRepository implements IPairRepository {
       })
     )
   }
-  async getPairListInTeam(): Promise<Pair[]> {
-    // TODO:
-    return []
+
+  /**
+   * あるチームに所属しているペアのリストを取得する
+   */
+  async getPairListInTeam(teamId: TeamId): Promise<Pair[]> {
+    const result = await this.context.prisma.pair.findMany({
+      where: {
+        teams: {
+          some: {
+            id: teamId.props.value
+          }
+        }
+      },
+      include: {
+        teams: {
+          select: {
+            id: true
+          }
+        },
+        users: {
+          select: {
+            id: true
+          }
+        }
+      }
+    })
+
+    return result.map(resouce => Pair.reconstruct(PairId.reconstruct(resouce.id), {
+      name: PairName.reconstruct(resouce.name),
+      teamId: TeamId.reconstruct(resouce.teams[0].id),
+      participantIdList: resouce.users.map(({ id }) => ParticipantId.reconstruct(id))
+    }))
   }
   async getVacantPairList(): Promise<Pair[]> {
     // TODO:

@@ -46,8 +46,9 @@ describe(`PairRepository`, () => {
         id: "id-pair-b",
         name: "b",
         teams: {
-          connect: {
-            id: "id-team-1",
+          create: {
+            id: "id-team-2",
+            name: "2"
           },
         },
         users: {
@@ -87,12 +88,30 @@ describe(`PairRepository`, () => {
         }),
         Pair.reconstruct(PairId.reconstruct("id-pair-b"), {
           name: PairName.reconstruct("b"),
-          teamId: TeamId.reconstruct("id-team-1"),
+          teamId: TeamId.reconstruct("id-team-2"),
           participantIdList: [
             ParticipantId.reconstruct("03"),
             ParticipantId.reconstruct("04"),
           ],
         }),
+      ]
+      expect(actual).toStrictEqual(expected)
+    })
+  })
+
+  describe(`getPairListInTeam()`, () => {
+    it(`あるチームに所属しているペアのリストを返す`, async () => {
+      const teamId = TeamId.reconstruct("id-team-1")
+      const actual = await pairRepository.getPairListInTeam(teamId)
+      const expected = [
+        Pair.reconstruct(PairId.reconstruct("id-pair-a"), {
+          name: PairName.reconstruct("a"),
+          teamId: TeamId.reconstruct("id-team-1"),
+          participantIdList: [
+            ParticipantId.reconstruct("01"),
+            ParticipantId.reconstruct("02"),
+          ]
+        })
       ]
       expect(actual).toStrictEqual(expected)
     })
