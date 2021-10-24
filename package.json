@@ -56,7 +56,7 @@
     "typescript": "^4.3.5"
   },
   "lint-staged": {
-    "*.{ts}": [
+    "*.ts": [
       "eslint --max-warnings=0 --cache --fix",
       "prettier --write"
     ]
