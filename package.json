@@ -18,6 +18,7 @@
     "test": "jest --testPathIgnorePatterns=integration",
     "test:watch": "yarn test --watch",
     "test:integration": "yarn migrate:test && dotenv -e .env.test -- jest -i --testPathPattern=integration",
+    "test:in": "node scripts/run.js \"yarn migrate:test && dotenv -e .env.test -- jest -i --testPathPattern={}.*integration\"",
     "prepare": "husky install",
     "migrate:dev": "dotenv -e .env.development prisma migrate dev",
     "migrate:test": "dotenv -e .env.test prisma migrate reset -- --force",
@@ -55,7 +56,7 @@
     "typescript": "^4.3.5"
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "*.{ts}": [
       "eslint --max-warnings=0 --cache --fix",
       "prettier --write"
     ]
