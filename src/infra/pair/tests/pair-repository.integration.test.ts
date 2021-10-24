@@ -37,6 +37,11 @@ describe(`PairRepository`, () => {
               name: "02",
               email: "02@example.com",
             },
+            {
+              id: "03",
+              name: "03",
+              email: "03@example.com",
+            },
           ],
         },
       },
@@ -48,20 +53,20 @@ describe(`PairRepository`, () => {
         teams: {
           create: {
             id: "id-team-2",
-            name: "2"
+            name: "2",
           },
         },
         users: {
           create: [
             {
-              id: "03",
-              name: "03",
-              email: "03@example.com",
-            },
-            {
               id: "04",
               name: "04",
               email: "04@example.com",
+            },
+            {
+              id: "05",
+              name: "05",
+              email: "05@example.com",
             },
           ],
         },
@@ -84,14 +89,15 @@ describe(`PairRepository`, () => {
           participantIdList: [
             ParticipantId.reconstruct("01"),
             ParticipantId.reconstruct("02"),
+            ParticipantId.reconstruct("03"),
           ],
         }),
         Pair.reconstruct(PairId.reconstruct("id-pair-b"), {
           name: PairName.reconstruct("b"),
           teamId: TeamId.reconstruct("id-team-2"),
           participantIdList: [
-            ParticipantId.reconstruct("03"),
             ParticipantId.reconstruct("04"),
+            ParticipantId.reconstruct("05"),
           ],
         }),
       ]
@@ -110,9 +116,29 @@ describe(`PairRepository`, () => {
           participantIdList: [
             ParticipantId.reconstruct("01"),
             ParticipantId.reconstruct("02"),
-          ]
-        })
+            ParticipantId.reconstruct("03"),
+          ],
+        }),
       ]
+      expect(actual).toStrictEqual(expected)
+    })
+  })
+
+  describe(`getVacantPairList()`, () => {
+    it(`空きのあるペアのリストを返す`, async () => {
+      const actual = await pairRepository.getVacantPairList()
+      const expected = [
+        Pair.reconstruct(PairId.reconstruct("id-pair-b"), {
+          name: PairName.reconstruct("b"),
+          teamId: TeamId.reconstruct("id-team-2"),
+          participantIdList: [
+            ParticipantId.reconstruct("04"),
+            ParticipantId.reconstruct("05"),
+          ],
+        }),
+      ]
+      // HELP: いろいろなプロパティがあってテスト結果が見づらいのでlength飲みを確認するテストを追加したが、もっと良い方法はあるか？
+      expect(actual.length).toBe(1)
       expect(actual).toStrictEqual(expected)
     })
   })

@@ -10,7 +10,7 @@ import { ParticipantId } from "../../domain/participant/participant-id"
 type PrismaPairWithRelations = PrismaPair & {
   teams: {
     id: string
-  }[],
+  }[]
   users: {
     id: string
   }[]
@@ -52,36 +52,57 @@ export class PairRepository implements IPairRepository {
       where: {
         teams: {
           some: {
-            id: teamId.props.value
-          }
-        }
+            id: teamId.props.value,
+          },
+        },
       },
       include: {
         teams: {
           select: {
-            id: true
-          }
+            id: true,
+          },
         },
         users: {
           select: {
-            id: true
-          }
-        }
-      }
+            id: true,
+          },
+        },
+      },
     })
-    return result.map(resource => this.build(resource))
+    return result.map((resource) => this.build(resource))
   }
 
+  /**
+   * 空きのあるペアのリストを返す
+   */
   async getVacantPairList(): Promise<Pair[]> {
-    // TODO:
-    return []
+    // HELP: クエリではじめから弾くほうがパフォーマンス的には良いか？
+    // そもそもこのメソッドの存在自体が好ましくない？(ドメイン知識が漏れ出している？)
+    const result = await this.context.prisma.pair.findMany({
+      include: {
+        users: {
+          select: {
+            id: true,
+          },
+        },
+        teams: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
+    const pairs = result.map((resource) => this.build(resource))
+    return pairs.filter((pair) => pair.canAcceptParticipant())
   }
 
   private build(resource: PrismaPairWithRelations): Pair {
     return Pair.reconstruct(PairId.reconstruct(resource.id), {
       name: PairName.reconstruct(resource.name),
       teamId: TeamId.reconstruct(resource.teams[0].id),
-      participantIdList: resource.users.map(({ id}) => ParticipantId.reconstruct(id))
+      participantIdList: resource.users.map(({ id }) =>
+        ParticipantId.reconstruct(id)
+      ),
     })
   }
 }

@@ -80,7 +80,8 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
   private canRemoveParticipant(): boolean {
     return this.props.participantIdList.length > 2
   }
-  private canAcceptParticipant(): boolean {
+  // HELP: 公開しすぎると、外でロジックが組まれる可能性が高まるので、公開しないほうがよい？
+  public canAcceptParticipant(): boolean {
     return this.props.participantIdList.length <= 2
   }
 }
