@@ -49,6 +49,10 @@ describe(`PairRepository`, () => {
     await context.prisma.$disconnect()
   })
 
+  describe(`insert()`, () => {
+    // 省略
+  })
+
   describe(`getAllPairList()`, () => {
     it(`ペアのリストを返す`, async () => {
       const actual = await pairRepository.getAllPairList()

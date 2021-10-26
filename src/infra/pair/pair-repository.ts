@@ -19,8 +19,18 @@ type PrismaPairWithRelations = PrismaPair & {
 export class PairRepository implements IPairRepository {
   constructor(private readonly context: Context) {}
 
-  async insert(): Promise<void> {
-    // TODO:
+  async insert(pair: Pair): Promise<void> {
+    await this.context.prisma.pair.create({
+      data: {
+        id: pair.id.props.value,
+        name: pair.name.props.value,
+        users: {
+          connect: pair.participantIdList.map((id) => ({
+            id: id.props.value,
+          })),
+        },
+      },
+    })
   }
   async update(): Promise<void> {
     // TODO:
