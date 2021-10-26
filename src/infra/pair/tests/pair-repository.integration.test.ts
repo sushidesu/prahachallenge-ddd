@@ -45,12 +45,10 @@ describe(`PairRepository`, () => {
   })
 
   afterAll(async () => {
+    await context.prisma.team.deleteMany()
+    await context.prisma.user.deleteMany()
     await context.prisma.pair.deleteMany()
     await context.prisma.$disconnect()
-  })
-
-  describe(`insert()`, () => {
-    // 省略
   })
 
   describe(`getAllPairList()`, () => {
