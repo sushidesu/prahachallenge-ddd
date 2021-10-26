@@ -32,8 +32,24 @@ export class PairRepository implements IPairRepository {
       },
     })
   }
-  async update(): Promise<void> {
-    // TODO:
+
+  async update(pair: Pair): Promise<void> {
+    // ref: https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#disconnect-all-related-records
+    // すべての参加者との関連を削除し、新たに関連付けし直す
+    await this.context.prisma.pair.update({
+      where: {
+        id: pair.id.props.value,
+      },
+      data: {
+        name: pair.name.props.value,
+        users: {
+          set: [],
+          connect: pair.participantIdList.map((id) => ({
+            id: id.props.value,
+          })),
+        },
+      },
+    })
   }
 
   async getAllPairList(): Promise<Pair[]> {
