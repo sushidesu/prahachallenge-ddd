@@ -62,7 +62,7 @@ export class PairRepository implements IPairRepository {
   }
 
   async getAllPairList(): Promise<Pair[]> {
-    const result = await this.context.prisma.pair.findMany({
+    const pairs = await this.context.prisma.pair.findMany({
       include: {
         teams: {
           select: {
@@ -76,14 +76,14 @@ export class PairRepository implements IPairRepository {
         },
       },
     })
-    return result.map((resource) => this.build(resource))
+    return pairs.map((pair) => this.build(pair))
   }
 
   /**
    * あるチームに所属しているペアのリストを取得する
    */
   async getPairListInTeam(teamId: TeamId): Promise<Pair[]> {
-    const result = await this.context.prisma.pair.findMany({
+    const pairs = await this.context.prisma.pair.findMany({
       where: {
         teams: {
           some: {
@@ -104,7 +104,7 @@ export class PairRepository implements IPairRepository {
         },
       },
     })
-    return result.map((resource) => this.build(resource))
+    return pairs.map((pair) => this.build(pair))
   }
 
   /**
@@ -127,7 +127,7 @@ export class PairRepository implements IPairRepository {
         },
       },
     })
-    const pairs = result.map((resource) => this.build(resource))
+    const pairs = result.map((pair) => this.build(pair))
     return pairs.filter((pair) => pair.canAcceptParticipant())
   }
 
