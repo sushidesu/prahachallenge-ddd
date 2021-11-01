@@ -40,7 +40,7 @@ describe(`TeamRepository`, () => {
 
   let teamRepository: TeamRepository
   beforeEach(() => {
-    teamRepository = new TeamRepository()
+    teamRepository = new TeamRepository(context)
   })
 
   describe(`getTeamById()`, () => {
@@ -50,9 +50,9 @@ describe(`TeamRepository`, () => {
       const expected = Team.reconstruct(TeamId.reconstruct("id-team-1"), {
         name: TeamName.reconstruct("1"),
         participantIdList: [
-          ParticipantId.reconstruct("01"),
-          ParticipantId.reconstruct("02"),
-          ParticipantId.reconstruct("03"),
+          ParticipantId.reconstruct("id-user-01"),
+          ParticipantId.reconstruct("id-user-02"),
+          ParticipantId.reconstruct("id-user-03"),
         ],
       })
       expect(actual).toStrictEqual(expected)
