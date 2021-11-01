@@ -113,7 +113,7 @@ export class PairRepository implements IPairRepository {
   async getVacantPairList(): Promise<Pair[]> {
     // HELP: クエリではじめから弾くほうがパフォーマンス的には良いか？
     // そもそもこのメソッドの存在自体が好ましくない？(ドメイン知識が漏れ出している？)
-    const result = await this.context.prisma.pair.findMany({
+    const pairs = await this.context.prisma.pair.findMany({
       include: {
         users: {
           select: {
@@ -127,8 +127,9 @@ export class PairRepository implements IPairRepository {
         },
       },
     })
-    const pairs = result.map((pair) => this.build(pair))
-    return pairs.filter((pair) => pair.canAcceptParticipant())
+    return pairs
+      .map((pair) => this.build(pair))
+      .filter((pair) => pair.canAcceptParticipant())
   }
 
   private build(resource: PrismaPairWithRelations): Pair {
