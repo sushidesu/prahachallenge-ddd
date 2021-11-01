@@ -1,9 +1,18 @@
+import { Team as PrismaTeam } from "@prisma/client"
 import { ITeamRepository } from "../../domain/team/interface/team-repository"
 import { Context } from "../shared/context"
 import { Team } from "../../domain/team/team"
 import { TeamId } from "../../domain/team/team-id"
 import { TeamName } from "../../domain/team/team-name"
 import { ParticipantId } from "../../domain/participant/participant-id"
+
+type PrismaTeamWithRelations = PrismaTeam & {
+  pairs: {
+    users: {
+      id: string
+    }[]
+  }[]
+}
 
 export class TeamRepository implements ITeamRepository {
   constructor(private readonly context: Context) {}
@@ -35,12 +44,7 @@ export class TeamRepository implements ITeamRepository {
     if (team === null) {
       return undefined
     }
-    return Team.reconstruct(TeamId.reconstruct(team.id), {
-      name: TeamName.reconstruct(team.name),
-      participantIdList: team.pairs.flatMap((pair) =>
-        pair.users.map((user) => ParticipantId.reconstruct(user.id))
-      ),
-    })
+    return this.build(team)
   }
 
   async getAllTeamList(): Promise<Team[]> {
@@ -57,13 +61,15 @@ export class TeamRepository implements ITeamRepository {
         },
       },
     })
-    return teams.map((team) =>
-      Team.reconstruct(TeamId.reconstruct(team.id), {
-        name: TeamName.reconstruct(team.name),
-        participantIdList: team.pairs.flatMap((pair) =>
-          pair.users.map((user) => ParticipantId.reconstruct(user.id))
-        ),
-      })
-    )
+    return teams.map((team) => this.build(team))
+  }
+
+  private build(resource: PrismaTeamWithRelations): Team {
+    return Team.reconstruct(TeamId.reconstruct(resource.id), {
+      name: TeamName.reconstruct(resource.name),
+      participantIdList: resource.pairs.flatMap((pair) =>
+        pair.users.map((user) => ParticipantId.reconstruct(user.id))
+      ),
+    })
   }
 }
