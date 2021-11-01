@@ -12,7 +12,7 @@ import {
 } from "../../util/db-value-generator"
 import { truncateAllTables } from "../../util/truncate-all-tables"
 
-describe(`PairRepository`, () => {
+describe(`PairRepository (read)`, () => {
   const context = createContext()
 
   let pairRepository: PairRepository
