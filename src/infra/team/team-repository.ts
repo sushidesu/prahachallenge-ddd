@@ -44,7 +44,26 @@ export class TeamRepository implements ITeamRepository {
   }
 
   async getAllTeamList(): Promise<Team[]> {
-    // TODO:
-    return []
+    const teams = await this.context.prisma.team.findMany({
+      include: {
+        pairs: {
+          include: {
+            users: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    })
+    return teams.map((team) =>
+      Team.reconstruct(TeamId.reconstruct(team.id), {
+        name: TeamName.reconstruct(team.name),
+        participantIdList: team.pairs.flatMap((pair) =>
+          pair.users.map((user) => ParticipantId.reconstruct(user.id))
+        ),
+      })
+    )
   }
 }
