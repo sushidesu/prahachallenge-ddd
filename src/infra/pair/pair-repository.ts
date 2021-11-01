@@ -19,11 +19,20 @@ type PrismaPairWithRelations = PrismaPair & {
 export class PairRepository implements IPairRepository {
   constructor(private readonly context: Context) {}
 
+  /**
+   * - ペアを追加する
+   * - チーム・参加者はすでに作成されている必要がある
+   */
   async insert(pair: Pair): Promise<void> {
     await this.context.prisma.pair.create({
       data: {
         id: pair.id.props.value,
         name: pair.name.props.value,
+        teams: {
+          connect: {
+            id: pair.teamId.props.value,
+          },
+        },
         users: {
           connect: pair.participantIdList.map((id) => ({
             id: id.props.value,
