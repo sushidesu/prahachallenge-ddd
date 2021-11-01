@@ -32,6 +32,27 @@ describe(`TeamRepository`, () => {
         },
       },
     })
+    await context.prisma.team.create({
+      data: {
+        ...generateTeam("2"),
+        pairs: {
+          create: [
+            {
+              ...generatePair("b"),
+              users: {
+                create: [generateUser("04"), generateUser("05")],
+              },
+            },
+            {
+              ...generatePair("c"),
+              users: {
+                create: [generateUser("06"), generateUser("07")],
+              },
+            },
+          ],
+        },
+      },
+    })
   })
   afterAll(async () => {
     await truncateAllTables(context)
@@ -55,6 +76,31 @@ describe(`TeamRepository`, () => {
           ParticipantId.reconstruct("id-user-03"),
         ],
       })
+      expect(actual).toStrictEqual(expected)
+    })
+  })
+  describe(`getAllTeamList()`, () => {
+    it(`すべてのチームのリストを返す`, async () => {
+      const actual = await teamRepository.getAllTeamList()
+      const expected = [
+        Team.reconstruct(TeamId.reconstruct("id-team-1"), {
+          name: TeamName.reconstruct("1"),
+          participantIdList: [
+            ParticipantId.reconstruct("id-user-01"),
+            ParticipantId.reconstruct("id-user-02"),
+            ParticipantId.reconstruct("id-user-03"),
+          ],
+        }),
+        Team.reconstruct(TeamId.reconstruct("id-team-2"), {
+          name: TeamName.reconstruct("2"),
+          participantIdList: [
+            ParticipantId.reconstruct("id-user-04"),
+            ParticipantId.reconstruct("id-user-05"),
+            ParticipantId.reconstruct("id-user-06"),
+            ParticipantId.reconstruct("id-user-07"),
+          ],
+        }),
+      ]
       expect(actual).toStrictEqual(expected)
     })
   })
