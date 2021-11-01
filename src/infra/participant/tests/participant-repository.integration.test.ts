@@ -4,6 +4,7 @@ import { Participant } from "../../../domain/participant/participant"
 import { ParticipantId } from "../../../domain/participant/participant-id"
 import { ParticipantName } from "../../../domain/participant/participant-name"
 import { ParticipantRepository } from "../participant-repository"
+import { truncateAllTables } from "../../util/truncate-all-tables"
 
 describe(`ParticipantRepository`, () => {
   const context = createContext()
@@ -26,7 +27,7 @@ describe(`ParticipantRepository`, () => {
   })
 
   afterAll(async () => {
-    await context.prisma.user.deleteMany()
+    await truncateAllTables(context)
     await context.prisma.$disconnect()
   })
 

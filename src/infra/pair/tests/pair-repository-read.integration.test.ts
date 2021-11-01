@@ -10,6 +10,7 @@ import {
   generateTeam,
   generateUser,
 } from "../../util/db-value-generator"
+import { truncateAllTables } from "../../util/truncate-all-tables"
 
 describe(`PairRepository`, () => {
   const context = createContext()
@@ -45,9 +46,7 @@ describe(`PairRepository`, () => {
   })
 
   afterAll(async () => {
-    await context.prisma.team.deleteMany()
-    await context.prisma.user.deleteMany()
-    await context.prisma.pair.deleteMany()
+    await truncateAllTables(context)
     await context.prisma.$disconnect()
   })
 

@@ -5,6 +5,7 @@ import {
   generateTeam,
   generateUser,
 } from "../../util/db-value-generator"
+import { truncateAllTables } from "../../util/truncate-all-tables"
 import { Pair } from "../../../domain/pair/pair"
 import { PairId } from "../../../domain/pair/pair-id"
 import { PairName } from "../../../domain/pair/pair-name"
@@ -43,11 +44,7 @@ describe(`PairRepository (write)`, () => {
   })
 
   afterAll(async () => {
-    await context.prisma.$transaction([
-      context.prisma.team.deleteMany(),
-      context.prisma.pair.deleteMany(),
-      context.prisma.user.deleteMany(),
-    ])
+    await truncateAllTables(context)
     await context.prisma.$disconnect()
   })
 
