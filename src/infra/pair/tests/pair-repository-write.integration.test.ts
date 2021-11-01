@@ -15,31 +15,39 @@ describe(`PairRepository (write)`, () => {
   const context = createContext()
 
   beforeAll(async () => {
-    await context.prisma.user.createMany({
-      data: [generateUser("insert-01"), generateUser("insert-02")],
-    })
-    await context.prisma.team.create({
-      data: generateTeam("insert"),
-    })
-    await context.prisma.pair.create({
-      data: generatePair("update-name"),
-    })
-    await context.prisma.pair.create({
-      data: {
-        ...generatePair("update-users"),
-        users: {
-          create: [generateUser("01"), generateUser("02")],
+    await Promise.all([
+      // for test insert()
+      context.prisma.user.createMany({
+        data: [generateUser("insert-01"), generateUser("insert-02")],
+      }),
+      context.prisma.team.create({
+        data: generateTeam("insert"),
+      }),
+      // for test update()
+      context.prisma.pair.create({
+        data: generatePair("update-name"),
+      }),
+      // for test update()
+      context.prisma.pair.create({
+        data: {
+          ...generatePair("update-users"),
+          users: {
+            create: [generateUser("01"), generateUser("02")],
+          },
         },
-      },
-    })
-    await context.prisma.user.createMany({
-      data: [generateUser("03"), generateUser("04")],
-    })
+      }),
+      context.prisma.user.createMany({
+        data: [generateUser("03"), generateUser("04")],
+      }),
+    ])
   })
+
   afterAll(async () => {
-    await context.prisma.team.deleteMany()
-    await context.prisma.pair.deleteMany()
-    await context.prisma.user.deleteMany()
+    await context.prisma.$transaction([
+      context.prisma.team.deleteMany(),
+      context.prisma.pair.deleteMany(),
+      context.prisma.user.deleteMany(),
+    ])
     await context.prisma.$disconnect()
   })
 
@@ -132,6 +140,9 @@ describe(`PairRepository (write)`, () => {
           users: {
             select: {
               id: true,
+            },
+            orderBy: {
+              id: "asc",
             },
           },
         },
