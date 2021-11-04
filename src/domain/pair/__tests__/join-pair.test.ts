@@ -71,6 +71,7 @@ describe("JoinPair", () => {
       )
 
       const expected = {
+        createdPairList: [],
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
@@ -122,15 +123,17 @@ describe("JoinPair", () => {
         })
       )
       const expected = {
+        createdPairList: [
+          Pair.reconstruct(PairId.reconstruct("b"), {
+            name: PairName.reconstruct("b"),
+            participantIdList: [participant_c, participant.id],
+            teamId: TeamId.reconstruct("1"),
+          }),
+        ],
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b],
-            teamId: TeamId.reconstruct("1"),
-          }),
-          Pair.reconstruct(PairId.reconstruct("b"), {
-            name: PairName.reconstruct("b"),
-            participantIdList: [participant_c, participant.id],
             teamId: TeamId.reconstruct("1"),
           }),
         ],
