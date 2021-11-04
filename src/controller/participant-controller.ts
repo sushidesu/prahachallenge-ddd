@@ -7,6 +7,9 @@ export class ParticipantController {
   public create: RequestHandler = async (req, res, next) => {
     try {
       const { name, email } = req.body
+      if (typeof name !== "string" || typeof email !== "string") {
+        throw new Error("name, email is required")
+      }
       const inputData = new JoinPrahaChallengeInputData({
         name,
         email,
