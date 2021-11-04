@@ -19,7 +19,7 @@ describe(`TeamRepository`, () => {
   })
 
   // HELP: ペアへの参照も必要になる？
-  describe(`insert()`, async () => {
+  describe(`insert()`, () => {
     //    const team = Team.reconstruct(TeamId.reconstruct("id-team-1"), {
     //      name: TeamName.reconstruct("1"),
     //      participantIdList: [
