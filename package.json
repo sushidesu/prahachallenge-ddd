@@ -22,6 +22,7 @@
     "prepare": "husky install",
     "migrate:dev": "dotenv -e .env.development prisma migrate dev",
     "migrate:test": "dotenv -e .env.test prisma migrate reset -- --force",
+    "reset-development-database": "dotenv -e .env.development prisma migrate reset && dotenv -e .env.development ts-node scripts/register-sample-data.ts",
     "docker:up": "cd .docker && docker-compose up -d",
     "docker:down": "cd .docker && docker-compose down"
   },
