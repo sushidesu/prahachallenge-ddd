@@ -16,8 +16,8 @@ const participantRouter = Router()
 // repository
 const context = createContext()
 const participantRepository = new ParticipantRepository(context)
-const pairRepository = new PairRepository()
-const teamRepository = new TeamRepository()
+const pairRepository = new PairRepository(context)
+const teamRepository = new TeamRepository(context)
 
 // domain-service
 const checkEmailAlreadyExists = new CheckEmailAlreadyExists(

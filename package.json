@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev src/main.ts",
-    "start": "node dist/main.js",
+    "start": "dotenv -e .env.development node dist/main.js",
     "build": "npm-run-all build:clean build:bundle",
     "build:clean": "rimraf dist/*",
     "build:bundle": "esbuild src/main.ts --bundle --platform=node --minify --outdir=dist --format=cjs",
