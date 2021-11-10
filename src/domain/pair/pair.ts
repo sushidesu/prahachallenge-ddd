@@ -26,6 +26,9 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     return new Pair(id, props)
   }
 
+  public get name(): PairName {
+    return this.props.name
+  }
   public get teamId(): TeamId {
     return this.props.teamId
   }

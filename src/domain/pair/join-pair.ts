@@ -48,10 +48,9 @@ export class JoinPair extends DomainService<"join-pair"> {
       const targetPair = pairs[0]
       // ターゲットのペアから1人脱退
       const { removedParticipantId } = targetPair.removeParticipant()
-      // もう一つペアを作成
-      // TODO: 名前はチーム内でかぶらないようにしたいので、factoryを修正する
-      const newPair = this.pairFactory.create({
-        name: "b",
+      // もう一つペアを作成 (同じチームにする)
+      const newPair = await this.pairFactory.create({
+        teamId: targetPair.teamId,
         participantIdList: [removedParticipantId, participant.id],
       })
       // チームに加入する

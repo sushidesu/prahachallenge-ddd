@@ -18,6 +18,7 @@ describe("JoinPair", () => {
     save: jest.fn(),
     getVacantPairList: jest.fn(),
     getAllPairList: jest.fn(),
+    getPairListInTeam: jest.fn(),
   }
   const teamRepositoryMock: jest.Mocked<ITeamRepository> = {
     save: jest.fn(),
@@ -118,11 +119,11 @@ describe("JoinPair", () => {
         }),
       ])
       pairFactoryMock.create.mockImplementation(
-        (props: { name: string; participantIdList: ParticipantId[] }) =>
+        async ({ teamId, participantIdList }) =>
           Pair.reconstruct(PairId.reconstruct("b"), {
-            name: PairName.reconstruct(props.name),
-            participantIdList: props.participantIdList,
-            teamId: TeamId.reconstruct("1"),
+            name: PairName.reconstruct("b"),
+            participantIdList: participantIdList,
+            teamId,
           })
       )
       // team-repositoryは3名のペアが所属しているチームを返す
