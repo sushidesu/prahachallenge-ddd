@@ -33,6 +33,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@sushidesu/trun": "^2.0.1",
     "@types/express": "^4.17.13",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.9",

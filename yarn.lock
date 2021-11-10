@@ -586,6 +586,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@sushidesu/trun@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@sushidesu/trun/-/trun-2.0.1.tgz#718364f6f091d5dffce927c32c6be4c9ce9e5db6"
+  integrity sha512-Bj400qYFXwGjPQHNE4BcZEEgQddZa+xJk/0bu0e+CkCOc0th0Bo2N4eJQbDS9P1wrNxrvvMhsjJtaCL4808Qtw==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
