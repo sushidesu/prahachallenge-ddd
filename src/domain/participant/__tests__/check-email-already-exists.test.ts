@@ -1,3 +1,4 @@
+import { mock } from "jest-mock-extended"
 import { CheckEmailAlreadyExists } from "../check-email-already-exists"
 import { Email } from "../email"
 import { IParticipantRepository } from "../interface/participant-repository"
@@ -6,13 +7,9 @@ import { Participant } from "../participant"
 import { ParticipantId } from "../participant-id"
 
 describe("CheckEmailAlreadyExists", () => {
-  let participantRepositoryMock: jest.Mocked<IParticipantRepository>
-  beforeEach(() => {
-    participantRepositoryMock = {
-      getParticipantById: jest.fn(),
-      saveParticipant: jest.fn(),
-      getParticipantsByEmail: jest.fn(),
-    } as unknown as jest.Mocked<IParticipantRepository>
+  const participantRepositoryMock = mock<IParticipantRepository>()
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   it("与えられたメールアドレスを持つ参加者が1人以上存在する場合 true を返す", async () => {

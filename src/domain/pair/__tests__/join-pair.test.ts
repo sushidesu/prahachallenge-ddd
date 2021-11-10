@@ -1,3 +1,4 @@
+import { mock } from "jest-mock-extended"
 import { JoinPair } from "../join-pair"
 import { IPairRepository } from "../interface/pair-repository"
 import { Pair } from "../pair"
@@ -14,22 +15,9 @@ import { Team } from "../../team/team"
 import { TeamName } from "../../team/team-name"
 
 describe("JoinPair", () => {
-  const pairRepositoryMock: jest.Mocked<IPairRepository> = {
-    save: jest.fn(),
-    getVacantPairList: jest.fn(),
-    getAllPairList: jest.fn(),
-    getPairListInTeam: jest.fn(),
-  }
-  const teamRepositoryMock: jest.Mocked<ITeamRepository> = {
-    save: jest.fn(),
-    getTeamById: jest.fn(),
-    getAllTeamList: jest.fn(),
-  }
-  const pairFactoryMock: jest.Mocked<PairFactory> = {
-    // @ts-expect-error _brand
-    _brand: undefined,
-    create: jest.fn(),
-  }
+  const pairRepositoryMock = mock<IPairRepository>()
+  const teamRepositoryMock = mock<ITeamRepository>()
+  const pairFactoryMock = mock<PairFactory>()
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -83,6 +71,7 @@ describe("JoinPair", () => {
       )
 
       const expected = {
+        createdPairList: [],
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
@@ -134,15 +123,17 @@ describe("JoinPair", () => {
         })
       )
       const expected = {
+        createdPairList: [
+          Pair.reconstruct(PairId.reconstruct("b"), {
+            name: PairName.reconstruct("b"),
+            participantIdList: [participant_c, participant.id],
+            teamId: TeamId.reconstruct("1"),
+          }),
+        ],
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b],
-            teamId: TeamId.reconstruct("1"),
-          }),
-          Pair.reconstruct(PairId.reconstruct("b"), {
-            name: PairName.reconstruct("b"),
-            participantIdList: [participant_c, participant.id],
             teamId: TeamId.reconstruct("1"),
           }),
         ],

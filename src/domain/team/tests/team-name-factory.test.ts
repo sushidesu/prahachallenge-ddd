@@ -1,3 +1,4 @@
+import { mock } from "jest-mock-extended"
 import { TeamNameFactory } from "../team-name-factory"
 import { ITeamRepository } from "../interface/team-repository"
 import { TeamName } from "../team-name"
@@ -5,11 +6,7 @@ import { Team } from "../team"
 import { TeamId } from "../team-id"
 
 describe(`TeamNameFactory`, () => {
-  const teamRepositoryMock: jest.Mocked<ITeamRepository> = {
-    save: jest.fn(),
-    getTeamById: jest.fn(),
-    getAllTeamList: jest.fn(),
-  }
+  const teamRepositoryMock = mock<ITeamRepository>()
   afterEach(() => {
     jest.resetAllMocks()
   })

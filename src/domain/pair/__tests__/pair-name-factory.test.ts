@@ -1,3 +1,4 @@
+import { mock } from "jest-mock-extended"
 import { PairNameFactory } from "../pair-name-factory"
 import { IPairRepository } from "../interface/pair-repository"
 import { TeamId } from "../../team/team-id"
@@ -6,12 +7,8 @@ import { PairId } from "../pair-id"
 import { PairName } from "../pair-name"
 
 describe(`PairNameFactory`, () => {
-  const pairRepositoryMock: jest.Mocked<IPairRepository> = {
-    getAllPairList: jest.fn(),
-    getPairListInTeam: jest.fn(),
-    getVacantPairList: jest.fn(),
-    save: jest.fn(),
-  }
+  const pairRepositoryMock = mock<IPairRepository>()
+
   afterEach(() => {
     jest.resetAllMocks()
   })

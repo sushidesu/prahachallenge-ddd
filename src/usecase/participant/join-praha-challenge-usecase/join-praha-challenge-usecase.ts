@@ -25,19 +25,22 @@ export class JoinPrahaChallengeUsecase {
     })
 
     // 空きのあるペアに加入する
-    const { changedPairList, changedTeamList } = await this.joinPair.do(
-      participant
-    )
+    const { createdPairList, changedPairList, changedTeamList } =
+      await this.joinPair.do(participant)
 
-    // 参加者を新規追加
-    await this.participantRepository.save(participant)
+    // 新規作成された参加者を追加
+    await this.participantRepository.insert(participant)
+    // 新規作成されたペアを追加
+    await Promise.all(
+      createdPairList.map((pair) => this.pairRepository.insert(pair))
+    )
     // 変更のあったペアを保存
     await Promise.all(
-      changedPairList.map((pair) => this.pairRepository.save(pair))
+      changedPairList.map((pair) => this.pairRepository.update(pair))
     )
     // 変更のあったチームを保存
     await Promise.all(
-      changedTeamList.map((team) => this.teamRepository.save(team))
+      changedTeamList.map((team) => this.teamRepository.update(team))
     )
   }
 }
