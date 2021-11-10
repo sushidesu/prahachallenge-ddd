@@ -2,6 +2,7 @@ import { DomainService } from "../shared/domainService"
 import { Participant } from "../participant/participant"
 import { Pair } from "./pair"
 import { PairFactory } from "./pair-factory"
+import { GetVacantPairList } from "./get-vacant-pair-list"
 import { IPairRepository } from "./interface/pair-repository"
 import { Team } from "../team/team"
 import { ITeamRepository } from "../team/interface/team-repository"
@@ -10,7 +11,8 @@ export class JoinPair extends DomainService<"join-pair"> {
   constructor(
     private pairRepository: IPairRepository,
     private teamRepository: ITeamRepository,
-    private pairFactory: PairFactory
+    private pairFactory: PairFactory,
+    private getVacantPairList: GetVacantPairList
   ) {
     super()
   }
@@ -21,7 +23,7 @@ export class JoinPair extends DomainService<"join-pair"> {
     changedTeamList: Team[]
   }> {
     // 空きのあるペアを探す
-    const vacantPairs = await this.pairRepository.getVacantPairList()
+    const vacantPairs = await this.getVacantPairList.do()
 
     // 空きがある場合、そのペアに加入する
     // そのペアが所属しているチームにも加入する
