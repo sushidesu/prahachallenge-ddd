@@ -6,5 +6,4 @@ export interface IPairRepository {
   update(pair: Pair): Promise<void>
   getAllPairList(): Promise<Pair[]>
   getPairListInTeam(teamId: TeamId): Promise<Pair[]>
-  getVacantPairList(): Promise<Pair[]>
 }
