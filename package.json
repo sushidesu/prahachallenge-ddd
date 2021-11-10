@@ -16,6 +16,7 @@
     "format:fix": "prettier --write src",
     "typecheck": "tsc --noEmit",
     "test": "jest --testPathIgnorePatterns=integration",
+    "test:it": "trun \"yarn test --testPathPattern={}\"",
     "test:watch": "yarn test --watch",
     "test:integration": "yarn migrate:test && dotenv -e .env.test -- jest -i --testPathPattern=integration",
     "test:in": "trun \"yarn migrate:test && dotenv -e .env.test -- jest -i --testPathPattern={}.*integration\"",
