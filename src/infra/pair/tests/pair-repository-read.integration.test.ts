@@ -94,23 +94,8 @@ describe(`PairRepository (read)`, () => {
       expect(actual).toStrictEqual(expected)
     })
   })
-
-  describe(`getVacantPairList()`, () => {
-    it(`空きのあるペアのリストを返す`, async () => {
-      const actual = await pairRepository.getVacantPairList()
-      const expected = [
-        Pair.reconstruct(PairId.reconstruct("id-pair-b"), {
-          name: PairName.reconstruct("b"),
-          teamId: TeamId.reconstruct("id-team-2"),
-          participantIdList: [
-            ParticipantId.reconstruct("id-user-04"),
-            ParticipantId.reconstruct("id-user-05"),
-          ],
-        }),
-      ]
-      // HELP: いろいろなプロパティがあってテスト結果が見づらいのでlength飲みを確認するテストを追加したが、もっと良い方法はあるか？
-      expect(actual.length).toBe(1)
-      expect(actual).toStrictEqual(expected)
-    })
-  })
 })
+
+// HELP: いろいろなプロパティがあってテスト結果が見づらいのでlength飲みを確認するテストを追加したが、もっと良い方法はあるか？
+// expect(actual.length).toBe(1)
+// expect(actual).toStrictEqual(expected)

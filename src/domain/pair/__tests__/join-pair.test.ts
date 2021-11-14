@@ -1,23 +1,28 @@
 import { mock } from "jest-mock-extended"
 import { JoinPair } from "../join-pair"
-import { IPairRepository } from "../interface/pair-repository"
-import { Pair } from "../pair"
-import { PairId } from "../pair-id"
-import { ParticipantId } from "../../participant/participant-id"
-import { PairName } from "../pair-name"
-import { Participant } from "../../participant/participant"
-import { ParticipantName } from "../../participant/participant-name"
-import { Email } from "../../participant/email"
-import { PairFactory } from "../pair-factory"
+// entity
 import { TeamId } from "../../team/team-id"
-import { ITeamRepository } from "../../team/interface/team-repository"
 import { Team } from "../../team/team"
 import { TeamName } from "../../team/team-name"
+import { Pair } from "../pair"
+import { PairId } from "../pair-id"
+import { PairName } from "../pair-name"
+import { Participant } from "../../participant/participant"
+import { ParticipantId } from "../../participant/participant-id"
+import { ParticipantName } from "../../participant/participant-name"
+import { Email } from "../../participant/email"
+// repository
+import { ITeamRepository } from "../../team/interface/team-repository"
+import { IPairRepository } from "../interface/pair-repository"
+// domain service
+import { PairFactory } from "../pair-factory"
+import { GetVacantPairList } from "../get-vacant-pair-list"
 
 describe("JoinPair", () => {
   const pairRepositoryMock = mock<IPairRepository>()
   const teamRepositoryMock = mock<ITeamRepository>()
   const pairFactoryMock = mock<PairFactory>()
+  const getVacantPairListMock = mock<GetVacantPairList>()
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -39,7 +44,8 @@ describe("JoinPair", () => {
     joinPair = new JoinPair(
       pairRepositoryMock,
       teamRepositoryMock,
-      pairFactoryMock
+      pairFactoryMock,
+      getVacantPairListMock
     )
   })
 
@@ -55,8 +61,8 @@ describe("JoinPair", () => {
         participantIdList: [participant_c, participant_d],
         teamId: TeamId.reconstruct("1"),
       })
-      // pair-repositoryは2名のペア * 2 を返す
-      pairRepositoryMock.getVacantPairList.mockResolvedValue([pairA, pairB])
+      // get-vacant-pair-listは2名のペア2つを返す
+      getVacantPairListMock.do.mockResolvedValue([pairA, pairB])
       // team-repositoryは2名のペア*2が所属しているチームを返す
       teamRepositoryMock.getTeamById.mockResolvedValue(
         Team.reconstruct(TeamId.reconstruct("1"), {
@@ -98,7 +104,7 @@ describe("JoinPair", () => {
   describe("全てのペアに空きがない場合、ペアを分割する", () => {
     it("3名のペアが1つ存在するとき、ペアを2つに分割し、加入する", async () => {
       // 空きのあるペアなし
-      pairRepositoryMock.getVacantPairList.mockResolvedValue([])
+      getVacantPairListMock.do.mockResolvedValue([])
       // pair-repositoryは3名のペアを1つ返す
       pairRepositoryMock.getAllPairList.mockResolvedValue([
         Pair.reconstruct(PairId.reconstruct("a"), {
@@ -154,7 +160,7 @@ describe("JoinPair", () => {
     })
   })
   it("ペアが1つも存在しない場合、エラーになる", async () => {
-    pairRepositoryMock.getVacantPairList.mockResolvedValue([])
+    getVacantPairListMock.do.mockResolvedValue([])
     pairRepositoryMock.getAllPairList.mockResolvedValue([])
     await expect(joinPair.do(participant)).rejects.toThrowError(
       "no pair exists"
