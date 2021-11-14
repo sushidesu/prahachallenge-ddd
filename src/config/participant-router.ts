@@ -11,6 +11,7 @@ import { PairNameFactory } from "../domain/pair/pair-name-factory"
 import { PairFactory } from "../domain/pair/pair-factory"
 import { JoinPair } from "../domain/pair/join-pair"
 import { GetVacantPairList } from "../domain/pair/get-vacant-pair-list"
+import { GetParentTeam } from "../domain/pair/get-parent-team"
 
 const participantRouter = Router()
 
@@ -28,11 +29,12 @@ const participantFactory = new ParticipantFactory(checkEmailAlreadyExists)
 const pairNameFactory = new PairNameFactory(pairRepository)
 const pairFactory = new PairFactory(pairNameFactory)
 const getVacantPairList = new GetVacantPairList(pairRepository)
+const getParentTeam = new GetParentTeam()
 const joinPair = new JoinPair(
   pairRepository,
-  teamRepository,
   pairFactory,
-  getVacantPairList
+  getVacantPairList,
+  getParentTeam
 )
 
 // usecase

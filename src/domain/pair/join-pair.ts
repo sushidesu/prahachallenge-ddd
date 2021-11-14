@@ -4,15 +4,15 @@ import { Pair } from "./pair"
 import { PairFactory } from "./pair-factory"
 import { GetVacantPairList } from "./get-vacant-pair-list"
 import { IPairRepository } from "./interface/pair-repository"
+import { GetParentTeam } from "./get-parent-team"
 import { Team } from "../team/team"
-import { ITeamRepository } from "../team/interface/team-repository"
 
 export class JoinPair extends DomainService<"join-pair"> {
   constructor(
     private pairRepository: IPairRepository,
-    private teamRepository: ITeamRepository,
     private pairFactory: PairFactory,
-    private getVacantPairList: GetVacantPairList
+    private getVacantPairList: GetVacantPairList,
+    private getParentTeam: GetParentTeam
   ) {
     super()
   }
@@ -29,12 +29,13 @@ export class JoinPair extends DomainService<"join-pair"> {
     // そのペアが所属しているチームにも加入する
     if (vacantPairs.length) {
       const targetPair = vacantPairs[0]
-      const targetTeam = await this.teamRepository.getTeamById(
-        targetPair.teamId
-      )
+      const targetTeam = await this.getParentTeam.do(targetPair)
       if (!targetTeam) {
-        throw new Error()
+        throw new Error(
+          `pair: ${targetPair.id} はどのチームにも所属していません`
+        )
       }
+      // 加入
       targetPair.acceptParticipant(participant.id)
       targetTeam.acceptParticipant(participant.id)
       return {
@@ -49,22 +50,26 @@ export class JoinPair extends DomainService<"join-pair"> {
       // ターゲットとなるペアを取得
       const pairs = await this.pairRepository.getAllPairList()
       if (!pairs.length) throw new Error("no pair exists")
+
+      // 分割対象のペア
       const targetPair = pairs[0]
+      const targetTeam = await this.getParentTeam.do(targetPair)
+      if (!targetTeam) {
+        throw new Error(
+          `pair: ${targetPair.id} はどのチームにも所属していません`
+        )
+      }
+
       // ターゲットのペアから1人脱退
       const { removedParticipantId } = targetPair.removeParticipant()
       // もう一つペアを作成 (同じチームにする)
       const newPair = await this.pairFactory.create({
-        teamId: targetPair.teamId,
+        teamId: targetTeam.id,
         participantIdList: [removedParticipantId, participant.id],
       })
       // チームに加入する
-      const targetTeam = await this.teamRepository.getTeamById(
-        targetPair.teamId
-      )
-      if (!targetTeam) {
-        throw new Error()
-      }
       targetTeam.acceptParticipant(participant.id)
+
       return {
         createdPairList: [newPair],
         changedPairList: [targetPair],

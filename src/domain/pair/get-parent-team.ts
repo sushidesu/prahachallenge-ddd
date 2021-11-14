@@ -1,4 +1,5 @@
 import { DomainService } from "../shared/domainService"
+import { Pair } from "./pair"
 import { Team } from "../team/team"
 
 export class GetParentTeam extends DomainService<"get-parent-team"> {
@@ -6,7 +7,8 @@ export class GetParentTeam extends DomainService<"get-parent-team"> {
     super()
   }
 
-  async do(): Promise<Team | undefined> {
+  async do(pair: Pair): Promise<Team | undefined> {
+    console.log(pair)
     return undefined
   }
 }
