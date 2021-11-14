@@ -107,30 +107,11 @@ export class PairRepository implements IPairRepository {
     return pairs.map((pair) => this.build(pair))
   }
 
-  /**
-   * 空きのあるペアのリストを返す
-   */
-  async getVacantPairList(): Promise<Pair[]> {
-    // HELP: クエリではじめから弾くほうがパフォーマンス的には良いか？
-    // そもそもこのメソッドの存在自体が好ましくない？(ドメイン知識が漏れ出している？)
-    const pairs = await this.context.prisma.pair.findMany({
-      include: {
-        users: {
-          select: {
-            id: true,
-          },
-        },
-        teams: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    })
-    return pairs
-      .map((pair) => this.build(pair))
-      .filter((pair) => pair.canAcceptParticipant())
-  }
+  //  async getVacantPairList(): Promise<Pair[]> {}
+  //
+  // HELP: クエリではじめから弾くほうがパフォーマンス的には良いか？
+  // そもそもこのメソッドの存在自体が好ましくない？(ドメイン知識が漏れ出している？)
+  // -> get-vacant-pair-list ドメインサービスに移行しました
 
   private build(resource: PrismaPairWithRelations): Pair {
     return Pair.reconstruct(PairId.reconstruct(resource.id), {
