@@ -12,17 +12,17 @@ import { ParticipantId } from "../../participant/participant-id"
 import { ParticipantName } from "../../participant/participant-name"
 import { Email } from "../../participant/email"
 // repository
-import { ITeamRepository } from "../../team/interface/team-repository"
 import { IPairRepository } from "../interface/pair-repository"
 // domain service
 import { PairFactory } from "../pair-factory"
 import { GetVacantPairList } from "../get-vacant-pair-list"
+import { GetParentTeam } from "../get-parent-team"
 
 describe("JoinPair", () => {
   const pairRepositoryMock = mock<IPairRepository>()
-  const teamRepositoryMock = mock<ITeamRepository>()
   const pairFactoryMock = mock<PairFactory>()
   const getVacantPairListMock = mock<GetVacantPairList>()
+  const getParentTeamMock = mock<GetParentTeam>()
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -43,9 +43,9 @@ describe("JoinPair", () => {
   beforeEach(() => {
     joinPair = new JoinPair(
       pairRepositoryMock,
-      teamRepositoryMock,
       pairFactoryMock,
-      getVacantPairListMock
+      getVacantPairListMock,
+      getParentTeamMock
     )
   })
 
@@ -63,8 +63,8 @@ describe("JoinPair", () => {
       })
       // get-vacant-pair-listは2名のペア2つを返す
       getVacantPairListMock.do.mockResolvedValue([pairA, pairB])
-      // team-repositoryは2名のペア*2が所属しているチームを返す
-      teamRepositoryMock.getTeamById.mockResolvedValue(
+      // get-parent-teamは2名のペア*2が所属しているチームを返す
+      getParentTeamMock.do.mockResolvedValue(
         Team.reconstruct(TeamId.reconstruct("1"), {
           name: TeamName.reconstruct("1"),
           participantIdList: [
@@ -121,8 +121,8 @@ describe("JoinPair", () => {
             teamId,
           })
       )
-      // team-repositoryは3名のペアが所属しているチームを返す
-      teamRepositoryMock.getTeamById.mockResolvedValue(
+      // get-parent-teamは3名のペアが所属しているチームを返す
+      getParentTeamMock.do.mockResolvedValue(
         Team.reconstruct(TeamId.reconstruct("1"), {
           name: TeamName.reconstruct("1"),
           participantIdList: [participant_a, participant_b, participant_c],
