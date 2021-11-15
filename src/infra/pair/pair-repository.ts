@@ -8,9 +8,6 @@ import { TeamId } from "../../domain/team/team-id"
 import { ParticipantId } from "../../domain/participant/participant-id"
 
 type PrismaPairWithRelations = PrismaPair & {
-  teams: {
-    id: string
-  }[]
   users: {
     id: string
   }[]
@@ -28,11 +25,6 @@ export class PairRepository implements IPairRepository {
       data: {
         id: pair.id.props.value,
         name: pair.name.props.value,
-        teams: {
-          connect: {
-            id: pair.teamId.props.value,
-          },
-        },
         users: {
           connect: pair.participantIdList.map((id) => ({
             id: id.props.value,
@@ -64,11 +56,6 @@ export class PairRepository implements IPairRepository {
   async getAllPairList(): Promise<Pair[]> {
     const pairs = await this.context.prisma.pair.findMany({
       include: {
-        teams: {
-          select: {
-            id: true,
-          },
-        },
         users: {
           select: {
             id: true,
@@ -92,11 +79,6 @@ export class PairRepository implements IPairRepository {
         },
       },
       include: {
-        teams: {
-          select: {
-            id: true,
-          },
-        },
         users: {
           select: {
             id: true,
@@ -116,7 +98,6 @@ export class PairRepository implements IPairRepository {
   private build(resource: PrismaPairWithRelations): Pair {
     return Pair.reconstruct(PairId.reconstruct(resource.id), {
       name: PairName.reconstruct(resource.name),
-      teamId: TeamId.reconstruct(resource.teams[0].id),
       participantIdList: resource.users.map(({ id }) =>
         ParticipantId.reconstruct(id)
       ),
