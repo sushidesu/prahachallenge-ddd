@@ -1,10 +1,10 @@
 import { mock } from "jest-mock-extended"
 import { CheckEmailAlreadyExists } from "../check-email-already-exists"
-import { Email } from "../email"
-import { IParticipantRepository } from "../interface/participant-repository"
-import { ParticipantName } from "../participant-name"
-import { Participant } from "../participant"
-import { ParticipantId } from "../participant-id"
+import { Email } from "../../email"
+import { IParticipantRepository } from "../../interface/participant-repository"
+import { ParticipantName } from "../../participant-name"
+import { Participant } from "../../participant"
+import { ParticipantId } from "../../participant-id"
 
 describe("CheckEmailAlreadyExists", () => {
   const participantRepositoryMock = mock<IParticipantRepository>()

@@ -1,7 +1,7 @@
 import { IParticipantRepository } from "../../../domain/participant/interface/participant-repository"
 import { ParticipantId } from "../../../domain/participant/participant-id"
 import { UpdateProfileInputData } from "./update-profile-input-data"
-import { CheckEmailAlreadyExists } from "../../../domain/participant/check-email-already-exists"
+import { CheckEmailAlreadyExists } from "../../../domain/participant/domain-service/check-email-already-exists"
 
 export class UpdateProfileUsecase {
   constructor(

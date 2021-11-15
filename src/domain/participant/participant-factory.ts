@@ -3,7 +3,7 @@ import { Participant } from "./participant"
 import { ParticipantId } from "./participant-id"
 import { ParticipantName } from "./participant-name"
 import { Email } from "./email"
-import { CheckEmailAlreadyExists } from "./check-email-already-exists"
+import { CheckEmailAlreadyExists } from "./domain-service/check-email-already-exists"
 
 export interface ParticipantFactoryProps {
   name: string
