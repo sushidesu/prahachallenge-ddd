@@ -1,27 +1,21 @@
 import { DomainService } from "../shared/domainService"
 import { Pair } from "./pair"
 import { ParticipantId } from "../participant/participant-id"
-import { TeamId } from "../team/team-id"
-import { PairNameFactory } from "./pair-name-factory"
+import { PairName } from "./pair-name"
 
 export interface PairFactoryProps {
-  teamId: TeamId
+  name: string
   participantIdList: ParticipantId[]
 }
 
 export class PairFactory extends DomainService<"pair-factory"> {
-  constructor(private pairNameFactory: PairNameFactory) {
-    super()
-  }
-
   public async create({
-    teamId,
+    name,
     participantIdList,
   }: PairFactoryProps): Promise<Pair> {
-    const pairName = await this.pairNameFactory.create(teamId)
+    const pairName = PairName.create(name)
     return Pair.createFromFactory({
       name: pairName,
-      teamId,
       participantIdList,
     })
   }
