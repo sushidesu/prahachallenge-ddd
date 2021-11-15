@@ -17,12 +17,14 @@ import { IPairRepository } from "../interface/pair-repository"
 import { PairFactory } from "../pair-factory"
 import { GetVacantPairList } from "../get-vacant-pair-list"
 import { GetParentTeam } from "../get-parent-team"
+import { GeneratePairName } from "../generate-pair-name"
 
 describe("JoinPair", () => {
   const pairRepositoryMock = mock<IPairRepository>()
   const pairFactoryMock = mock<PairFactory>()
   const getVacantPairListMock = mock<GetVacantPairList>()
   const getParentTeamMock = mock<GetParentTeam>()
+  const generatePairNameMock = mock<GeneratePairName>()
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -45,7 +47,8 @@ describe("JoinPair", () => {
       pairRepositoryMock,
       pairFactoryMock,
       getVacantPairListMock,
-      getParentTeamMock
+      getParentTeamMock,
+      generatePairNameMock
     )
   })
 
@@ -54,12 +57,10 @@ describe("JoinPair", () => {
       const pairA = Pair.reconstruct(PairId.reconstruct("a"), {
         name: PairName.reconstruct("a"),
         participantIdList: [participant_a, participant_b],
-        teamId: TeamId.reconstruct("1"),
       })
       const pairB = Pair.reconstruct(PairId.reconstruct("b"), {
         name: PairName.reconstruct("b"),
         participantIdList: [participant_c, participant_d],
-        teamId: TeamId.reconstruct("1"),
       })
       // get-vacant-pair-listは2名のペア2つを返す
       getVacantPairListMock.do.mockResolvedValue([pairA, pairB])
@@ -82,7 +83,6 @@ describe("JoinPair", () => {
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b, participant.id],
-            teamId: TeamId.reconstruct("1"),
           }),
         ],
         changedTeamList: [
@@ -110,17 +110,17 @@ describe("JoinPair", () => {
         Pair.reconstruct(PairId.reconstruct("a"), {
           name: PairName.reconstruct("a"),
           participantIdList: [participant_a, participant_b, participant_c],
-          teamId: TeamId.reconstruct("1"),
         }),
       ])
-      pairFactoryMock.create.mockImplementation(
-        async ({ teamId, participantIdList }) =>
-          Pair.reconstruct(PairId.reconstruct("b"), {
-            name: PairName.reconstruct("b"),
-            participantIdList: participantIdList,
-            teamId,
-          })
+      // 新たにペアbを作成する
+      pairFactoryMock.create.mockImplementation(async ({ participantIdList }) =>
+        Pair.reconstruct(PairId.reconstruct("b"), {
+          name: PairName.reconstruct("b"),
+          participantIdList: participantIdList,
+        })
       )
+      generatePairNameMock.generate.mockResolvedValue(PairName.reconstruct("b"))
+
       // get-parent-teamは3名のペアが所属しているチームを返す
       getParentTeamMock.do.mockResolvedValue(
         Team.reconstruct(TeamId.reconstruct("1"), {
@@ -133,14 +133,12 @@ describe("JoinPair", () => {
           Pair.reconstruct(PairId.reconstruct("b"), {
             name: PairName.reconstruct("b"),
             participantIdList: [participant_c, participant.id],
-            teamId: TeamId.reconstruct("1"),
           }),
         ],
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b],
-            teamId: TeamId.reconstruct("1"),
           }),
         ],
         changedTeamList: [
