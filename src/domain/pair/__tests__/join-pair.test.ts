@@ -15,7 +15,7 @@ import { Email } from "../../participant/email"
 import { IPairRepository } from "../interface/pair-repository"
 // domain service
 import { PairFactory } from "../pair-factory"
-import { GetVacantPairList } from "../get-vacant-pair-list"
+import { GetVacantPairList } from "../domain-service/get-vacant-pair-list"
 import { GetParentTeam } from "../domain-service/get-parent-team"
 import { GeneratePairName } from "../domain-service/generate-pair-name"
 

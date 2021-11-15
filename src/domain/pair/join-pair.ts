@@ -4,7 +4,7 @@ import { Pair } from "./pair"
 import { Participant } from "../participant/participant"
 import { IPairRepository } from "./interface/pair-repository"
 import { PairFactory } from "./pair-factory"
-import { GetVacantPairList } from "./get-vacant-pair-list"
+import { GetVacantPairList } from "./domain-service/get-vacant-pair-list"
 import { GetParentTeam } from "./domain-service/get-parent-team"
 import { GeneratePairName } from "./domain-service/generate-pair-name"
 

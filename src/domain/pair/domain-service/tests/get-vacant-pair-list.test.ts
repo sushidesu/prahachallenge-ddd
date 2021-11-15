@@ -1,10 +1,10 @@
 import { mock } from "jest-mock-extended"
 import { GetVacantPairList } from "../get-vacant-pair-list"
-import { IPairRepository } from "../interface/pair-repository"
-import { Pair } from "../pair"
-import { PairId } from "../pair-id"
-import { PairName } from "../pair-name"
-import { ParticipantId } from "../../participant/participant-id"
+import { IPairRepository } from "../../interface/pair-repository"
+import { Pair } from "../../pair"
+import { PairId } from "../../pair-id"
+import { PairName } from "../../pair-name"
+import { ParticipantId } from "../../../participant/participant-id"
 
 describe(`GetVacantPairList`, () => {
   const pairRepositoryMock = mock<IPairRepository>()
