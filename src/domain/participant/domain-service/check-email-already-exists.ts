@@ -1,6 +1,6 @@
-import { DomainService } from "../shared/domainService"
-import { Email } from "./email"
-import { IParticipantRepository } from "./interface/participant-repository"
+import { DomainService } from "../../shared/domainService"
+import { Email } from "../email"
+import { IParticipantRepository } from "../interface/participant-repository"
 
 export class CheckEmailAlreadyExists extends DomainService<"check-email-already-exists"> {
   constructor(private participantRepository: IParticipantRepository) {

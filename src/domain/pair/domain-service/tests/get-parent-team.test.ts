@@ -1,12 +1,12 @@
 import { mock } from "jest-mock-extended"
 import { GetParentTeam } from "../get-parent-team"
-import { Team } from "../../team/team"
-import { TeamId } from "../../team/team-id"
-import { TeamName } from "../../team/team-name"
-import { Pair } from "../pair"
-import { PairId } from "../pair-id"
-import { PairName } from "../pair-name"
-import { ITeamRepository } from "../../team/interface/team-repository"
+import { Team } from "../../../team/team"
+import { TeamId } from "../../../team/team-id"
+import { TeamName } from "../../../team/team-name"
+import { Pair } from "../../pair"
+import { PairId } from "../../pair-id"
+import { PairName } from "../../pair-name"
+import { ITeamRepository } from "../../../team/interface/team-repository"
 
 describe(`GetParentTeam`, () => {
   const teamRepositoryMock = mock<ITeamRepository>()

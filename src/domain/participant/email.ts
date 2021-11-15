@@ -1,5 +1,5 @@
 import { ValueObject, ValueObjectProps } from "../shared/valueObject"
-import { CheckEmailAlreadyExists } from "./check-email-already-exists"
+import { CheckEmailAlreadyExists } from "./domain-service/check-email-already-exists"
 
 export interface EmailProps extends ValueObjectProps {
   value: string

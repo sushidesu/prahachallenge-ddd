@@ -1,10 +1,10 @@
 import { mock } from "jest-mock-extended"
 import { GeneratePairName } from "../generate-pair-name"
-import { IPairRepository } from "../interface/pair-repository"
-import { TeamId } from "../../team/team-id"
-import { Pair } from "../pair"
-import { PairId } from "../pair-id"
-import { PairName } from "../pair-name"
+import { IPairRepository } from "../../interface/pair-repository"
+import { TeamId } from "../../../team/team-id"
+import { Pair } from "../../pair"
+import { PairId } from "../../pair-id"
+import { PairName } from "../../pair-name"
 
 describe(`PairNameFactory`, () => {
   const pairRepositoryMock = mock<IPairRepository>()

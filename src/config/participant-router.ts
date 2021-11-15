@@ -5,13 +5,13 @@ import { createContext } from "../infra/shared/context"
 import { ParticipantRepository } from "../infra/participant/participant-repository"
 import { PairRepository } from "../infra/pair/pair-repository"
 import { TeamRepository } from "../infra/team/team-repository"
-import { CheckEmailAlreadyExists } from "../domain/participant/check-email-already-exists"
+import { CheckEmailAlreadyExists } from "../domain/participant/domain-service/check-email-already-exists"
 import { ParticipantFactory } from "../domain/participant/participant-factory"
 import { PairFactory } from "../domain/pair/pair-factory"
-import { GeneratePairName } from "../domain/pair/generate-pair-name"
-import { JoinPair } from "../domain/pair/join-pair"
-import { GetVacantPairList } from "../domain/pair/get-vacant-pair-list"
-import { GetParentTeam } from "../domain/pair/get-parent-team"
+import { GeneratePairName } from "../domain/pair/domain-service/generate-pair-name"
+import { JoinPair } from "../domain/pair/domain-service/join-pair"
+import { GetVacantPairList } from "../domain/pair/domain-service/get-vacant-pair-list"
+import { GetParentTeam } from "../domain/pair/domain-service/get-parent-team"
 
 // repository
 const context = createContext()
