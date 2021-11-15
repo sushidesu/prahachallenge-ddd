@@ -13,8 +13,6 @@ import { JoinPair } from "../domain/pair/join-pair"
 import { GetVacantPairList } from "../domain/pair/get-vacant-pair-list"
 import { GetParentTeam } from "../domain/pair/get-parent-team"
 
-const participantRouter = Router()
-
 // repository
 const context = createContext()
 const participantRepository = new ParticipantRepository(context)
@@ -49,6 +47,8 @@ const joinPrahaChallengeUsecase = new JoinPrahaChallengeUsecase(
 // controller
 const controller = new ParticipantController(joinPrahaChallengeUsecase)
 
-// router
+// register endpoints
+const participantRouter = Router()
 participantRouter.post("/participant", controller.create)
+
 export { participantRouter }
