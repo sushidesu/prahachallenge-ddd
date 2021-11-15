@@ -113,7 +113,7 @@ describe("JoinPair", () => {
         }),
       ])
       // 新たにペアbを作成する
-      pairFactoryMock.create.mockImplementation(async ({ participantIdList }) =>
+      pairFactoryMock.create.mockImplementation(({ participantIdList }) =>
         Pair.reconstruct(PairId.reconstruct("b"), {
           name: PairName.reconstruct("b"),
           participantIdList: participantIdList,

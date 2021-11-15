@@ -9,10 +9,7 @@ export interface PairFactoryProps {
 }
 
 export class PairFactory extends DomainService<"pair-factory"> {
-  public async create({
-    name,
-    participantIdList,
-  }: PairFactoryProps): Promise<Pair> {
+  public create({ name, participantIdList }: PairFactoryProps): Pair {
     const pairName = PairName.create(name)
     return Pair.createFromFactory({
       name: pairName,

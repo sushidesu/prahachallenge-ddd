@@ -10,8 +10,8 @@ describe(`PairFactory`, () => {
     pairFactory = new PairFactory()
   })
 
-  it(`ペアを作成できる`, async () => {
-    const actual = await pairFactory.create({
+  it(`ペアを作成できる`, () => {
+    const actual = pairFactory.create({
       name: "a",
       participantIdList: [
         ParticipantId.reconstruct("participant-a"),
