@@ -18,7 +18,7 @@ export class PairNameFactory extends DomainService<"pair-name-factory"> {
     }
 
     if (pairs.length === 0) {
-      return PairName.createFromFactory("a")
+      return PairName.create("a")
     }
 
     const ALPHABET_USED: Record<string, boolean> = Object.fromEntries(
@@ -37,6 +37,6 @@ export class PairNameFactory extends DomainService<"pair-name-factory"> {
       throw new Error("予期しないエラー")
     }
     const [name] = unusedAlphabet
-    return PairName.createFromFactory(name)
+    return PairName.create(name)
   }
 }
