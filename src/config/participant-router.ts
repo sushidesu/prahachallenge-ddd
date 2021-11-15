@@ -9,7 +9,7 @@ import { CheckEmailAlreadyExists } from "../domain/participant/check-email-alrea
 import { ParticipantFactory } from "../domain/participant/participant-factory"
 import { PairFactory } from "../domain/pair/pair-factory"
 import { GeneratePairName } from "../domain/pair/domain-service/generate-pair-name"
-import { JoinPair } from "../domain/pair/join-pair"
+import { JoinPair } from "../domain/pair/domain-service/join-pair"
 import { GetVacantPairList } from "../domain/pair/domain-service/get-vacant-pair-list"
 import { GetParentTeam } from "../domain/pair/domain-service/get-parent-team"
 

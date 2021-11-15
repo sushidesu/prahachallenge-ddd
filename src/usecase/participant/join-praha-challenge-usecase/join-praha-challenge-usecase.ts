@@ -3,7 +3,7 @@ import { ParticipantFactory } from "../../../domain/participant/participant-fact
 import { IParticipantRepository } from "../../../domain/participant/interface/participant-repository"
 import { IPairRepository } from "../../../domain/pair/interface/pair-repository"
 import { ITeamRepository } from "../../../domain/team/interface/team-repository"
-import { JoinPair } from "../../../domain/pair/join-pair"
+import { JoinPair } from "../../../domain/pair/domain-service/join-pair"
 
 export class JoinPrahaChallengeUsecase {
   constructor(
