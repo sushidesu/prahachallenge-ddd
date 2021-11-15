@@ -10,6 +10,7 @@ import {
   generateUser,
 } from "../../util/db-value-generator"
 import { truncateAllTables } from "../../util/truncate-all-tables"
+import { PairId } from "../../../domain/pair/pair-id"
 
 describe(`TeamRepository`, () => {
   const context = createContext()
@@ -79,6 +80,28 @@ describe(`TeamRepository`, () => {
       expect(actual).toStrictEqual(expected)
     })
   })
+
+  describe(`getTeamByPair()`, () => {
+    it(`ペアの親チームを取得する`, async () => {
+      const id = PairId.reconstruct("id-pair-a")
+      const actual = await teamRepository.getTeamByPair(id)
+      const expected = Team.reconstruct(TeamId.reconstruct("id-team-1"), {
+        name: TeamName.reconstruct("1"),
+        participantIdList: [
+          ParticipantId.reconstruct("id-user-01"),
+          ParticipantId.reconstruct("id-user-02"),
+          ParticipantId.reconstruct("id-user-03"),
+        ],
+      })
+      expect(actual).toEqual(expected)
+    })
+    it(`親チームがない場合はundefinedを返す`, async () => {
+      const id = PairId.reconstruct("unknown-pair")
+      const actual = await teamRepository.getTeamByPair(id)
+      expect(actual).toBe(undefined)
+    })
+  })
+
   describe(`getAllTeamList()`, () => {
     it(`すべてのチームのリストを返す`, async () => {
       const actual = await teamRepository.getAllTeamList()
