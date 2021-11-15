@@ -21,7 +21,6 @@ describe(`GetParentTeam`, () => {
 
   const pair = Pair.reconstruct(PairId.reconstruct("a"), {
     name: PairName.reconstruct("a"),
-    teamId: TeamId.reconstruct("1"),
     participantIdList: [],
   })
 
