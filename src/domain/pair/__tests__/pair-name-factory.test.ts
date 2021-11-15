@@ -22,17 +22,14 @@ describe(`PairNameFactory`, () => {
 
   const pair_a = Pair.reconstruct(PairId.reconstruct("a"), {
     name: PairName.reconstruct("a"),
-    teamId: team_id_1,
     participantIdList: [],
   })
   const pair_b = Pair.reconstruct(PairId.reconstruct("b"), {
     name: PairName.reconstruct("b"),
-    teamId: team_id_1,
     participantIdList: [],
   })
   const pair_c = Pair.reconstruct(PairId.reconstruct("c"), {
     name: PairName.reconstruct("c"),
-    teamId: team_id_1,
     participantIdList: [],
   })
 
@@ -62,7 +59,6 @@ describe(`PairNameFactory`, () => {
           Array.from("abcdefghijklmnopqrstuvwxy").map((name) =>
             Pair.reconstruct(PairId.reconstruct(name), {
               name: PairName.reconstruct(name),
-              teamId: team_id_1,
               participantIdList: [],
             })
           )
@@ -78,7 +74,6 @@ describe(`PairNameFactory`, () => {
         Array.from("abcdefghijklmnopqrstuvwxyz").map((name) =>
           Pair.reconstruct(PairId.reconstruct(name), {
             name: PairName.reconstruct(name),
-            teamId: team_id_1,
             participantIdList: [],
           })
         )
