@@ -29,7 +29,7 @@ const participantFactory = new ParticipantFactory(checkEmailAlreadyExists)
 const pairNameFactory = new PairNameFactory(pairRepository)
 const pairFactory = new PairFactory(pairNameFactory)
 const getVacantPairList = new GetVacantPairList(pairRepository)
-const getParentTeam = new GetParentTeam()
+const getParentTeam = new GetParentTeam(teamRepository)
 const joinPair = new JoinPair(
   pairRepository,
   pairFactory,
