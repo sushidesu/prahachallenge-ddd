@@ -1,18 +1,20 @@
 import { DomainService } from "../shared/domainService"
-import { Participant } from "../participant/participant"
+import { Team } from "../team/team"
 import { Pair } from "./pair"
+import { Participant } from "../participant/participant"
+import { IPairRepository } from "./interface/pair-repository"
 import { PairFactory } from "./pair-factory"
 import { GetVacantPairList } from "./get-vacant-pair-list"
-import { IPairRepository } from "./interface/pair-repository"
 import { GetParentTeam } from "./get-parent-team"
-import { Team } from "../team/team"
+import { GeneratePairName } from "./generate-pair-name"
 
 export class JoinPair extends DomainService<"join-pair"> {
   constructor(
     private pairRepository: IPairRepository,
     private pairFactory: PairFactory,
     private getVacantPairList: GetVacantPairList,
-    private getParentTeam: GetParentTeam
+    private getParentTeam: GetParentTeam,
+    private generatePairName: GeneratePairName
   ) {
     super()
   }
@@ -64,9 +66,12 @@ export class JoinPair extends DomainService<"join-pair"> {
       const { removedParticipantId } = targetPair.removeParticipant()
       // もう一つペアを作成 (同じチームにする)
       const newPair = await this.pairFactory.create({
-        teamId: targetTeam.id,
+        name: "a", // 名前は仮で作成
         participantIdList: [removedParticipantId, participant.id],
       })
+      // ペア名を生成、生成した名前に変更
+      const generated = await this.generatePairName.generate(targetTeam.id)
+      newPair.changeName(generated)
       // チームに加入する
       targetTeam.acceptParticipant(participant.id)
 
