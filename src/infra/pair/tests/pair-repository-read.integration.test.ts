@@ -6,8 +6,8 @@ import { PairName } from "../../../domain/pair/pair-name"
 import { TeamId } from "../../../domain/team/team-id"
 import { ParticipantId } from "../../../domain/participant/participant-id"
 import {
-  generatePair,
   generateTeam,
+  generatePair,
   generateUser,
 } from "../../util/db-value-generator"
 import { truncateAllTables } from "../../util/truncate-all-tables"
@@ -56,7 +56,6 @@ describe(`PairRepository (read)`, () => {
       const expected = [
         Pair.reconstruct(PairId.reconstruct("id-pair-a"), {
           name: PairName.reconstruct("a"),
-          teamId: TeamId.reconstruct("id-team-1"),
           participantIdList: [
             ParticipantId.reconstruct("id-user-01"),
             ParticipantId.reconstruct("id-user-02"),
@@ -65,7 +64,6 @@ describe(`PairRepository (read)`, () => {
         }),
         Pair.reconstruct(PairId.reconstruct("id-pair-b"), {
           name: PairName.reconstruct("b"),
-          teamId: TeamId.reconstruct("id-team-2"),
           participantIdList: [
             ParticipantId.reconstruct("id-user-04"),
             ParticipantId.reconstruct("id-user-05"),
@@ -83,7 +81,6 @@ describe(`PairRepository (read)`, () => {
       const expected = [
         Pair.reconstruct(PairId.reconstruct("id-pair-a"), {
           name: PairName.reconstruct("a"),
-          teamId: TeamId.reconstruct("id-team-1"),
           participantIdList: [
             ParticipantId.reconstruct("id-user-01"),
             ParticipantId.reconstruct("id-user-02"),

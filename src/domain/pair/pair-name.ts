@@ -8,7 +8,7 @@ export class PairName extends ValueObject<PairNameProps, "pair-name"> {
   private constructor(props: PairNameProps) {
     super(props)
   }
-  public static createFromFactory(name: string): PairName {
+  public static create(name: string): PairName {
     if (name === "") {
       throw new Error("pair-name cannot be empty")
     }

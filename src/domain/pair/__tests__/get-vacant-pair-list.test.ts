@@ -5,7 +5,6 @@ import { Pair } from "../pair"
 import { PairId } from "../pair-id"
 import { PairName } from "../pair-name"
 import { ParticipantId } from "../../participant/participant-id"
-import { TeamId } from "../../team/team-id"
 
 describe(`GetVacantPairList`, () => {
   const pairRepositoryMock = mock<IPairRepository>()
@@ -20,7 +19,6 @@ describe(`GetVacantPairList`, () => {
 
   const pairA_vacant = Pair.reconstruct(PairId.reconstruct("a"), {
     name: PairName.reconstruct("a"),
-    teamId: TeamId.reconstruct("1"),
     participantIdList: [
       ParticipantId.reconstruct("01"),
       ParticipantId.reconstruct("02"),
@@ -28,7 +26,6 @@ describe(`GetVacantPairList`, () => {
   })
   const pairB_full = Pair.reconstruct(PairId.reconstruct("b"), {
     name: PairName.reconstruct("b"),
-    teamId: TeamId.reconstruct("1"),
     participantIdList: [
       ParticipantId.reconstruct("03"),
       ParticipantId.reconstruct("04"),
@@ -37,7 +34,6 @@ describe(`GetVacantPairList`, () => {
   })
   const pairC_vacant = Pair.reconstruct(PairId.reconstruct("c"), {
     name: PairName.reconstruct("c"),
-    teamId: TeamId.reconstruct("1"),
     participantIdList: [
       ParticipantId.reconstruct("06"),
       ParticipantId.reconstruct("07"),

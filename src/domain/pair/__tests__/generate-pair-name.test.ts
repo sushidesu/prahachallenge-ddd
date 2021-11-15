@@ -1,5 +1,5 @@
 import { mock } from "jest-mock-extended"
-import { PairNameFactory } from "../pair-name-factory"
+import { GeneratePairName } from "../generate-pair-name"
 import { IPairRepository } from "../interface/pair-repository"
 import { TeamId } from "../../team/team-id"
 import { Pair } from "../pair"
@@ -13,26 +13,23 @@ describe(`PairNameFactory`, () => {
     jest.resetAllMocks()
   })
 
-  let pairNameFactory: PairNameFactory
+  let generatePairName: GeneratePairName
   beforeEach(() => {
-    pairNameFactory = new PairNameFactory(pairRepositoryMock)
+    generatePairName = new GeneratePairName(pairRepositoryMock)
   })
 
   const team_id_1 = TeamId.reconstruct("1")
 
   const pair_a = Pair.reconstruct(PairId.reconstruct("a"), {
     name: PairName.reconstruct("a"),
-    teamId: team_id_1,
     participantIdList: [],
   })
   const pair_b = Pair.reconstruct(PairId.reconstruct("b"), {
     name: PairName.reconstruct("b"),
-    teamId: team_id_1,
     participantIdList: [],
   })
   const pair_c = Pair.reconstruct(PairId.reconstruct("c"), {
     name: PairName.reconstruct("c"),
-    teamId: team_id_1,
     participantIdList: [],
   })
 
@@ -40,7 +37,7 @@ describe(`PairNameFactory`, () => {
     it(`チーム内にペアが一つもない場合、 "a" を生成`, async () => {
       pairRepositoryMock.getPairListInTeam.mockResolvedValue([])
 
-      const name = await pairNameFactory.create(team_id_1)
+      const name = await generatePairName.generate(team_id_1)
       expect(name.props.value).toBe("a")
     })
 
@@ -48,13 +45,13 @@ describe(`PairNameFactory`, () => {
       it(`"a", "b" が存在する場合、 "c" を生成する`, async () => {
         pairRepositoryMock.getPairListInTeam.mockResolvedValue([pair_a, pair_b])
 
-        const name = await pairNameFactory.create(team_id_1)
+        const name = await generatePairName.generate(team_id_1)
         expect(name.props.value).toBe("c")
       })
       it(`"a", "c" が存在する場合、 "b" を生成する`, async () => {
         pairRepositoryMock.getPairListInTeam.mockResolvedValue([pair_a, pair_c])
 
-        const name = await pairNameFactory.create(team_id_1)
+        const name = await generatePairName.generate(team_id_1)
         expect(name.props.value).toBe("b")
       })
       it(`"a", "b", ..., "y" が存在する場合、 "z" を生成する`, async () => {
@@ -62,13 +59,12 @@ describe(`PairNameFactory`, () => {
           Array.from("abcdefghijklmnopqrstuvwxy").map((name) =>
             Pair.reconstruct(PairId.reconstruct(name), {
               name: PairName.reconstruct(name),
-              teamId: team_id_1,
               participantIdList: [],
             })
           )
         )
 
-        const name = await pairNameFactory.create(team_id_1)
+        const name = await generatePairName.generate(team_id_1)
         expect(name.props.value).toBe("z")
       })
     })
@@ -78,12 +74,11 @@ describe(`PairNameFactory`, () => {
         Array.from("abcdefghijklmnopqrstuvwxyz").map((name) =>
           Pair.reconstruct(PairId.reconstruct(name), {
             name: PairName.reconstruct(name),
-            teamId: team_id_1,
             participantIdList: [],
           })
         )
       )
-      await expect(pairNameFactory.create(team_id_1)).rejects.toThrowError(
+      await expect(generatePairName.generate(team_id_1)).rejects.toThrowError(
         "これ以上ペアを作成できません"
       )
     })

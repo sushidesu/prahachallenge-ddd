@@ -5,6 +5,7 @@ import { Team } from "../../domain/team/team"
 import { TeamId } from "../../domain/team/team-id"
 import { TeamName } from "../../domain/team/team-name"
 import { ParticipantId } from "../../domain/participant/participant-id"
+import { PairId } from "../../domain/pair/pair-id"
 
 type PrismaTeamWithRelations = PrismaTeam & {
   pairs: {
@@ -28,6 +29,36 @@ export class TeamRepository implements ITeamRepository {
     const team = await this.context.prisma.team.findUnique({
       where: {
         id: id.props.value,
+      },
+      include: {
+        pairs: {
+          include: {
+            users: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    })
+    if (team === null) {
+      return undefined
+    }
+    return this.build(team)
+  }
+
+  // HELP: 微妙かも? Team.pairsを作成後に削除するかも
+  async getTeamByPair(pairId: PairId): Promise<Team | undefined> {
+    const team = await this.context.prisma.team.findFirst({
+      where: {
+        pairs: {
+          some: {
+            id: {
+              equals: pairId.props.value,
+            },
+          },
+        },
       },
       include: {
         pairs: {

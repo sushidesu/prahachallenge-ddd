@@ -7,12 +7,11 @@ import { PairRepository } from "../infra/pair/pair-repository"
 import { TeamRepository } from "../infra/team/team-repository"
 import { CheckEmailAlreadyExists } from "../domain/participant/check-email-already-exists"
 import { ParticipantFactory } from "../domain/participant/participant-factory"
-import { PairNameFactory } from "../domain/pair/pair-name-factory"
 import { PairFactory } from "../domain/pair/pair-factory"
+import { GeneratePairName } from "../domain/pair/generate-pair-name"
 import { JoinPair } from "../domain/pair/join-pair"
 import { GetVacantPairList } from "../domain/pair/get-vacant-pair-list"
-
-const participantRouter = Router()
+import { GetParentTeam } from "../domain/pair/get-parent-team"
 
 // repository
 const context = createContext()
@@ -25,14 +24,16 @@ const checkEmailAlreadyExists = new CheckEmailAlreadyExists(
   participantRepository
 )
 const participantFactory = new ParticipantFactory(checkEmailAlreadyExists)
-const pairNameFactory = new PairNameFactory(pairRepository)
-const pairFactory = new PairFactory(pairNameFactory)
+const pairFactory = new PairFactory()
 const getVacantPairList = new GetVacantPairList(pairRepository)
+const getParentTeam = new GetParentTeam(teamRepository)
+const generatePairName = new GeneratePairName(pairRepository)
 const joinPair = new JoinPair(
   pairRepository,
-  teamRepository,
   pairFactory,
-  getVacantPairList
+  getVacantPairList,
+  getParentTeam,
+  generatePairName
 )
 
 // usecase
@@ -47,6 +48,8 @@ const joinPrahaChallengeUsecase = new JoinPrahaChallengeUsecase(
 // controller
 const controller = new ParticipantController(joinPrahaChallengeUsecase)
 
-// router
+// register endpoints
+const participantRouter = Router()
 participantRouter.post("/participant", controller.create)
+
 export { participantRouter }

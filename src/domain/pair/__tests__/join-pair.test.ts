@@ -12,17 +12,19 @@ import { ParticipantId } from "../../participant/participant-id"
 import { ParticipantName } from "../../participant/participant-name"
 import { Email } from "../../participant/email"
 // repository
-import { ITeamRepository } from "../../team/interface/team-repository"
 import { IPairRepository } from "../interface/pair-repository"
 // domain service
 import { PairFactory } from "../pair-factory"
 import { GetVacantPairList } from "../get-vacant-pair-list"
+import { GetParentTeam } from "../get-parent-team"
+import { GeneratePairName } from "../generate-pair-name"
 
 describe("JoinPair", () => {
   const pairRepositoryMock = mock<IPairRepository>()
-  const teamRepositoryMock = mock<ITeamRepository>()
   const pairFactoryMock = mock<PairFactory>()
   const getVacantPairListMock = mock<GetVacantPairList>()
+  const getParentTeamMock = mock<GetParentTeam>()
+  const generatePairNameMock = mock<GeneratePairName>()
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -43,9 +45,10 @@ describe("JoinPair", () => {
   beforeEach(() => {
     joinPair = new JoinPair(
       pairRepositoryMock,
-      teamRepositoryMock,
       pairFactoryMock,
-      getVacantPairListMock
+      getVacantPairListMock,
+      getParentTeamMock,
+      generatePairNameMock
     )
   })
 
@@ -54,17 +57,15 @@ describe("JoinPair", () => {
       const pairA = Pair.reconstruct(PairId.reconstruct("a"), {
         name: PairName.reconstruct("a"),
         participantIdList: [participant_a, participant_b],
-        teamId: TeamId.reconstruct("1"),
       })
       const pairB = Pair.reconstruct(PairId.reconstruct("b"), {
         name: PairName.reconstruct("b"),
         participantIdList: [participant_c, participant_d],
-        teamId: TeamId.reconstruct("1"),
       })
       // get-vacant-pair-listは2名のペア2つを返す
       getVacantPairListMock.do.mockResolvedValue([pairA, pairB])
-      // team-repositoryは2名のペア*2が所属しているチームを返す
-      teamRepositoryMock.getTeamById.mockResolvedValue(
+      // get-parent-teamは2名のペア*2が所属しているチームを返す
+      getParentTeamMock.do.mockResolvedValue(
         Team.reconstruct(TeamId.reconstruct("1"), {
           name: TeamName.reconstruct("1"),
           participantIdList: [
@@ -82,7 +83,6 @@ describe("JoinPair", () => {
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b, participant.id],
-            teamId: TeamId.reconstruct("1"),
           }),
         ],
         changedTeamList: [
@@ -110,19 +110,19 @@ describe("JoinPair", () => {
         Pair.reconstruct(PairId.reconstruct("a"), {
           name: PairName.reconstruct("a"),
           participantIdList: [participant_a, participant_b, participant_c],
-          teamId: TeamId.reconstruct("1"),
         }),
       ])
-      pairFactoryMock.create.mockImplementation(
-        async ({ teamId, participantIdList }) =>
-          Pair.reconstruct(PairId.reconstruct("b"), {
-            name: PairName.reconstruct("b"),
-            participantIdList: participantIdList,
-            teamId,
-          })
+      // 新たにペアbを作成する
+      pairFactoryMock.create.mockImplementation(({ participantIdList }) =>
+        Pair.reconstruct(PairId.reconstruct("b"), {
+          name: PairName.reconstruct("b"),
+          participantIdList: participantIdList,
+        })
       )
-      // team-repositoryは3名のペアが所属しているチームを返す
-      teamRepositoryMock.getTeamById.mockResolvedValue(
+      generatePairNameMock.generate.mockResolvedValue(PairName.reconstruct("b"))
+
+      // get-parent-teamは3名のペアが所属しているチームを返す
+      getParentTeamMock.do.mockResolvedValue(
         Team.reconstruct(TeamId.reconstruct("1"), {
           name: TeamName.reconstruct("1"),
           participantIdList: [participant_a, participant_b, participant_c],
@@ -133,14 +133,12 @@ describe("JoinPair", () => {
           Pair.reconstruct(PairId.reconstruct("b"), {
             name: PairName.reconstruct("b"),
             participantIdList: [participant_c, participant.id],
-            teamId: TeamId.reconstruct("1"),
           }),
         ],
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
             participantIdList: [participant_a, participant_b],
-            teamId: TeamId.reconstruct("1"),
           }),
         ],
         changedTeamList: [
