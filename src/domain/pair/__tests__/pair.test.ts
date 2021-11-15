@@ -2,7 +2,6 @@ import { Pair } from "../pair"
 import { PairId } from "../pair-id"
 import { PairName } from "../pair-name"
 import { ParticipantId } from "../../participant/participant-id"
-import { TeamId } from "../../team/team-id"
 
 describe("Pair", () => {
   const participant_id_a = ParticipantId.reconstruct("participant-a")
@@ -17,7 +16,6 @@ describe("Pair", () => {
           Pair.createFromFactory({
             name: PairName.reconstruct("pair-a"),
             participantIdList: [],
-            teamId: TeamId.reconstruct("1"),
           })
         ).toThrowError()
       })
@@ -26,7 +24,6 @@ describe("Pair", () => {
           Pair.createFromFactory({
             name: PairName.reconstruct("pair-a"),
             participantIdList: [ParticipantId.reconstruct("a")],
-            teamId: TeamId.reconstruct("1"),
           })
         ).toThrowError()
       })
@@ -34,13 +31,11 @@ describe("Pair", () => {
         const pair = Pair.createFromFactory({
           name: PairName.reconstruct("pair-a"),
           participantIdList: [participant_id_a, participant_id_b],
-          teamId: TeamId.reconstruct("1"),
         })
         expect(pair).toStrictEqual(
           Pair.reconstruct(expect.any(PairId), {
             name: PairName.reconstruct("pair-a"),
             participantIdList: [participant_id_a, participant_id_b],
-            teamId: TeamId.reconstruct("1"),
           })
         )
       })
@@ -52,7 +47,6 @@ describe("Pair", () => {
             participant_id_b,
             participant_id_c,
           ],
-          teamId: TeamId.reconstruct("1"),
         })
         expect(pair).toBeInstanceOf(Pair)
       })
@@ -66,7 +60,6 @@ describe("Pair", () => {
               participant_id_c,
               participant_id_d,
             ],
-            teamId: TeamId.reconstruct("1"),
           })
         ).toThrowError()
       })
@@ -78,7 +71,6 @@ describe("Pair", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
         name: PairName.reconstruct("a"),
         participantIdList: [participant_id_a, participant_id_b],
-        teamId: TeamId.reconstruct("1"),
       })
 
       pair.acceptParticipant(ParticipantId.reconstruct("participant-c"))
@@ -96,7 +88,6 @@ describe("Pair", () => {
           participant_id_b,
           participant_id_c,
         ],
-        teamId: TeamId.reconstruct("1"),
       })
       expect(() =>
         pair.acceptParticipant(ParticipantId.reconstruct("participant"))
@@ -113,7 +104,6 @@ describe("Pair", () => {
           participant_id_b,
           participant_id_c,
         ],
-        teamId: TeamId.reconstruct("1"),
       })
       pair.removeParticipant(ParticipantId.reconstruct("participant-b"))
       expect(pair.participantIdList).toStrictEqual([
@@ -129,7 +119,6 @@ describe("Pair", () => {
           participant_id_b,
           participant_id_c,
         ],
-        teamId: TeamId.reconstruct("1"),
       })
       expect(() =>
         pair.removeParticipant(ParticipantId.reconstruct("unknown-participant"))
@@ -143,7 +132,6 @@ describe("Pair", () => {
           participant_id_b,
           participant_id_c,
         ],
-        teamId: TeamId.reconstruct("1"),
       })
       pair.removeParticipant()
       expect(pair.participantIdList).toStrictEqual([
@@ -155,7 +143,6 @@ describe("Pair", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
         name: PairName.reconstruct("a"),
         participantIdList: [participant_id_a, participant_id_b],
-        teamId: TeamId.reconstruct("1"),
       })
       expect(() => pair.removeParticipant()).toThrowError(
         "参加者を2名未満にはできません"
