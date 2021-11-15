@@ -11,7 +11,7 @@ import { PairFactory } from "../domain/pair/pair-factory"
 import { GeneratePairName } from "../domain/pair/domain-service/generate-pair-name"
 import { JoinPair } from "../domain/pair/join-pair"
 import { GetVacantPairList } from "../domain/pair/get-vacant-pair-list"
-import { GetParentTeam } from "../domain/pair/get-parent-team"
+import { GetParentTeam } from "../domain/pair/domain-service/get-parent-team"
 
 // repository
 const context = createContext()
