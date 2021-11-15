@@ -1,7 +1,7 @@
-import { DomainService } from "../shared/domainService"
-import { PairName } from "./pair-name"
-import { IPairRepository } from "./interface/pair-repository"
-import { TeamId } from "../team/team-id"
+import { DomainService } from "../../shared/domainService"
+import { PairName } from "../pair-name"
+import { IPairRepository } from "../interface/pair-repository"
+import { TeamId } from "../../team/team-id"
 
 export class GeneratePairName extends DomainService<"generate-pair-name"> {
   constructor(private pairRepository: IPairRepository) {

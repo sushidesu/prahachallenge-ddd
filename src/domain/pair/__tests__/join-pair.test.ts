@@ -17,7 +17,7 @@ import { IPairRepository } from "../interface/pair-repository"
 import { PairFactory } from "../pair-factory"
 import { GetVacantPairList } from "../get-vacant-pair-list"
 import { GetParentTeam } from "../get-parent-team"
-import { GeneratePairName } from "../generate-pair-name"
+import { GeneratePairName } from "../domain-service/generate-pair-name"
 
 describe("JoinPair", () => {
   const pairRepositoryMock = mock<IPairRepository>()
