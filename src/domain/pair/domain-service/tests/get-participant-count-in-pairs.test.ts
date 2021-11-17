@@ -1,9 +1,9 @@
 import { mock } from "jest-mock-extended"
 import { GetParticipantCountInPairs } from "../get-participant-count-in-pairs"
-import { IPairRepository } from "../../../pair/interface/pair-repository"
-import { Pair } from "../../../pair/pair"
-import { PairId } from "../../../pair/pair-id"
-import { PairName } from "../../../pair/pair-name"
+import { IPairRepository } from "../../interface/pair-repository"
+import { Pair } from "../../pair"
+import { PairId } from "../../pair-id"
+import { PairName } from "../../pair-name"
 import { ParticipantId } from "../../../participant/participant-id"
 
 describe(`GetParticipantCountInPairs`, () => {

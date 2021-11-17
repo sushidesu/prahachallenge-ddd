@@ -1,6 +1,6 @@
 import { DomainService } from "../../shared/domainService"
-import { PairId } from "../../pair/pair-id"
 import { IPairRepository } from "../../pair/interface/pair-repository"
+import { PairId } from "../pair-id"
 
 export class GetParticipantCountInPairs extends DomainService<"get-participant-count-in-pairs"> {
   constructor(private readonly pairRepository: IPairRepository) {

@@ -4,7 +4,7 @@ import { TeamId } from "../team-id"
 import { TeamName } from "../team-name"
 import { PairId } from "../../pair/pair-id"
 import { TeamNameFactory } from "../team-name-factory"
-import { GetParticipantCountInPairs } from "../domain-service/get-participant-count-in-pairs"
+import { GetParticipantCountInPairs } from "../../pair/domain-service/get-participant-count-in-pairs"
 
 describe(`Team`, () => {
   describe(`create()`, () => {
