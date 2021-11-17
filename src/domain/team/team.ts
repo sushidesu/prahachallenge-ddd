@@ -33,9 +33,4 @@ export class Team extends Entity<TeamProps, "team", TeamId> {
   static reconstruct(id: TeamId, props: TeamProps): Team {
     return new Team(id, props)
   }
-
-  public acceptParticipant(participantId: unknown): void {
-    console.log(participantId)
-    // FIXME: delete this method
-  }
 }
