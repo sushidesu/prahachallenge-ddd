@@ -40,7 +40,6 @@ const joinPair = new JoinPair(
 const joinPrahaChallengeUsecase = new JoinPrahaChallengeUsecase(
   participantRepository,
   pairRepository,
-  teamRepository,
   participantFactory,
   joinPair
 )
