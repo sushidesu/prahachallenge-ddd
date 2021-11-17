@@ -50,6 +50,29 @@ describe(`PairRepository (read)`, () => {
     await context.prisma.$disconnect()
   })
 
+  describe(`getPairById()`, () => {
+    it(`idを指定してペアを取得する`, async () => {
+      const actual = await pairRepository.getPairById(
+        PairId.reconstruct("id-pair-a")
+      )
+      const expected = Pair.reconstruct(PairId.reconstruct("id-pair-a"), {
+        name: PairName.reconstruct("a"),
+        participantIdList: [
+          ParticipantId.reconstruct("id-user-01"),
+          ParticipantId.reconstruct("id-user-02"),
+          ParticipantId.reconstruct("id-user-03"),
+        ],
+      })
+      expect(actual).toEqual(expected)
+    })
+    it(`存在しないidの場合、undefinedを返す`, async () => {
+      const actual = await pairRepository.getPairById(
+        PairId.reconstruct("id-unknown")
+      )
+      expect(actual).toBe(undefined)
+    })
+  })
+
   describe(`getAllPairList()`, () => {
     it(`ペアのリストを返す`, async () => {
       const actual = await pairRepository.getAllPairList()
