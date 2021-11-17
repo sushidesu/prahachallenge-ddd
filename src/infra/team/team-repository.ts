@@ -4,14 +4,11 @@ import { Context } from "../shared/context"
 import { Team } from "../../domain/team/team"
 import { TeamId } from "../../domain/team/team-id"
 import { TeamName } from "../../domain/team/team-name"
-import { ParticipantId } from "../../domain/participant/participant-id"
 import { PairId } from "../../domain/pair/pair-id"
 
 type PrismaTeamWithRelations = PrismaTeam & {
   pairs: {
-    users: {
-      id: string
-    }[]
+    id: string
   }[]
 }
 
@@ -98,9 +95,7 @@ export class TeamRepository implements ITeamRepository {
   private build(resource: PrismaTeamWithRelations): Team {
     return Team.reconstruct(TeamId.reconstruct(resource.id), {
       name: TeamName.reconstruct(resource.name),
-      participantIdList: resource.pairs.flatMap((pair) =>
-        pair.users.map((user) => ParticipantId.reconstruct(user.id))
-      ),
+      pairIdList: resource.pairs.map((pair) => PairId.reconstruct(pair.id)),
     })
   }
 }
