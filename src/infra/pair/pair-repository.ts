@@ -54,8 +54,23 @@ export class PairRepository implements IPairRepository {
   }
 
   async getPairById(id: PairId): Promise<Pair | undefined> {
-    console.log(id)
-    return undefined
+    const pair = await this.context.prisma.pair.findUnique({
+      where: {
+        id: id.props.value,
+      },
+      include: {
+        users: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
+    if (pair) {
+      return this.build(pair)
+    } else {
+      return undefined
+    }
   }
 
   async getAllPairList(): Promise<Pair[]> {
