@@ -3,12 +3,7 @@ import { createContext } from "../../shared/context"
 import { Team } from "../../../domain/team/team"
 import { TeamId } from "../../../domain/team/team-id"
 import { TeamName } from "../../../domain/team/team-name"
-import { ParticipantId } from "../../../domain/participant/participant-id"
-import {
-  generatePair,
-  generateTeam,
-  generateUser,
-} from "../../util/db-value-generator"
+import { generatePair, generateTeam } from "../../util/db-value-generator"
 import { truncateAllTables } from "../../util/truncate-all-tables"
 import { PairId } from "../../../domain/pair/pair-id"
 
@@ -20,16 +15,7 @@ describe(`TeamRepository`, () => {
       data: {
         ...generateTeam("1"),
         pairs: {
-          create: {
-            ...generatePair("a"),
-            users: {
-              create: [
-                generateUser("01"),
-                generateUser("02"),
-                generateUser("03"),
-              ],
-            },
-          },
+          create: generatePair("a"),
         },
       },
     })
@@ -37,20 +23,7 @@ describe(`TeamRepository`, () => {
       data: {
         ...generateTeam("2"),
         pairs: {
-          create: [
-            {
-              ...generatePair("b"),
-              users: {
-                create: [generateUser("04"), generateUser("05")],
-              },
-            },
-            {
-              ...generatePair("c"),
-              users: {
-                create: [generateUser("06"), generateUser("07")],
-              },
-            },
-          ],
+          create: [generatePair("b"), generatePair("c")],
         },
       },
     })
@@ -71,11 +44,7 @@ describe(`TeamRepository`, () => {
       const actual = await teamRepository.getTeamById(id)
       const expected = Team.reconstruct(TeamId.reconstruct("id-team-1"), {
         name: TeamName.reconstruct("1"),
-        participantIdList: [
-          ParticipantId.reconstruct("id-user-01"),
-          ParticipantId.reconstruct("id-user-02"),
-          ParticipantId.reconstruct("id-user-03"),
-        ],
+        pairIdList: [PairId.reconstruct("id-pair-a")],
       })
       expect(actual).toStrictEqual(expected)
     })
@@ -87,11 +56,7 @@ describe(`TeamRepository`, () => {
       const actual = await teamRepository.getTeamByPair(id)
       const expected = Team.reconstruct(TeamId.reconstruct("id-team-1"), {
         name: TeamName.reconstruct("1"),
-        participantIdList: [
-          ParticipantId.reconstruct("id-user-01"),
-          ParticipantId.reconstruct("id-user-02"),
-          ParticipantId.reconstruct("id-user-03"),
-        ],
+        pairIdList: [PairId.reconstruct("id-pair-a")],
       })
       expect(actual).toEqual(expected)
     })
@@ -108,19 +73,13 @@ describe(`TeamRepository`, () => {
       const expected = [
         Team.reconstruct(TeamId.reconstruct("id-team-1"), {
           name: TeamName.reconstruct("1"),
-          participantIdList: [
-            ParticipantId.reconstruct("id-user-01"),
-            ParticipantId.reconstruct("id-user-02"),
-            ParticipantId.reconstruct("id-user-03"),
-          ],
+          pairIdList: [PairId.reconstruct("id-pair-a")],
         }),
         Team.reconstruct(TeamId.reconstruct("id-team-2"), {
           name: TeamName.reconstruct("2"),
-          participantIdList: [
-            ParticipantId.reconstruct("id-user-04"),
-            ParticipantId.reconstruct("id-user-05"),
-            ParticipantId.reconstruct("id-user-06"),
-            ParticipantId.reconstruct("id-user-07"),
+          pairIdList: [
+            PairId.reconstruct("id-pair-b"),
+            PairId.reconstruct("id-pair-c"),
           ],
         }),
       ]
