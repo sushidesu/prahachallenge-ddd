@@ -1,13 +1,25 @@
 import { DomainService } from "../../shared/domainService"
 import { PairId } from "../../pair/pair-id"
+import { IPairRepository } from "../../pair/interface/pair-repository"
 
 export class GetParticipantCountInPairs extends DomainService<"get-participant-count-in-pairs"> {
-  constructor() {
+  constructor(private readonly pairRepository: IPairRepository) {
     super()
   }
 
-  async do(pairs: readonly PairId[]): Promise<number> {
-    console.log(pairs)
-    return 0
+  async do(pairIdList: readonly PairId[]): Promise<number> {
+    const result = await Promise.all(
+      pairIdList.map((id) => {
+        return this.pairRepository.getPairById(id)
+      })
+    )
+    const numOfParticipants = result.reduce((prev, cur) => {
+      if (cur === undefined) {
+        return prev
+      } else {
+        return prev + cur.participantIdList.length
+      }
+    }, 0)
+    return numOfParticipants
   }
 }
