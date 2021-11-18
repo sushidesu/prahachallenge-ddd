@@ -6,13 +6,12 @@ export class ParticipantController {
   constructor(private joinPrahaChallengeUsecase: JoinPairUsecase) {}
   public create: RequestHandler = async (req, res, next) => {
     try {
-      const { name, email } = req.body
-      if (typeof name !== "string" || typeof email !== "string") {
-        throw new Error("name, email is required")
+      const { participantId } = req.body
+      if (typeof participantId !== "string") {
+        throw new Error("participantId is required")
       }
       const inputData = new JoinPairInputData({
-        name,
-        email,
+        participantId,
       })
       await this.joinPrahaChallengeUsecase.exec(inputData)
       res.json({ message: "success!" })

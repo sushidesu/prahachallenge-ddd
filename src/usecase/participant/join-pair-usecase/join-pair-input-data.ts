@@ -1,6 +1,5 @@
 export interface JoinPairInputDataProps {
-  name: string
-  email: string
+  participantId: string
 }
 
 export class JoinPairInputData {

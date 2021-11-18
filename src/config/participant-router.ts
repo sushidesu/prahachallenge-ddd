@@ -5,8 +5,6 @@ import { createContext } from "../infra/shared/context"
 import { ParticipantRepository } from "../infra/participant/participant-repository"
 import { PairRepository } from "../infra/pair/pair-repository"
 import { TeamRepository } from "../infra/team/team-repository"
-import { CheckEmailAlreadyExists } from "../domain/participant/domain-service/check-email-already-exists"
-import { ParticipantFactory } from "../domain/participant/participant-factory"
 import { PairFactory } from "../domain/pair/pair-factory"
 import { GeneratePairName } from "../domain/pair/domain-service/generate-pair-name"
 import { JoinPair } from "../domain/pair/domain-service/join-pair"
@@ -20,10 +18,6 @@ const pairRepository = new PairRepository(context)
 const teamRepository = new TeamRepository(context)
 
 // domain-service
-const checkEmailAlreadyExists = new CheckEmailAlreadyExists(
-  participantRepository
-)
-const participantFactory = new ParticipantFactory(checkEmailAlreadyExists)
 const pairFactory = new PairFactory()
 const getVacantPairList = new GetVacantPairList(pairRepository)
 const getParentTeam = new GetParentTeam(teamRepository)
@@ -40,7 +34,6 @@ const joinPair = new JoinPair(
 const joinPrahaChallengeUsecase = new JoinPairUsecase(
   participantRepository,
   pairRepository,
-  participantFactory,
   joinPair
 )
 
