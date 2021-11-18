@@ -54,5 +54,16 @@ describe("Participant", () => {
         )
       ).rejects.toThrowError()
     })
+    it(`同じメールアドレスに更新しようとする場合、何もせず処理を終了する`, async () => {
+      // 自分と同じメールアドレスなので、すでに存在する
+      checkEmailAlreadyExisitsMock.do.mockResolvedValue(true)
+      // 同じメールアドレスに更新
+      await participant.changeEmail(
+        "test@example.com",
+        checkEmailAlreadyExisitsMock
+      )
+      // ドメインサービスを呼び出すことなく、処理が終了する
+      expect(checkEmailAlreadyExisitsMock.do.mock.calls.length).toBe(0)
+    })
   })
 })
