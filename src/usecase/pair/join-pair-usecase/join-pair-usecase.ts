@@ -1,26 +1,28 @@
-import { JoinPrahaChallengeInputData } from "./join-praha-challenge-input-data"
-import { ParticipantFactory } from "../../../domain/participant/participant-factory"
+import { JoinPairInputData } from "./join-pair-input-data"
+import { ParticipantId } from "../../../domain/participant/participant-id"
 import { IParticipantRepository } from "../../../domain/participant/interface/participant-repository"
 import { IPairRepository } from "../../../domain/pair/interface/pair-repository"
 import { JoinPair } from "../../../domain/pair/domain-service/join-pair"
 
-export class JoinPrahaChallengeUsecase {
+export class JoinPairUsecase {
   constructor(
     private participantRepository: IParticipantRepository,
     private pairRepository: IPairRepository,
-    private participantFactory: ParticipantFactory,
     private joinPair: JoinPair
   ) {}
   /**
-   * 参加者の新規追加
+   * 参加者がペアに加入する
    */
-  async exec(inputData: JoinPrahaChallengeInputData): Promise<void> {
-    // 参加者 entity を生成
-    const { name, email } = inputData.props
-    const participant = await this.participantFactory.create({
-      name,
-      email,
-    })
+  async exec(inputData: JoinPairInputData): Promise<void> {
+    // 参加者 entity を取得
+    const { participantId } = inputData.props
+    const participant = await this.participantRepository.getParticipantById(
+      ParticipantId.reconstruct(participantId)
+    )
+
+    if (participant === undefined) {
+      throw new Error(`id: ${participantId} の参加者が存在しません`)
+    }
 
     // 空きのあるペアに加入する
     const { createdPairList, changedPairList } = await this.joinPair.do(

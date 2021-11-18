@@ -1,20 +1,23 @@
 import { RequestHandler } from "express"
-import { JoinPrahaChallengeUsecase } from "../usecase/participant/join-praha-challenge-usecase/join-praha-challenge-usecase"
-import { JoinPrahaChallengeInputData } from "../usecase/participant/join-praha-challenge-usecase/join-praha-challenge-input-data"
+import { CreateParticipantUsecase } from "../usecase/participant/create-participant-usecase/create-participant-usecase"
+import { CreateParticipantInputData } from "../usecase/participant/create-participant-usecase/create-participant-input-data"
 
 export class ParticipantController {
-  constructor(private joinPrahaChallengeUsecase: JoinPrahaChallengeUsecase) {}
+  constructor(private createParticipantUsecase: CreateParticipantUsecase) {}
   public create: RequestHandler = async (req, res, next) => {
     try {
       const { name, email } = req.body
+      // validate
       if (typeof name !== "string" || typeof email !== "string") {
-        throw new Error("name, email is required")
+        throw new Error("name, email are required")
       }
-      const inputData = new JoinPrahaChallengeInputData({
+
+      const inputData = new CreateParticipantInputData({
         name,
         email,
       })
-      await this.joinPrahaChallengeUsecase.exec(inputData)
+      this.createParticipantUsecase.exec(inputData)
+
       res.json({ message: "success!" })
     } catch (err) {
       console.error(err)
