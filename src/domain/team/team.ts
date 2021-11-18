@@ -1,12 +1,13 @@
-import { ParticipantId } from "../participant/participant-id"
 import { Entity } from "../shared/entity"
-import { TeamName } from "./team-name"
-import { TeamNameFactory } from "./team-name-factory"
 import { TeamId } from "./team-id"
+import { TeamName } from "./team-name"
+import { PairId } from "../pair/pair-id"
+import { TeamNameFactory } from "./team-name-factory"
+import { GetParticipantCountInPairs } from "../pair/domain-service/get-participant-count-in-pairs"
 
 export interface TeamProps {
   name: TeamName
-  participantIdList: ParticipantId[]
+  pairIdList: PairId[]
 }
 
 export class Team extends Entity<TeamProps, "team", TeamId> {
@@ -15,23 +16,21 @@ export class Team extends Entity<TeamProps, "team", TeamId> {
   }
   static async create(
     teamNameFactory: TeamNameFactory,
-    participantIdList: ParticipantId[]
+    getParticipantCountInPairs: GetParticipantCountInPairs,
+    pairIdList: PairId[]
   ): Promise<Team> {
     const id = TeamId.create()
     const name = await teamNameFactory.create()
-    if (participantIdList.length < 3) {
+    const participantCount = await getParticipantCountInPairs.do(pairIdList)
+    if (participantCount < 3) {
       throw new Error("チームの参加者は最低3名必要です")
     }
     return new Team(id, {
       name,
-      participantIdList,
+      pairIdList,
     })
   }
   static reconstruct(id: TeamId, props: TeamProps): Team {
     return new Team(id, props)
-  }
-
-  public acceptParticipant(participantId: ParticipantId): void {
-    this.props.participantIdList.push(participantId)
   }
 }

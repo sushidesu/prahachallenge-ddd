@@ -29,12 +29,12 @@ describe(`GetParentTeam`, () => {
     teamRepositoryMock.getTeamByPair.mockResolvedValue(
       Team.reconstruct(TeamId.reconstruct("1"), {
         name: TeamName.reconstruct("1"),
-        participantIdList: [],
+        pairIdList: [],
       })
     )
     const expected = Team.reconstruct(TeamId.reconstruct("1"), {
       name: TeamName.reconstruct("1"),
-      participantIdList: [],
+      pairIdList: [],
     })
     // act
     const actual = await getParentTeam.do(pair)
