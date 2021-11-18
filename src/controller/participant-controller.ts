@@ -1,19 +1,23 @@
 import { RequestHandler } from "express"
-import { JoinPairUsecase } from "../usecase/participant/join-pair-usecase/join-pair-usecase"
-import { JoinPairInputData } from "../usecase/participant/join-pair-usecase/join-pair-input-data"
+import { CreateParticipantUsecase } from "../usecase/participant/create-participant-usecase/create-participant-usecase"
+import { CreateParticipantInputData } from "../usecase/participant/create-participant-usecase/create-participant-input-data"
 
 export class ParticipantController {
-  constructor(private joinPrahaChallengeUsecase: JoinPairUsecase) {}
+  constructor(private createParticipantUsecase: CreateParticipantUsecase) {}
   public create: RequestHandler = async (req, res, next) => {
     try {
-      const { participantId } = req.body
-      if (typeof participantId !== "string") {
-        throw new Error("participantId is required")
+      const { name, email } = req.body
+      // validate
+      if (typeof name !== "string" || typeof email !== "string") {
+        throw new Error("name, email are required")
       }
-      const inputData = new JoinPairInputData({
-        participantId,
+
+      const inputData = new CreateParticipantInputData({
+        name,
+        email,
       })
-      await this.joinPrahaChallengeUsecase.exec(inputData)
+      this.createParticipantUsecase.exec(inputData)
+
       res.json({ message: "success!" })
     } catch (err) {
       console.error(err)
