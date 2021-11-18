@@ -42,6 +42,10 @@ export class Participant extends Entity<
     email: string,
     checkEmailAlreadyExists: CheckEmailAlreadyExists
   ): Promise<void> {
+    // 変更がない場合、処理を終了する
+    if (this.props.email.props.value === email) {
+      return
+    }
     const newEmail = await Email.create(email, checkEmailAlreadyExists)
     this.props.email = newEmail
   }
