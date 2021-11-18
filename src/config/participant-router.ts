@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { ParticipantController } from "../controller/participant-controller"
-import { JoinPrahaChallengeUsecase } from "../usecase/participant/join-praha-challenge-usecase/join-praha-challenge-usecase"
+import { JoinPairUsecase } from "../usecase/participant/join-pair-usecase/join-pair-usecase"
 import { createContext } from "../infra/shared/context"
 import { ParticipantRepository } from "../infra/participant/participant-repository"
 import { PairRepository } from "../infra/pair/pair-repository"
@@ -37,7 +37,7 @@ const joinPair = new JoinPair(
 )
 
 // usecase
-const joinPrahaChallengeUsecase = new JoinPrahaChallengeUsecase(
+const joinPrahaChallengeUsecase = new JoinPairUsecase(
   participantRepository,
   pairRepository,
   participantFactory,
