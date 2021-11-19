@@ -1,7 +1,7 @@
 import { RequestHandler } from "express"
 import { handleError } from "./util/handle-error"
-import { CreateParticipantUsecase } from "../usecase/participant/create-participant-usecase/create-participant-usecase"
-import { CreateParticipantInputData } from "../usecase/participant/create-participant-usecase/create-participant-input-data"
+import { CreateParticipantUsecase } from "../usecase/participant/create-participant/create-participant-usecase"
+import { CreateParticipantInputData } from "../usecase/participant/create-participant/create-participant-input-data"
 import { UpdateProfileUsecase } from "../usecase/participant/update-profile/update-profile-usecase"
 import { UpdateProfileInputData } from "../usecase/participant/update-profile/update-profile-input-data"
 

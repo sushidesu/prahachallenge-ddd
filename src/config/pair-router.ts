@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { PairController } from "../controller/pair-controller"
-import { JoinPairUsecase } from "../usecase/pair/join-pair-usecase/join-pair-usecase"
+import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
 import { createContext } from "../infra/shared/context"
 import { ParticipantRepository } from "../infra/participant/participant-repository"
 import { PairRepository } from "../infra/pair/pair-repository"

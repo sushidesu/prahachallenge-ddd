@@ -1,7 +1,7 @@
 import { RequestHandler } from "express"
 import { handleError } from "./util/handle-error"
-import { JoinPairUsecase } from "../usecase/pair/join-pair-usecase/join-pair-usecase"
-import { JoinPairInputData } from "../usecase/pair/join-pair-usecase/join-pair-input-data"
+import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
+import { JoinPairInputData } from "../usecase/pair/join-pair/join-pair-input-data"
 
 export class PairController {
   constructor(private joinPairUsecase: JoinPairUsecase) {}
