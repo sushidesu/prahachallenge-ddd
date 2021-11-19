@@ -27,6 +27,7 @@ describe("JoinPair", () => {
     jest.resetAllMocks()
   })
 
+  // HELP: テスト用にentityを簡単に生成する関数を作成したが、余計な依存が増えるため良くない？
   const ex_albio = genParticipant("ex_albio")
   const { p_01, p_02, p_03, p_04 } = participant_id_values
   const { pair_id_a } = pair_id_values
