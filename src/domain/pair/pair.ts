@@ -16,7 +16,7 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     const id = PairId.create()
     const { participantIdList } = props
     if (participantIdList.length < 2 || 3 < participantIdList.length) {
-      throw new Error("the number of people who can join a pair is 2 or 3")
+      throw new Error("ペアには参加者が2または3名必要です")
     }
     return new Pair(id, props)
   }
@@ -24,23 +24,36 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     return new Pair(id, props)
   }
 
+  // getters
   public get name(): PairName {
     return this.props.name
   }
+  public get participantIdList(): ParticipantId[] {
+    return this.props.participantIdList
+  }
+
+  /**
+   * 名前を変更する
+   */
   public changeName(name: PairName): void {
     this.props.name = name
   }
 
-  public get participantIdList(): ParticipantId[] {
-    // HELP: 名前が微妙かも
-    return this.props.participantIdList
-  }
+  /**
+   * ペアに参加者を加入させる
+   */
   public acceptParticipant(participantId: ParticipantId): void {
     if (!this.canAcceptParticipant()) {
       throw new Error("参加者が3名いるペアには加入できません")
     }
     this.props.participantIdList.push(participantId)
   }
+
+  /**
+   * ペアから参加者を削除する
+   *
+   * 何も指定しない場合、最後の参加者が削除される
+   */
   public removeParticipant(participantId?: ParticipantId): {
     removedParticipantId: ParticipantId
   } {
