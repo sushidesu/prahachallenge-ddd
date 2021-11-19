@@ -36,10 +36,10 @@ describe("JoinPair", () => {
       email: Email.reconstruct("ex_albio@example.com"),
     }
   )
-  const participant_a = ParticipantId.reconstruct("participant-a")
-  const participant_b = ParticipantId.reconstruct("participant-b")
-  const participant_c = ParticipantId.reconstruct("participant-c")
-  const participant_d = ParticipantId.reconstruct("participant-d")
+  const p_01 = ParticipantId.reconstruct("participant-01")
+  const p_02 = ParticipantId.reconstruct("participant-02")
+  const p_03 = ParticipantId.reconstruct("participant-03")
+  const p_04 = ParticipantId.reconstruct("participant-04")
 
   let joinPair: JoinPair
   beforeEach(() => {
@@ -56,11 +56,11 @@ describe("JoinPair", () => {
     it("2名のペアが2つ存在するとき、どちらか片方に加入する", async () => {
       const pairA = Pair.reconstruct(PairId.reconstruct("a"), {
         name: PairName.reconstruct("a"),
-        participantIdList: [participant_a, participant_b],
+        participantIdList: [p_01, p_02],
       })
       const pairB = Pair.reconstruct(PairId.reconstruct("b"), {
         name: PairName.reconstruct("b"),
-        participantIdList: [participant_c, participant_d],
+        participantIdList: [p_03, p_04],
       })
       // get-vacant-pair-listは2名のペア2つを返す
       getVacantPairListMock.do.mockResolvedValue([pairA, pairB])
@@ -70,7 +70,7 @@ describe("JoinPair", () => {
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
-            participantIdList: [participant_a, participant_b, participant.id],
+            participantIdList: [p_01, p_02, participant.id],
           }),
         ],
       }
@@ -85,7 +85,7 @@ describe("JoinPair", () => {
       pairRepositoryMock.getAllPairList.mockResolvedValue([
         Pair.reconstruct(PairId.reconstruct("a"), {
           name: PairName.reconstruct("a"),
-          participantIdList: [participant_a, participant_b, participant_c],
+          participantIdList: [p_01, p_02, p_03],
         }),
       ])
       // 新たにペアbを作成する
@@ -108,13 +108,13 @@ describe("JoinPair", () => {
         createdPairList: [
           Pair.reconstruct(PairId.reconstruct("b"), {
             name: PairName.reconstruct("b"),
-            participantIdList: [participant_c, participant.id],
+            participantIdList: [p_03, participant.id],
           }),
         ],
         changedPairList: [
           Pair.reconstruct(PairId.reconstruct("a"), {
             name: PairName.reconstruct("a"),
-            participantIdList: [participant_a, participant_b],
+            participantIdList: [p_01, p_02],
           }),
         ],
       }
