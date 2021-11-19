@@ -24,23 +24,36 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     return new Pair(id, props)
   }
 
+  // getters
   public get name(): PairName {
     return this.props.name
   }
+  public get participantIdList(): ParticipantId[] {
+    return this.props.participantIdList
+  }
+
+  /**
+   * 名前を変更する
+   */
   public changeName(name: PairName): void {
     this.props.name = name
   }
 
-  public get participantIdList(): ParticipantId[] {
-    // HELP: 名前が微妙かも
-    return this.props.participantIdList
-  }
+  /**
+   * ペアに参加者を加入させる
+   */
   public acceptParticipant(participantId: ParticipantId): void {
     if (!this.canAcceptParticipant()) {
       throw new Error("参加者が3名いるペアには加入できません")
     }
     this.props.participantIdList.push(participantId)
   }
+
+  /**
+   * ペアから参加者を削除する
+   *
+   * 何も指定しない場合、最後の参加者が削除される
+   */
   public removeParticipant(participantId?: ParticipantId): {
     removedParticipantId: ParticipantId
   } {
