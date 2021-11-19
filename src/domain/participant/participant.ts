@@ -27,17 +27,25 @@ export class Participant extends Entity<
     return new Participant(id, props)
   }
 
+  // getters
   public get name(): ParticipantName {
     return this.props.name
   }
+  public get email(): Email {
+    return this.props.email
+  }
+
+  /**
+   * 名前を変更する
+   */
   changeName(name: string): void {
     const newName = ParticipantName.create(name)
     this.props.name = newName
   }
 
-  public get email(): Email {
-    return this.props.email
-  }
+  /**
+   * メールアドレスを変更する
+   */
   async changeEmail(
     email: string,
     checkEmailAlreadyExists: CheckEmailAlreadyExists
