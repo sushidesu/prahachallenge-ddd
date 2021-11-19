@@ -9,7 +9,7 @@ import { ParticipantId } from "../../../participant/participant-id"
 describe(`GetParticipantCountInPairs`, () => {
   const pairRepositoryMock = mock<IPairRepository>()
   afterEach(() => {
-    jest.restoreAllMocks()
+    jest.resetAllMocks()
   })
 
   let getParticipantCountInPairs: GetParticipantCountInPairs
