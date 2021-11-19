@@ -1,4 +1,5 @@
 import { RequestHandler } from "express"
+import { handleError } from "./util/handle-error"
 import { CreateParticipantUsecase } from "../usecase/participant/create-participant-usecase/create-participant-usecase"
 import { CreateParticipantInputData } from "../usecase/participant/create-participant-usecase/create-participant-input-data"
 import { UpdateProfileUsecase } from "../usecase/participant/update-profile/update-profile-usecase"
@@ -25,12 +26,8 @@ export class ParticipantController {
 
       res.json({ message: "success!" })
     } catch (err) {
-      console.error(err)
-      if (err instanceof Error) {
-        res.status(500).json({ message: err.message })
-      } else {
-        res.status(500).json({ message: "unexpected error occurred." })
-      }
+      const { code, message } = handleError(err)
+      res.status(code).json({ message })
     } finally {
       next()
     }
@@ -53,12 +50,8 @@ export class ParticipantController {
 
       res.json({ message: "success!" })
     } catch (err) {
-      console.error(err)
-      if (err instanceof Error) {
-        res.status(500).json({ message: err.message })
-      } else {
-        res.status(500).json({ message: "unexpected error occurred." })
-      }
+      const { code, message } = handleError(err)
+      res.status(code).json({ message })
     } finally {
       next()
     }
