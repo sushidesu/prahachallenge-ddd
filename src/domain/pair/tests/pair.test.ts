@@ -4,7 +4,7 @@ import { PairName } from "../pair-name"
 import { ParticipantId } from "../../participant/participant-id"
 
 describe("Pair", () => {
-  const name = PairName.reconstruct("a")
+  const pair_name = PairName.reconstruct("a")
 
   const p_01 = ParticipantId.reconstruct("participant-01")
   const p_02 = ParticipantId.reconstruct("participant-02")
@@ -16,7 +16,7 @@ describe("Pair", () => {
       it("参加者が1人もいない場合 エラーになる", () => {
         expect(() =>
           Pair.createFromFactory({
-            name,
+            name: pair_name,
             participantIdList: [],
           })
         ).toThrowError()
@@ -24,26 +24,26 @@ describe("Pair", () => {
       it("参加者が1人の場合 エラーになる", () => {
         expect(() =>
           Pair.createFromFactory({
-            name,
+            name: pair_name,
             participantIdList: [ParticipantId.reconstruct("a")],
           })
         ).toThrowError()
       })
       it("参加者が2人の場合 正しくペアを作成できる", () => {
         const pair = Pair.createFromFactory({
-          name,
+          name: pair_name,
           participantIdList: [p_01, p_02],
         })
         expect(pair).toStrictEqual(
           Pair.reconstruct(expect.any(PairId), {
-            name,
+            name: pair_name,
             participantIdList: [p_01, p_02],
           })
         )
       })
       it("参加者が3人の場合 正しくペアを作成できる", () => {
         const pair = Pair.createFromFactory({
-          name,
+          name: pair_name,
           participantIdList: [p_01, p_02, p_03],
         })
         expect(pair).toBeInstanceOf(Pair)
@@ -51,7 +51,7 @@ describe("Pair", () => {
       it("参加者が4人の場合 エラーになる", () => {
         expect(() =>
           Pair.createFromFactory({
-            name,
+            name: pair_name,
             participantIdList: [p_01, p_02, p_03, p_04],
           })
         ).toThrowError()
@@ -62,7 +62,7 @@ describe("Pair", () => {
   describe("acceptParticipant()", () => {
     it("所属している参加者が2名のとき、新たな参加者が加入できる", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
-        name,
+        name: pair_name,
         participantIdList: [p_01, p_02],
       })
 
@@ -71,7 +71,7 @@ describe("Pair", () => {
     })
     it("参加者が3名いるペアには加入できない", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
-        name,
+        name: pair_name,
         participantIdList: [p_01, p_02, p_03],
       })
       expect(() =>
@@ -83,7 +83,7 @@ describe("Pair", () => {
   describe("removeParticipant()", () => {
     it("指定した参加者を削除する", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
-        name,
+        name: pair_name,
         participantIdList: [p_01, p_02, p_03],
       })
       pair.removeParticipant(p_02)
@@ -100,7 +100,7 @@ describe("Pair", () => {
     })
     it("対象を指定しない場合は最後の参加者を削除する", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
-        name,
+        name: pair_name,
         participantIdList: [p_01, p_02, p_03],
       })
       pair.removeParticipant()
@@ -108,7 +108,7 @@ describe("Pair", () => {
     })
     it("参加者を2名未満にできない", () => {
       const pair = Pair.reconstruct(PairId.reconstruct("a"), {
-        name,
+        name: pair_name,
         participantIdList: [p_01, p_02],
       })
       expect(() => pair.removeParticipant()).toThrowError(
