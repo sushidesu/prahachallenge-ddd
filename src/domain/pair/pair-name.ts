@@ -19,6 +19,10 @@ export class PairName extends ValueObject<PairNameProps, "pair-name"> {
     if (uppercase.test(name)) {
       throw new Error("pair-name cannot be uppercase")
     }
+    const lowercase_alphabet = /[a-z]/g
+    if (!lowercase_alphabet.test(name)) {
+      throw new Error("pair-name must be a lowercase alphabet")
+    }
     return new PairName({ value: name })
   }
   public static reconstruct(name: string): PairName {

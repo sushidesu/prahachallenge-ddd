@@ -21,5 +21,15 @@ describe("PairName", () => {
         "pair-name cannot be uppercase"
       )
     })
+    it(`名前が"1"の場合はエラーになる`, () => {
+      expect(() => PairName.create("1")).toThrowError(
+        "pair-name must be a lowercase alphabet"
+      )
+    })
+    it(`名前が"е"(キリル文字)の場合はエラーになる`, () => {
+      expect(() => PairName.create("е")).toThrowError(
+        "pair-name must be a lowercase alphabet"
+      )
+    })
   })
 })
