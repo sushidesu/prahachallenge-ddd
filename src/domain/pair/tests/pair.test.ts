@@ -14,21 +14,13 @@ describe("Pair", () => {
 
   describe("create()", () => {
     describe("参加者の人数は2または3名のみ", () => {
-      it("参加者が1人もいない場合 エラーになる", () => {
-        expect(() =>
-          Pair.createFromFactory({
-            name: pair_name,
-            participantIdList: [],
-          })
-        ).toThrowError()
-      })
       it("参加者が1人の場合 エラーになる", () => {
         expect(() =>
           Pair.createFromFactory({
             name: pair_name,
             participantIdList: [p_01],
           })
-        ).toThrowError()
+        ).toThrowError("ペアには参加者が2または3名必要です")
       })
       it("参加者が2人の場合 正しくペアを作成できる", () => {
         const pair = Pair.createFromFactory({
@@ -55,7 +47,7 @@ describe("Pair", () => {
             name: pair_name,
             participantIdList: [p_01, p_02, p_03, p_04],
           })
-        ).toThrowError()
+        ).toThrowError("ペアには参加者が2または3名必要です")
       })
     })
   })

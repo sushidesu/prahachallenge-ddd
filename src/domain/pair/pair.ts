@@ -16,7 +16,7 @@ export class Pair extends Entity<PairProps, "pair", PairId> {
     const id = PairId.create()
     const { participantIdList } = props
     if (participantIdList.length < 2 || 3 < participantIdList.length) {
-      throw new Error("the number of people who can join a pair is 2 or 3")
+      throw new Error("ペアには参加者が2または3名必要です")
     }
     return new Pair(id, props)
   }
