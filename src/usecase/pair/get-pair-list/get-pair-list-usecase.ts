@@ -5,7 +5,8 @@ export class GetPairListUsecase {
   /**
    * ペアの一覧取得
    *
-   * 引数によってソートやフィルタリングが可能
+   * - 引数によってソートやフィルタリングが可能
+   * - ペアに所属している参加者の id, 名前 も一緒に取得する
    */
   async exec(input: GetPairListInputData): Promise<GetPairListOutputData> {
     console.log(input)
