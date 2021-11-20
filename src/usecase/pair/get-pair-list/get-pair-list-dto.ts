@@ -1,4 +1,4 @@
-interface GetPairListOutputDataProps {
+interface GetPairListDTOProps {
   pairs: readonly PairWithParticipant[]
 }
 
@@ -12,8 +12,8 @@ interface ParticipantSummary {
   id: string
   name: string
 }
-export class GetPairListOutputData {
-  constructor(private readonly props: GetPairListOutputDataProps) {}
+export class GetPairListDTO {
+  constructor(private readonly props: GetPairListDTOProps) {}
   get pairs(): readonly PairWithParticipant[] {
     return this.props.pairs
   }
