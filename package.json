@@ -53,6 +53,7 @@
     "prettier": "^2.3.2",
     "prisma": "^3.4.2",
     "rimraf": "^3.0.2",
+    "scaffdog": "^1.0.1",
     "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
     "ts-node-dev": "^1.1.8",
