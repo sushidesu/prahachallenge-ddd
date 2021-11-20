@@ -13,17 +13,7 @@ export class GetPairListUsecase {
 
   async exec(): Promise<GetPairListDTO> {
     // ペアをクエリサービスから複数取得
-    const result = await this.pairWithParticipantQueryService.query()
     // それを返す
-    return new GetPairListDTO({
-      pairs: result.map((pair) => ({
-        id: pair.props.id,
-        name: pair.props.name,
-        participants: pair.props.participants.map((p) => ({
-          id: p.id,
-          name: p.name,
-        })),
-      })),
-    })
+    return this.pairWithParticipantQueryService.query()
   }
 }

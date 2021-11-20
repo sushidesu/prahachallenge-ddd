@@ -2,7 +2,7 @@ import { createContext } from "../../../shared/context"
 import { truncateAllTables } from "../../../util/truncate-all-tables"
 import { generatePair, generateUser } from "../../../util/db-value-generator"
 import { PairWithParticipantQueryService } from "../pair-with-participant-query-service"
-import { PairWithParticipantDTO } from "../../../../usecase/pair/get-pair-list/interface/pair-with-participant-DTO"
+import { GetPairListDTO } from "../../../../usecase/pair/get-pair-list/get-pair-list-dto"
 
 describe(`PairWithParticipantQueryService`, () => {
   const context = createContext()
@@ -38,25 +38,27 @@ describe(`PairWithParticipantQueryService`, () => {
   })
 
   it(`ペアの一覧を取得する`, async () => {
-    const expected: PairWithParticipantDTO[] = [
-      new PairWithParticipantDTO({
-        id: "id-pair-a",
-        name: "a",
-        participants: [
-          { id: "id-user-01", name: "01" },
-          { id: "id-user-02", name: "02" },
-          { id: "id-user-03", name: "03" },
-        ],
-      }),
-      new PairWithParticipantDTO({
-        id: "id-pair-b",
-        name: "b",
-        participants: [
-          { id: "id-user-04", name: "04" },
-          { id: "id-user-05", name: "05" },
-        ],
-      }),
-    ]
+    const expected = new GetPairListDTO({
+      pairs: [
+        {
+          id: "id-pair-a",
+          name: "a",
+          participants: [
+            { id: "id-user-01", name: "01" },
+            { id: "id-user-02", name: "02" },
+            { id: "id-user-03", name: "03" },
+          ],
+        },
+        {
+          id: "id-pair-b",
+          name: "b",
+          participants: [
+            { id: "id-user-04", name: "04" },
+            { id: "id-user-05", name: "05" },
+          ],
+        },
+      ],
+    })
     const actual = await pairWithParticipantQueryService.query()
     expect(actual).toEqual(expected)
   })
