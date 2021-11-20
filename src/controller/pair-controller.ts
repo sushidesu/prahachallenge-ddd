@@ -2,9 +2,14 @@ import { RequestHandler } from "express"
 import { handleError } from "./util/handle-error"
 import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
 import { JoinPairInputData } from "../usecase/pair/join-pair/join-pair-input-data"
+import { GetPairListUsecase } from "../usecase/pair/get-pair-list/get-pair-list-usecase"
+import { GetPairListInputData } from "../usecase/pair/get-pair-list/get-pair-list-input-data"
 
 export class PairController {
-  constructor(private joinPairUsecase: JoinPairUsecase) {}
+  constructor(
+    private joinPairUsecase: JoinPairUsecase,
+    private getPairListUsecase: GetPairListUsecase
+  ) {}
 
   public join: RequestHandler = async (req, res, next) => {
     try {
@@ -17,6 +22,19 @@ export class PairController {
       })
       await this.joinPairUsecase.exec(inputData)
       res.json({ message: "success!" })
+    } catch (err) {
+      const { code, message } = handleError(err)
+      res.status(code).json({ message })
+    } finally {
+      next()
+    }
+  }
+
+  public getPairList: RequestHandler = async (_, res, next) => {
+    try {
+      const input = new GetPairListInputData()
+      const { pairs } = await this.getPairListUsecase.exec(input)
+      res.json({ pairs })
     } catch (err) {
       const { code, message } = handleError(err)
       res.status(code).json({ message })
