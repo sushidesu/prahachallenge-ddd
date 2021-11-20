@@ -23,7 +23,9 @@ const pairRepository = new PairRepository(context)
 const teamRepository = new TeamRepository(context)
 
 // query-service
-const pairWithParticipantQueryService = new PairWithParticipantQueryService()
+const pairWithParticipantQueryService = new PairWithParticipantQueryService(
+  context
+)
 
 // domain-service
 const pairFactory = new PairFactory()
