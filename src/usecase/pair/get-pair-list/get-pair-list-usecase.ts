@@ -1,12 +1,9 @@
-import { GetPairListInputData } from "./get-pair-list-input-data"
 import { GetPairListOutputData } from "./get-pair-list-output-data"
 import { IPairWithParticipantQueryService } from "./interface/pair-with-participant-query-service-interface"
-import { PairWithParticipantQueryCommand } from "./interface/pair-with-participant-query-command"
 
 /**
  * ペアの一覧取得
  *
- * - 引数によってソートやフィルタリングが可能
  * - ペアに所属している参加者の id, 名前 も一緒に取得する
  */
 export class GetPairListUsecase {
@@ -14,10 +11,9 @@ export class GetPairListUsecase {
     private readonly pairWithParticipantQueryService: IPairWithParticipantQueryService
   ) {}
 
-  async exec(_input: GetPairListInputData): Promise<GetPairListOutputData> {
+  async exec(): Promise<GetPairListOutputData> {
     // ペアをクエリサービスから複数取得
-    const command = new PairWithParticipantQueryCommand()
-    const result = await this.pairWithParticipantQueryService.query(command)
+    const result = await this.pairWithParticipantQueryService.query()
     // それを返す
     return new GetPairListOutputData({
       pairs: result.map((pair) => ({

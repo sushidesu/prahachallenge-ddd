@@ -2,7 +2,6 @@ import { createContext } from "../../../shared/context"
 import { truncateAllTables } from "../../../util/truncate-all-tables"
 import { generatePair, generateUser } from "../../../util/db-value-generator"
 import { PairWithParticipantQueryService } from "../pair-with-participant-query-service"
-import { PairWithParticipantQueryCommand } from "../../../../usecase/pair/get-pair-list/interface/pair-with-participant-query-command"
 import { PairWithParticipantDTO } from "../../../../usecase/pair/get-pair-list/interface/pair-with-participant-DTO"
 
 describe(`PairWithParticipantQueryService`, () => {
@@ -39,7 +38,6 @@ describe(`PairWithParticipantQueryService`, () => {
   })
 
   it(`ペアの一覧を取得する`, async () => {
-    const command = new PairWithParticipantQueryCommand()
     const expected: PairWithParticipantDTO[] = [
       new PairWithParticipantDTO({
         id: "id-pair-a",
@@ -59,7 +57,7 @@ describe(`PairWithParticipantQueryService`, () => {
         ],
       }),
     ]
-    const actual = await pairWithParticipantQueryService.query(command)
+    const actual = await pairWithParticipantQueryService.query()
     expect(actual).toEqual(expected)
   })
 })

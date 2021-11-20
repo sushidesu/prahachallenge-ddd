@@ -3,7 +3,6 @@ import { handleError } from "./util/handle-error"
 import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
 import { JoinPairInputData } from "../usecase/pair/join-pair/join-pair-input-data"
 import { GetPairListUsecase } from "../usecase/pair/get-pair-list/get-pair-list-usecase"
-import { GetPairListInputData } from "../usecase/pair/get-pair-list/get-pair-list-input-data"
 
 export class PairController {
   constructor(
@@ -32,8 +31,7 @@ export class PairController {
 
   public getPairList: RequestHandler = async (_, res, next) => {
     try {
-      const input = new GetPairListInputData()
-      const { pairs } = await this.getPairListUsecase.exec(input)
+      const { pairs } = await this.getPairListUsecase.exec()
       res.json({ pairs })
     } catch (err) {
       const { code, message } = handleError(err)
