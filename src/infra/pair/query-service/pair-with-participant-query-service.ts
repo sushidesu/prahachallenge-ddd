@@ -1,12 +1,12 @@
 import { Context } from "../../shared/context"
 import { IPairWithParticipantQueryService } from "../../../usecase/pair/get-pair-list/interface/pair-with-participant-query-service-interface"
-import { GetPairListDTO } from "../../../usecase/pair/get-pair-list/get-pair-list-dto"
+import { GetPairListWithParticipantDTO } from "../../../usecase/pair/get-pair-list/get-pair-list-with-participant-dto"
 
 export class PairWithParticipantQueryService
   implements IPairWithParticipantQueryService
 {
   constructor(private readonly context: Context) {}
-  async query(): Promise<GetPairListDTO> {
+  async query(): Promise<GetPairListWithParticipantDTO> {
     const result = await this.context.prisma.pair.findMany({
       include: {
         users: {
@@ -17,7 +17,7 @@ export class PairWithParticipantQueryService
         },
       },
     })
-    return new GetPairListDTO({
+    return new GetPairListWithParticipantDTO({
       pairs: result.map((pair) => ({
         id: pair.id,
         name: pair.name,

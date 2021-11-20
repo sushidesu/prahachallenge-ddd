@@ -1,4 +1,4 @@
-interface GetPairListDTOProps {
+interface GetPairListWithParticipantDTOProps {
   pairs: readonly PairWithParticipant[]
 }
 
@@ -14,8 +14,8 @@ interface ParticipantSummary {
 }
 
 // HELP: ユースケースに合わせてDTOを定義したが、例えば UserDTO, PairDTOのようにエンティティごとに分けたほうがわかりやすいか？
-export class GetPairListDTO {
-  constructor(private readonly props: GetPairListDTOProps) {}
+export class GetPairListWithParticipantDTO {
+  constructor(private readonly props: GetPairListWithParticipantDTOProps) {}
   get pairs(): readonly PairWithParticipant[] {
     return this.props.pairs
   }

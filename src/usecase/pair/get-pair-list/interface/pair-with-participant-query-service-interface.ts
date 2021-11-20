@@ -1,5 +1,5 @@
-import { GetPairListDTO } from "../get-pair-list-dto"
+import { GetPairListWithParticipantDTO } from "../get-pair-list-with-participant-dto"
 
 export interface IPairWithParticipantQueryService {
-  query(): Promise<GetPairListDTO>
+  query(): Promise<GetPairListWithParticipantDTO>
 }

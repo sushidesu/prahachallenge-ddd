@@ -2,7 +2,7 @@ import { createContext } from "../../../shared/context"
 import { truncateAllTables } from "../../../util/truncate-all-tables"
 import { generatePair, generateUser } from "../../../util/db-value-generator"
 import { PairWithParticipantQueryService } from "../pair-with-participant-query-service"
-import { GetPairListDTO } from "../../../../usecase/pair/get-pair-list/get-pair-list-dto"
+import { GetPairListWithParticipantDTO } from "../../../../usecase/pair/get-pair-list/get-pair-list-with-participant-dto"
 
 describe(`PairWithParticipantQueryService`, () => {
   const context = createContext()
@@ -38,7 +38,7 @@ describe(`PairWithParticipantQueryService`, () => {
   })
 
   it(`ペアの一覧を取得する`, async () => {
-    const expected = new GetPairListDTO({
+    const expected = new GetPairListWithParticipantDTO({
       pairs: [
         {
           id: "id-pair-a",

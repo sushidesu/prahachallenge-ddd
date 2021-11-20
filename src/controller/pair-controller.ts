@@ -2,12 +2,12 @@ import { RequestHandler } from "express"
 import { handleError } from "./util/handle-error"
 import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
 import { JoinPairInputData } from "../usecase/pair/join-pair/join-pair-input-data"
-import { GetPairListUsecase } from "../usecase/pair/get-pair-list/get-pair-list-usecase"
+import { GetPairListWithParticipantUsecase } from "../usecase/pair/get-pair-list/get-pair-list-with-participant-usecase"
 
 export class PairController {
   constructor(
     private joinPairUsecase: JoinPairUsecase,
-    private getPairListUsecase: GetPairListUsecase
+    private getPairListUsecase: GetPairListWithParticipantUsecase
   ) {}
 
   public join: RequestHandler = async (req, res, next) => {

@@ -2,7 +2,7 @@ import { Router } from "express"
 import { PairController } from "../controller/pair-controller"
 // usecase
 import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
-import { GetPairListUsecase } from "../usecase/pair/get-pair-list/get-pair-list-usecase"
+import { GetPairListWithParticipantUsecase } from "../usecase/pair/get-pair-list/get-pair-list-with-participant-usecase"
 // infra
 import { createContext } from "../infra/shared/context"
 import { ParticipantRepository } from "../infra/participant/participant-repository"
@@ -46,7 +46,7 @@ const joinPairUsecase = new JoinPairUsecase(
   pairRepository,
   joinPair
 )
-const getPairListUsecase = new GetPairListUsecase(
+const getPairListUsecase = new GetPairListWithParticipantUsecase(
   pairWithParticipantQueryService
 )
 
