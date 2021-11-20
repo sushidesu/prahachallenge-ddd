@@ -45,17 +45,17 @@ describe(`PairWithParticipantQueryService`, () => {
         id: "id-pair-a",
         name: "a",
         participants: [
-          { id: "id-participant-01", name: "01" },
-          { id: "id-participant-02", name: "02" },
-          { id: "id-participant-03", name: "03" },
+          { id: "id-user-01", name: "01" },
+          { id: "id-user-02", name: "02" },
+          { id: "id-user-03", name: "03" },
         ],
       }),
       new PairWithParticipantDTO({
         id: "id-pair-b",
         name: "b",
         participants: [
-          { id: "id-participant-04", name: "04" },
-          { id: "id-participant-05", name: "05" },
+          { id: "id-user-04", name: "04" },
+          { id: "id-user-05", name: "05" },
         ],
       }),
     ]

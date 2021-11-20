@@ -10,6 +10,26 @@ export class PairWithParticipantQueryService
   async query(
     _command: PairWithParticipantQueryCommand
   ): Promise<readonly PairWithParticipantDTO[]> {
-    return []
+    const result = await this.context.prisma.pair.findMany({
+      include: {
+        users: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    })
+    return result.map(
+      (pair) =>
+        new PairWithParticipantDTO({
+          id: pair.id,
+          name: pair.name,
+          participants: pair.users.map((user) => ({
+            id: user.id,
+            name: user.name,
+          })),
+        })
+    )
   }
 }
