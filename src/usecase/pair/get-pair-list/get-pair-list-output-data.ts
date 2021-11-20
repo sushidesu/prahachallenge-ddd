@@ -1,4 +1,8 @@
 interface GetPairListOutputDataProps {
+  pairs: readonly PairWithParticipant[]
+}
+
+interface PairWithParticipant {
   id: string
   name: string
   participants: readonly ParticipantSummary[]
@@ -10,14 +14,7 @@ interface ParticipantSummary {
 }
 export class GetPairListOutputData {
   constructor(private readonly props: GetPairListOutputDataProps) {}
-
-  get id(): string {
-    return this.props.id
-  }
-  get name(): string {
-    return this.props.name
-  }
-  get participants(): readonly ParticipantSummary[] {
-    return this.props.participants
+  get pairs(): readonly PairWithParticipant[] {
+    return this.props.pairs
   }
 }
