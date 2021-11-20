@@ -4,5 +4,5 @@ import { PairWithParticipantDTO } from "./pair-with-participant-DTO"
 export interface IPairWithParticipantQueryService {
   query(
     command: PairWithParticipantQueryCommand
-  ): Promise<PairWithParticipantDTO[]>
+  ): Promise<readonly PairWithParticipantDTO[]>
 }
