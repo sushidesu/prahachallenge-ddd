@@ -14,8 +14,7 @@ export class GetPairListUsecase {
     private readonly pairWithParticipantQueryService: IPairWithParticipantQueryService
   ) {}
 
-  async exec(input: GetPairListInputData): Promise<GetPairListOutputData> {
-    console.log(input)
+  async exec(_input: GetPairListInputData): Promise<GetPairListOutputData> {
     // ペアをクエリサービスから複数取得
     const command = new PairWithParticipantQueryCommand()
     const result = await this.pairWithParticipantQueryService.query(command)
