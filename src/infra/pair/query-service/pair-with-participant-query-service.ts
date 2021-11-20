@@ -1,3 +1,4 @@
+import { Context } from "../../shared/context"
 import { IPairWithParticipantQueryService } from "../../../usecase/pair/get-pair-list/interface/pair-with-participant-query-service-interface"
 import { PairWithParticipantQueryCommand } from "../../../usecase/pair/get-pair-list/interface/pair-with-participant-query-command"
 import { PairWithParticipantDTO } from "../../../usecase/pair/get-pair-list/interface/pair-with-participant-DTO"
@@ -5,10 +6,10 @@ import { PairWithParticipantDTO } from "../../../usecase/pair/get-pair-list/inte
 export class PairWithParticipantQueryService
   implements IPairWithParticipantQueryService
 {
+  constructor(private readonly context: Context) {}
   async query(
-    command: PairWithParticipantQueryCommand
+    _command: PairWithParticipantQueryCommand
   ): Promise<readonly PairWithParticipantDTO[]> {
-    console.log(command)
     return []
   }
 }
