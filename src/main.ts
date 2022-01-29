@@ -5,6 +5,8 @@ import { pairRouter } from "./config/pair-router"
 const app = express()
 const PORT = 8000
 
+const hello = "hello"
+
 app.use(express.json())
 
 app.get("/", (_, res) => {
