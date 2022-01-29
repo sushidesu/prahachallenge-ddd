@@ -5,6 +5,11 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
+      # ブランチ移動
+      - name: Checkout current branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       # Nodeを準備
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -12,11 +17,6 @@ jobs:
           node-version: "16"
           # 依存関係のキャッシュを有効化 (https://github.com/actions/setup-node#caching-packages-dependencies)
           cache: yarn
-      # ブランチ移動
-      - name: Checkout current branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       # yarn install
       - name: Install dependencies
         run: yarn
