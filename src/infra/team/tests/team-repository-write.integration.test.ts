@@ -20,6 +20,8 @@ describe(`TeamRepository`, () => {
 
   // HELP: ペアへの参照も必要になる？
   describe(`insert()`, () => {
+    // TODO:
+    expect(true).toBe(true)
     //    const team = Team.reconstruct(TeamId.reconstruct("id-team-1"), {
     //      name: TeamName.reconstruct("1"),
     //      participantIdList: [
@@ -61,6 +63,6 @@ describe(`TeamRepository`, () => {
     //    expect(result).toStrictEqual(expected)
   })
   describe(`update()`, () => {
-    teamRepository
+    expect(teamRepository).toBeTruthy()
   })
 })
