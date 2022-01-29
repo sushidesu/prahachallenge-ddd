@@ -1,9 +1,5 @@
 name: Run linter
-on:
-  pull_request:
-    - opened
-    - synchronize
-    - reopened
+on: pull_request
 jobs:
   Run-ESlint-Job:
     timeout-minutes: 10
