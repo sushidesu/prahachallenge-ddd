@@ -63,6 +63,6 @@ describe(`TeamRepository`, () => {
     //    expect(result).toStrictEqual(expected)
   })
   describe(`update()`, () => {
-    teamRepository
+    expect(teamRepository).toBeTruthy()
   })
 })
