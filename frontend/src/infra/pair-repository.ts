@@ -14,10 +14,13 @@ export class PairRepository implements IPairRepository {
     this.API_ORIGIN = origin
   }
 
-  async getAll(): Promise<Pair[]> {
+  async getAll(token: string): Promise<Pair[]> {
     console.log("PairRepository.getAll()")
     const res = await fetch(`${this.API_ORIGIN}/pair`, {
       mode: "cors",
+      headers: {
+        ["Authorization"]: token,
+      },
     })
     const result = (await res.json()) as PairResponse
 

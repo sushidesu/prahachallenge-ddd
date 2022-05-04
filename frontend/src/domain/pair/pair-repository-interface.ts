@@ -1,5 +1,5 @@
 import { Pair } from "./pair"
 
 export interface IPairRepository {
-  getAll(): Promise<Pair[]>
+  getAll(token: string): Promise<Pair[]>
 }

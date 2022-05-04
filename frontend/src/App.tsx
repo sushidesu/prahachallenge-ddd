@@ -30,6 +30,16 @@ export const App = (): JSX.Element => {
     [login, email, password]
   )
 
+  // ペア一覧取得
+  const handleClickGetPairs = useCallback(async () => {
+    if (authStatus.type !== "authorized") {
+      // 未認証の場合、仮のトークンでリクエストを送信する (401エラーが返る)
+      getPairList("dummy_token")
+    } else {
+      getPairList(authStatus.user.token)
+    }
+  }, [authStatus, getPairList])
+
   return (
     <div>
       <div>
@@ -58,11 +68,11 @@ export const App = (): JSX.Element => {
       <div>
         <div>
           <p>ペア一覧</p>
-          <button onClick={getPairList}>取得する</button>
+          <button onClick={handleClickGetPairs}>取得する</button>
         </div>
         <div>
           {pairs.type === "loading" && <p>ロード中...</p>}
-          {pairs.type === "complete" && (
+          {pairs.type === "completeWithValue" && (
             <ul>
               {pairs.value.map((pair) => (
                 <li key={pair.id}>
@@ -76,6 +86,8 @@ export const App = (): JSX.Element => {
               ))}
             </ul>
           )}
+          {pairs.type === "completeWithError" &&
+            `エラー: ${pairs.error.message}`}
         </div>
       </div>
     </div>

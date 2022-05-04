@@ -13,4 +13,5 @@ export type AuthStatus =
 type User = {
   uid: string
   email: string
+  token: string
 }

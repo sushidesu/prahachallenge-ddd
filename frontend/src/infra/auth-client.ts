@@ -23,13 +23,15 @@ export class AuthClient implements IAuthClient {
 
   subscribe(callback: (status: AuthStatus) => void): void {
     console.log("subscribe")
-    this._unsubscribe = onAuthStateChanged(auth, (user) => {
+    this._unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user !== null && user.email !== null) {
+        const token = await user.getIdToken()
         callback({
           type: "authorized",
           user: {
             uid: user.uid,
             email: user.email,
+            token,
           },
         })
       } else {
