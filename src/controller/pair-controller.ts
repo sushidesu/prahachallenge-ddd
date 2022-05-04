@@ -3,12 +3,13 @@ import { handleError } from "./util/handle-error"
 import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
 import { JoinPairInputData } from "../usecase/pair/join-pair/join-pair-input-data"
 import { GetPairListUsecase } from "../usecase/pair/get-pair-list/get-pair-list-usecase"
-import { auth } from "../plugins/firebase"
+import { IAuthClient } from "./interface/auth-client"
 
 export class PairController {
   constructor(
     private joinPairUsecase: JoinPairUsecase,
-    private getPairListUsecase: GetPairListUsecase
+    private getPairListUsecase: GetPairListUsecase,
+    private authClient: IAuthClient
   ) {}
 
   public join: RequestHandler = async (req, res, next) => {
@@ -31,22 +32,23 @@ export class PairController {
   }
 
   public getPairList: RequestHandler = async (req, res, next) => {
-    // 認可
     try {
+      // ヘッダーからトークンを取得
       const { authorization } = req.headers
       if (typeof authorization !== "string") {
         throw new Error("authorization header is required")
       }
-      const result = await auth.verifyIdToken(authorization)
-      console.log(`success: ${result.uid}`)
-    } catch (err) {
-      console.error(err)
-      res.status(401).json({ message: "authorization failed" })
-      next()
-      return
-    }
-    // ペアを取得する
-    try {
+      // 認可
+      const result = await this.authClient.verifyToken(authorization)
+      if (!result.ok) {
+        console.log("authorization failed")
+        res.status(401).json({ message: "authorization failed" })
+        return
+      } else {
+        console.log("authorization succeeded")
+      }
+
+      // ペアを取得する
       const { pairs } = await this.getPairListUsecase.exec()
       res.json({ pairs })
     } catch (err) {

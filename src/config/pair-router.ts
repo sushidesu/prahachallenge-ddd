@@ -15,6 +15,7 @@ import { GeneratePairName } from "../domain/pair/domain-service/generate-pair-na
 import { JoinPair } from "../domain/pair/domain-service/join-pair"
 import { GetVacantPairList } from "../domain/pair/domain-service/get-vacant-pair-list"
 import { GetParentTeam } from "../domain/pair/domain-service/get-parent-team"
+import { AuthClient } from "../infra/auth/auth-client"
 
 // repository
 const context = createContext()
@@ -39,6 +40,7 @@ const joinPair = new JoinPair(
   getParentTeam,
   generatePairName
 )
+const authClient = new AuthClient()
 
 // usecase
 const joinPairUsecase = new JoinPairUsecase(
@@ -51,7 +53,11 @@ const getPairListUsecase = new GetPairListUsecase(
 )
 
 // controller
-const controller = new PairController(joinPairUsecase, getPairListUsecase)
+const controller = new PairController(
+  joinPairUsecase,
+  getPairListUsecase,
+  authClient
+)
 
 // register endpoints
 const pairRouter = Router()
