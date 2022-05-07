@@ -4,10 +4,9 @@ export const handleError = (
   code: number
   message: string
 } => {
-  console.error(error)
   if (error instanceof Error) {
     return {
-      code: 500,
+      code: 400,
       message: error.message,
     }
   } else {

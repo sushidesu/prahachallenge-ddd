@@ -3,11 +3,13 @@ import { handleError } from "./util/handle-error"
 import { JoinPairUsecase } from "../usecase/pair/join-pair/join-pair-usecase"
 import { JoinPairInputData } from "../usecase/pair/join-pair/join-pair-input-data"
 import { GetPairListUsecase } from "../usecase/pair/get-pair-list/get-pair-list-usecase"
+import { IAuthClient } from "./interface/auth-client"
 
 export class PairController {
   constructor(
     private joinPairUsecase: JoinPairUsecase,
-    private getPairListUsecase: GetPairListUsecase
+    private getPairListUsecase: GetPairListUsecase,
+    private authClient: IAuthClient
   ) {}
 
   public join: RequestHandler = async (req, res, next) => {
@@ -29,8 +31,24 @@ export class PairController {
     }
   }
 
-  public getPairList: RequestHandler = async (_, res, next) => {
+  public getPairList: RequestHandler = async (req, res, next) => {
     try {
+      // ヘッダーからトークンを取得
+      const { authorization } = req.headers
+      if (typeof authorization !== "string") {
+        throw new Error("authorization header is required")
+      }
+      // 認可
+      const result = await this.authClient.verifyToken(authorization)
+      if (!result.ok) {
+        console.log("authorization failed")
+        res.status(401).json({ message: "authorization failed" })
+        return
+      } else {
+        console.log("authorization succeeded")
+      }
+
+      // ペアを取得する
       const { pairs } = await this.getPairListUsecase.exec()
       res.json({ pairs })
     } catch (err) {
